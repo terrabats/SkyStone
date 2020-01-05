@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import autoUtil.Odometry;
 import global.CodeSeg;
 import global.Helper;
 import global.TerraBot;
@@ -15,88 +16,62 @@ import teleUtil.TeleThread;
 @TeleOp(name = "TerraOpWin", group = "new")
 public class TerraOp extends OpMode {
     public TerraBot bot = new TerraBot();
-    public Helper h = new Helper();
     public TeleThread t = new TeleThread();
+    Odometry odometry = new Odometry();
     public Thread thread;
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
-            bot.move(h.calcPow(-gamepad1.right_stick_y), h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
+            bot.move(-gamepad1.right_stick_y,gamepad1.right_stick_x, gamepad1.left_stick_x);
 
-            if (!bot.pull.executing && !bot.withdraw.executing && !bot.place.executing) {
-                if (gamepad1.right_trigger > 0) {
-                    bot.moveArm(gamepad1.right_trigger);
-                } else if (gamepad1.left_trigger > 0) {
-                    bot.moveArm(-gamepad1.left_trigger);
-                } else {
-                    bot.moveArm(0);
-                }
-                if (bot.isLiftInLimits(gamepad2)) {
-                    if (-gamepad2.right_stick_y > 0) {
-                        bot.lift(-gamepad2.right_stick_y * 0.7);
-                    } else if (-gamepad2.right_stick_y < 0) {
-                        bot.lift(-gamepad2.right_stick_y * 0.5);
-                    } else {
-                        bot.lift(0);
-                    }
-                } else {
-                    bot.lift(0);
-                }
-            } else {
-                bot.update();
+            if(bot.isLiftInLimits(gamepad2)) {
+                bot.lift(-gamepad2.right_stick_y / 2);
             }
-            if (bot.isPulling) {
-                bot.intake(0.5);
-            } else {
-                bot.intake(0);
-            }
-            if (gamepad1.right_bumper) {
-                bot.isPulling = true;
-            } else if (gamepad1.left_bumper) {
-                bot.intake(-0.5);
-                bot.isPulling = false;
-            } else if (bot.isStoneLoaded()) {
-                bot.isPulling = false;
-            }
-            if (gamepad1.x) {
-                bot.t.reset();
-                bot.pull.start();
-            }
-            if (gamepad2.x) {
-                bot.t.reset();
-                bot.withdraw.start();
-            }
-            if (gamepad2.y) {
-                bot.place.start();
-            }
-            if (gamepad2.right_bumper) {
+
+            if(gamepad2.right_bumper){
                 bot.grab(0);
-            } else if (gamepad2.left_bumper) {
-                bot.grab(0.7);
+            }else if(gamepad2.left_bumper){
+                bot.grab(1);
             }
-            if (gamepad2.right_trigger > 0) {
+
+            if(gamepad2.right_trigger > 0){
                 bot.flip(0);
-            } else if (gamepad2.left_trigger > 0) {
+            }else if(gamepad2.left_trigger > 0){
                 bot.flip(1);
             }
-            if (gamepad2.dpad_up) {
-                bot.capTurn(0.15);
-            } else if (gamepad2.dpad_down) {
-                bot.capTurn(0.8);
+
+            if(bot.isPulling && !gamepad1.left_bumper){
+                bot.intake(1);
+            }else if(gamepad1.right_bumper){
+                bot.isPulling = true;
+            }else if(gamepad1.left_bumper){
+                bot.isPulling = false;
+                bot.intake(-1);
+            }else {
+                bot.intake(0);
             }
-            telemetry.addData("Height", bot.getLiftHeight());
-            //telemetry.addData("Pos", "{L1, R1, R2, L2} = %d, %d, %d, %d", bot.l1.getCurrentPosition(),bot.r1.getCurrentPosition(), bot.r2.getCurrentPosition(), bot.l2.getCurrentPosition());
+
+            odometry.updateGlobalPosition();
+
+            telemetry.addData("Pos", "{R, L, C, X, Y} = %f, %f, %f, %f, %f", (odometry.cr/odometry.TICKS_FOR_ODOMETRY)*(2*Math.PI*odometry.ENCODER_WHEEL_RADIUS),odometry.cl,odometry.cc,
+            odometry.tx,odometry.ty);
             telemetry.update();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-            }
+
         }
     };
 
     @Override
     public void init() {
+        telemetry.addData("Status:", "Not Ready");
+        telemetry.update();
         bot.init(hardwareMap);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        odometry.init(bot);
+        telemetry.addData("Status:", "Ready");
+        telemetry.update();
         t.init(teleOpCode);
         thread = new Thread(t);
     }
