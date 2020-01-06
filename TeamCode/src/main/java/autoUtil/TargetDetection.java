@@ -35,7 +35,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class TargetDetection {
 //    //Constants
 //    private static final float mmPerInch = 25.4f;
-//    private static final float mmTargetHeight = (6) * mmPerInch;
+//    private tatic final float mmTargetHeight = (6) * mmPerInch;
 //    private static final float stoneZ = 2.00f * mmPerInch;
 //    private static final float bridgeZ = 6.42f * mmPerInch;
 //    private static final float bridgeY = 23 * mmPerInch;
