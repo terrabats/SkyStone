@@ -59,8 +59,9 @@ public class Odometry {
         strafe = (deltaCP-turn)/2;
 
         theta += inchesToDegrees(ticksToInches(turn)); // Convert to degrees
-        ty += ticksToInches(forward)*Math.sin(Math.toRadians(theta));
-        tx += ticksToInches(strafe)*Math.cos(Math.toRadians(theta));
+
+        ty += ticksToInches(forward)*Math.cos(Math.toRadians(theta));
+        tx += ticksToInches(strafe)*Math.sin(Math.toRadians(theta+90));
 
 
     }
