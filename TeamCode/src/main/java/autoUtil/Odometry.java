@@ -2,6 +2,7 @@ package autoUtil;
 
 import global.Helper;
 import global.TerraBot;
+import global.Vector;
 
 public class Odometry {
     TerraBot bot; // Robot Object
@@ -49,19 +50,21 @@ public class Odometry {
         updateEncoderPositions();
 
 
-        cr = bot.getRightEncoder()-sr;
-        cl = bot.getLeftEncoder()-sl;
-        cc = bot.getCenterEncoder()-sc;
-
-
         forward = (deltaRP + deltaLP)/2;
         turn = (deltaRP - deltaLP)/2;
         strafe = (deltaCP-turn)/2;
 
         theta += inchesToDegrees(ticksToInches(turn)); // Convert to degrees
 
-        ty += ticksToInches(forward)*Math.cos(Math.toRadians(theta));
-        tx += ticksToInches(strafe)*Math.sin(Math.toRadians(theta+90));
+        Vector movementVect = new Vector(ticksToInches(strafe), ticksToInches(forward));
+        movementVect = movementVect.getRotatedVector(theta);
+
+        ty += movementVect.y;
+        tx += movementVect.x;
+
+        cr = bot.getRightEncoder()-sr;
+        cl = bot.getLeftEncoder()-sl;
+        cc = theta;
 
 
     }

@@ -49,9 +49,9 @@ public class Path {
         if (Customs.get(count) == null) {
             double targetTheta = Math.atan2(YError, XError);
             double robotTheta = Math.toRadians(currentPose[2]);
-            out[1] = -Math.cos(targetTheta - robotTheta) * 0.25;
-            out[0] = Math.sin(targetTheta - robotTheta) * 0.25;
-            out[2] = -Math.signum(HError) * 0.25;
+            out[0] = Math.cos(targetTheta - robotTheta) * 0.2;
+            out[1] = -Math.sin(targetTheta - robotTheta) * 0.2;
+            out[2] = Math.signum(HError) * 0.05;
         } else {
             Customs.get(count).run();
         }
