@@ -27,7 +27,7 @@ public class RobotFunctions {
             double[] currentPose = odometry.getGlobalPose();
             double[] pows = path.update(currentPose);
             if(pows!= null) {
-                bot.move(pows[0], pows[1], pows[2]);
+                bot.move(pows[1], pows[0], pows[2]);
             }
         }
         bot.move(0,0,0);

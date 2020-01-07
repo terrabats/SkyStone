@@ -53,8 +53,7 @@ public class TerraOp extends OpMode {
 
             odometry.updateGlobalPosition();
 
-            telemetry.addData("Pos", "{R, L, C, X, Y} = %f, %f, %f, %f, %f", (odometry.cr/odometry.TICKS_FOR_ODOMETRY)*(2*Math.PI*odometry.ENCODER_WHEEL_RADIUS),odometry.cl,odometry.cc,
-            odometry.tx,odometry.ty);
+            telemetry.addData("Pos", "{R, L, C, X, Y} = %f, %f, %f, %f, %f", odometry.cr,odometry.cl,odometry.cc, odometry.tx,odometry.ty);
             telemetry.update();
 
         }
