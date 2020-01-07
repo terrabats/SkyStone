@@ -22,21 +22,9 @@ public class AutoRed extends LinearOpMode {
     public void runOpMode() {
         initialize();
         waitForStart();
-        path.addPose(10,0,0);
-        path.addPose(-10,0,0);
-        path.addPose(0,10,0);
-        path.addPose(0,-10,0);
-        path.addPose(0,0,90);
-        path.addPose(0,0,-90);
-        path.addCustom(new CodeSeg() {
-            @Override
-            public void run() {
-                telemetry.addData("Custom", "Block");
-                telemetry.update();
-                sleep(1000);
-            }
-        });
-        path.addPose(10,10,45);
+        path.addPose(10,10,30);
+
+
         rf.start(path,this);
     }
 

@@ -26,6 +26,8 @@ public class Odometry {
     public double cl = 0;
     public double cc = 0;
 
+    public double vx = 0;
+
 
     public final double TICKS_FOR_ODOMETRY =  8192;
     public final double ENCODER_WHEEL_RADIUS = 2.5; // in cm
@@ -58,6 +60,8 @@ public class Odometry {
 
         Vector movementVect = new Vector(ticksToInches(strafe), ticksToInches(forward));
         movementVect = movementVect.getRotatedVector(theta);
+
+        vx = movementVect.x;
 
         ty += movementVect.y;
         tx += movementVect.x;

@@ -12,7 +12,7 @@ public class Path {
     ArrayList<Double> HPoses = new ArrayList<>();
     ArrayList<CodeSeg> Customs = new ArrayList<>();
 
-    final double ACCURACY = 1;
+    final double ACCURACY = 0.5;
 
     double XError = 0;
     double YError = 0;
@@ -46,17 +46,24 @@ public class Path {
 
     public double[] calcPowers(double[] currentPose) {
         double[] out = new double[3];
-        if (Customs.get(count) == null) {
-            double targetTheta = Math.atan2(YError, XError);
-            double robotTheta = Math.toRadians(currentPose[2]);
-            out[0] = Math.cos(targetTheta - robotTheta) * 0.2;
-            out[1] = -Math.sin(targetTheta - robotTheta) * 0.2;
-            out[2] = Math.signum(HError) * 0.05;
-        } else {
-            Customs.get(count).run();
+        if(count < XPoses.size()) {
+            if (Customs.get(count) == null) {
+                double targetTheta = Math.atan2(YError, XError);
+                double robotTheta = Math.toRadians(currentPose[2]);
+                out[0] = -Math.cos(targetTheta - robotTheta) * 0.2;// * Math.abs(XError); // X
+                out[1] = -Math.sin(targetTheta - robotTheta) * 0.2;// * Math.abs(YError); // Y
+                out[2] = Math.signum(HError) * 0.05;//Math.abs(HError) * 0.02;
+            } else {
+                out[0] = 0;
+                out[1] = 0;
+                out[2] = 0;
+                Customs.get(count).run();
+                count++;
+            }
         }
         return out;
     }
+
 
     public void isEnd() {
         if (Math.abs(XError) < ACCURACY && Math.abs(YError) < ACCURACY && Math.abs(HError) < ACCURACY) {
@@ -66,7 +73,7 @@ public class Path {
 
     public void addPose(double y, double x, double h) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
-        YPoses.add(YPoses.get(YPoses.size() - 1) + y);
+        YPoses.add(YPoses.get(YPoses.size() - 1) + 2*y);
         HPoses.add(HPoses.get(HPoses.size() - 1) + h);
         Customs.add(null);
     }
