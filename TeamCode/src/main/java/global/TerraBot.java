@@ -41,12 +41,16 @@ public class TerraBot {
     public Servo g = null;
 
     public HardwareMap hwMap = null;
+    public Helper h = new Helper();
     public Limits lim = new Limits();
+    public AutoModule flipOut = new AutoModule();
 
     public boolean isPulling = false;
 
     public final double minH = 0;
     public final double maxH = 10;
+
+    public double fp = 0;
 
 
 
@@ -108,6 +112,8 @@ public class TerraBot {
         r1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        h.defineFlipOut(this);
+
 
 
 
@@ -130,9 +136,15 @@ public class TerraBot {
         lft.setPower(p);
     }
 
-    public void flip(double pos){
-        f1.setPosition(pos);
-        f2.setPosition(pos);
+    public void flip(double pos, boolean lessThan90){
+
+        if(lessThan90) {
+            f1.setPosition(pos+0.05);
+            f2.setPosition(pos);
+        }else{
+            f1.setPosition(pos-0.05);
+            f2.setPosition(pos);
+        }
     }
     public void grab(double pos){
         g.setPosition(pos);
@@ -149,6 +161,10 @@ public class TerraBot {
     }
     public double getRightEncoder(){
         return -l1.getCurrentPosition() * 1.0;
+    }
+
+    public void update(){
+        flipOut.update(h.dynamicsForFlipOut(this));
     }
 
 }

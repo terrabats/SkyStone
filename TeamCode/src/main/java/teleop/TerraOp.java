@@ -18,6 +18,7 @@ public class TerraOp extends OpMode {
     public TeleThread t = new TeleThread();
     Odometry odometry = new Odometry();
     public Thread thread;
+
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
@@ -33,11 +34,13 @@ public class TerraOp extends OpMode {
                 bot.grab(1);
             }
 
-            if(gamepad2.right_trigger > 0){
-                bot.flip(0);
-            }else if(gamepad2.left_trigger > 0){
-                bot.flip(1);
+            if(bot.flipOut.executing){
+                bot.update();
             }
+            if(gamepad2.right_trigger > 0){
+                bot.flipOut.start();
+            }
+
 
             if(bot.isPulling && !gamepad1.left_bumper){
                 bot.intake(1);

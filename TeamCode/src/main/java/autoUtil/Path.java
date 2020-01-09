@@ -12,11 +12,21 @@ public class Path {
     ArrayList<Double> HPoses = new ArrayList<>();
     ArrayList<CodeSeg> Customs = new ArrayList<>();
 
+    PID XControl = new PID();
+    PID YControl = new PID();
+    PID HControl = new PID();
+
     final double ACCURACY = 0.5;
 
     double XError = 0;
     double YError = 0;
     double HError = 0;
+
+    double XVelocity = 0;
+    double YVelocity= 0;
+    double HVelocity = 0;
+
+
 
     boolean isDone = false;
 
@@ -25,13 +35,21 @@ public class Path {
         YPoses.add(0.0);
         HPoses.add(0.0);
         Customs.add(null);
+        XControl.setCoeffecients(0,0);
+        YControl.setCoeffecients(0.01,0);
+        HControl.setCoeffecients(0,0);
     }
 
-    public double[] update(double[] currentPose) {
+    public double[] update(Odometry odometry) {
+        double[] currentPose = odometry.getGlobalPose();
         if (count < XPoses.size()) {
             XError = currentPose[0] - XPoses.get(count);
             YError = currentPose[1] - YPoses.get(count);
             HError = currentPose[2] - HPoses.get(count);
+            XVelocity = odometry.ticksToInches(odometry.strafe);
+            YVelocity = odometry.ticksToInches(odometry.forward);
+            HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
+
             isEnd();
             return calcPowers(currentPose);
         } else {
@@ -50,9 +68,9 @@ public class Path {
             if (Customs.get(count) == null) {
                 double targetTheta = Math.atan2(YError, XError);
                 double robotTheta = Math.toRadians(currentPose[2]);
-                out[0] = -Math.cos(targetTheta - robotTheta) * 0.2;// * Math.abs(XError); // X
-                out[1] = -Math.sin(targetTheta - robotTheta) * 0.2;// * Math.abs(YError); // Y
-                out[2] = Math.signum(HError) * 0.05;//Math.abs(HError) * 0.02;
+                out[0] = -Math.cos(targetTheta - robotTheta) * XControl.getPower(XError,XVelocity);
+                out[1] = -Math.sin(targetTheta - robotTheta) * YControl.getPower(YError,YVelocity);
+                out[2] = Math.signum(HError) * HControl.getPower(HError,HVelocity);
             } else {
                 out[0] = 0;
                 out[1] = 0;
@@ -65,6 +83,7 @@ public class Path {
     }
 
 
+
     public void isEnd() {
         if (Math.abs(XError) < ACCURACY && Math.abs(YError) < ACCURACY && Math.abs(HError) < ACCURACY) {
             count++;
@@ -73,7 +92,7 @@ public class Path {
 
     public void addPose(double y, double x, double h) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
-        YPoses.add(YPoses.get(YPoses.size() - 1) + 2*y);
+        YPoses.add(YPoses.get(YPoses.size() - 1) + y);
         HPoses.add(HPoses.get(HPoses.size() - 1) + h);
         Customs.add(null);
     }

@@ -33,6 +33,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 public class TargetDetection {
+
 //    //Constants
 //    private static final float mmPerInch = 25.4f;
 //    private static final float mmTargetHeight = (6) * mmPerInch;

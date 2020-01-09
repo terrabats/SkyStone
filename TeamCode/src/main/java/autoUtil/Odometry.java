@@ -52,7 +52,7 @@ public class Odometry {
         updateEncoderPositions();
 
 
-        forward = (deltaRP + deltaLP)/2;
+        forward = (deltaRP + deltaLP);
         turn = (deltaRP - deltaLP)/2;
         strafe = (deltaCP-turn)/2;
 
