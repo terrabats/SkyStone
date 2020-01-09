@@ -40,24 +40,34 @@ public class Helper {
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double pos) {
-                bot.flip(pos, true);
-                bot.fp += 0.01;
-                return pos > 0.5;
+                bot.flip(pos, pos);
+                bot.fp += 0.07;
+                bot.t.reset();
+                return pos > 0.7;
+            }
+        });
+        bot.flipOut.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(0.6,0.8);
+                return time > 1;
             }
         });
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double pos) {
-                bot.flip(pos,false);
-                bot.fp += 0.01;
+                bot.flip(pos, pos);
+                bot.fp += 0.05;
                 return pos > 1;
             }
         });
+
     }
 
     public ArrayList<Double> dynamicsForFlipOut(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
         dynamics.add(bot.fp);
+        dynamics.add(bot.t.seconds());
         dynamics.add(bot.fp);
         return dynamics;
     }

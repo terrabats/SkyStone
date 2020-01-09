@@ -41,6 +41,7 @@ public class TerraBot {
     public Servo g = null;
 
     public HardwareMap hwMap = null;
+    public ElapsedTime t = new ElapsedTime();
     public Helper h = new Helper();
     public Limits lim = new Limits();
     public AutoModule flipOut = new AutoModule();
@@ -50,7 +51,7 @@ public class TerraBot {
     public final double minH = 0;
     public final double maxH = 10;
 
-    public double fp = 0;
+    public double fp = 0.15;
 
 
 
@@ -101,8 +102,8 @@ public class TerraBot {
         rft.setPower(0);
         lft.setPower(0);
 
-        f1.setPosition(0);
-        f2.setPosition(0);
+        f1.setPosition(fp);
+        f2.setPosition(fp);
         g.setPosition(0);
 
         lim.addLimit(rft, minH, maxH);
@@ -136,15 +137,9 @@ public class TerraBot {
         lft.setPower(p);
     }
 
-    public void flip(double pos, boolean lessThan90){
-
-        if(lessThan90) {
-            f1.setPosition(pos+0.05);
-            f2.setPosition(pos);
-        }else{
-            f1.setPosition(pos-0.05);
-            f2.setPosition(pos);
-        }
+    public void flip(double p1,double p2){
+        f1.setPosition(p1);
+        f2.setPosition(p2);
     }
     public void grab(double pos){
         g.setPosition(pos);

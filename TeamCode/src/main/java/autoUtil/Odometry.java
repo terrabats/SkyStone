@@ -36,6 +36,7 @@ public class Odometry {
 
     public void init(TerraBot b){
         bot = b;
+
         updateEncoderPositions();
 
         sr = bot.getRightEncoder();
@@ -52,7 +53,7 @@ public class Odometry {
         updateEncoderPositions();
 
 
-        forward = (deltaRP + deltaLP);
+        forward = (deltaRP + deltaLP)/4;
         turn = (deltaRP - deltaLP)/2;
         strafe = (deltaCP-turn)/2;
 

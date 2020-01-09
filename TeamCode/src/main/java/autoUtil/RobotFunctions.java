@@ -28,8 +28,9 @@ public class RobotFunctions {
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
-            o.telemetry.addData("Tx", odometry.tx);
-            o.telemetry.addData("Vx", odometry.vx);
+            o.telemetry.addData("cl",odometry.cl);
+            o.telemetry.addData("cr",odometry.cr);
+            o.telemetry.addData("Ty", odometry.ty);
             //o.telemetry.addData("Pos", "{R, L, C, X, Y} = %f, %f, %f, %f, %f", odometry.ticksToInches(odometry.cr),odometry.ticksToInches(odometry.cl),odometry.cc, odometry.tx,odometry.ty);
             o.telemetry.update();
         }

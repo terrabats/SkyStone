@@ -35,8 +35,10 @@ public class Path {
         YPoses.add(0.0);
         HPoses.add(0.0);
         Customs.add(null);
-        XControl.setCoeffecients(0,0);
-        YControl.setCoeffecients(0.01,0);
+
+
+        XControl.setCoeffecients(0.13,0.2);
+        YControl.setCoeffecients(0.12,0.19);
         HControl.setCoeffecients(0,0);
     }
 
@@ -50,7 +52,7 @@ public class Path {
             YVelocity = odometry.ticksToInches(odometry.forward);
             HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
 
-            isEnd();
+            //isEnd();
             return calcPowers(currentPose);
         } else {
             double[] out = new double[3];

@@ -10,10 +10,7 @@ public class PID {
         Kd = d;
     }
     public double getPower(double ce, double cv){
-        ce = abs(ce);
-        cv = abs(cv);
-
-        return Kp*abs(ce) - Kd*abs(cv);
+        return (Kp*abs(ce) - Kd*abs(cv));
     }
     public double abs(double in){
         return Math.abs(in);

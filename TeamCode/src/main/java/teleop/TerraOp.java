@@ -39,6 +39,9 @@ public class TerraOp extends OpMode {
             }
             if(gamepad2.right_trigger > 0){
                 bot.flipOut.start();
+            }else if(gamepad2.left_trigger > 0){
+                bot.flip(0.15,0.15);
+                bot.fp = 0.15;
             }
 
 
