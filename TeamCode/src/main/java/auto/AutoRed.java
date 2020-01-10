@@ -1,15 +1,11 @@
 package auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-import autoUtil.Path;
-import autoUtil.RobotFunctions;
-import autoUtil.TargetDetection;
-import global.CodeSeg;
-import global.Helper;
+import autoFunctions.Path;
+import autoFunctions.RobotFunctions;
 import global.TerraBot;
 @Autonomous(name = "AutoRed", group = "Auto")
 public class AutoRed extends LinearOpMode {

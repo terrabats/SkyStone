@@ -1,4 +1,4 @@
-package autoUtil;
+package autoFunctions;
 
 public class PID {
     public double Kp = 0;

@@ -1,23 +1,15 @@
 package global;
 
-import android.hardware.camera2.CameraDevice;
+import android.graphics.Color;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.vuforia.Frame;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.slf4j.helpers.Util;
 
 import java.util.ArrayList;
 
-import autoUtil.TargetDetection;
-import teleUtil.Stage;
+import teleFunctions.Stage;
 
 public class Helper {
     public final double LIFT_CM_PER_TICK = 0.044879895;
@@ -33,8 +25,30 @@ public class Helper {
     private double yint = 0.25;
     public VuforiaLocalizer vuforia;
     ElapsedTime timer = new ElapsedTime();
-    public static final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
+    public final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
 
+    public int findMin(double[] in){
+        double min = 100;
+        int index = 0;
+        for (int i = 0; i < 3; i++) {
+            if(in[i] <  min){ min = in[i];}
+        }
+        for (int i = 0; i < 3; i++) {
+            if(in[i] == min){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+    public float[] rgbToHSV(int pix){
+        int r = Color.red(pix);
+        int g = Color.green(pix);
+        int b = Color.blue(pix);
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        return hsv;
+    }
 
     public void defineFlipOut(final TerraBot bot) {
         bot.flipOut.addStage(new Stage() {

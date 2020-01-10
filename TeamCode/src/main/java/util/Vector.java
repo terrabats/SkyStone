@@ -1,4 +1,4 @@
-package global;
+package util;
 
 public class Vector {
     public double x;

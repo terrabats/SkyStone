@@ -1,8 +1,7 @@
-package autoUtil;
+package autoFunctions;
 
-import global.Helper;
 import global.TerraBot;
-import global.Vector;
+import util.Vector;
 
 public class Odometry {
     TerraBot bot; // Robot Object

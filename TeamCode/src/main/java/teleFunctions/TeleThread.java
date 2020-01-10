@@ -1,6 +1,6 @@
-package teleUtil;
+package teleFunctions;
 
-import global.CodeSeg;
+import util.CodeSeg;
 
 
 public class TeleThread implements Runnable{

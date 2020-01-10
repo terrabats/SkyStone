@@ -3,13 +3,10 @@ package teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-import autoUtil.Odometry;
-import global.CodeSeg;
-import global.Helper;
+import autoFunctions.Odometry;
+import util.CodeSeg;
 import global.TerraBot;
-import teleUtil.TeleThread;
+import teleFunctions.TeleThread;
 
 
 @TeleOp(name = "TerraOpWin", group = "new")

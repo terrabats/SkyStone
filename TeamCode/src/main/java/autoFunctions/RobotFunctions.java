@@ -1,15 +1,10 @@
-package autoUtil;
+package autoFunctions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import global.CodeSeg;
-import global.Helper;
 import global.TerraBot;
-///////////////////////////////////////////////////////////////////////////////////import autoUtil.TargetDetection.stoneP;
-import com.qualcomm.robotcore.util.Range;
+///////////////////////////////////////////////////////////////////////////////////import autoUtil.TerraCV.stoneP;
 
-import java.util.ArrayList;
 
 public class RobotFunctions {
     TerraBot bot = null;

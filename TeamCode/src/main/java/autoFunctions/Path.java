@@ -1,8 +1,8 @@
-package autoUtil;
+package autoFunctions;
 
 import java.util.ArrayList;
 
-import global.CodeSeg;
+import util.CodeSeg;
 
 public class Path {
     int count = 1;

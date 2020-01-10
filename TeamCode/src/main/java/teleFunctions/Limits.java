@@ -1,4 +1,4 @@
-package teleUtil;
+package teleFunctions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
