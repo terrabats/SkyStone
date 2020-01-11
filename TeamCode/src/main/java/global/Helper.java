@@ -53,36 +53,64 @@ public class Helper {
     public void defineFlipOut(final TerraBot bot) {
         bot.flipOut.addStage(new Stage() {
             @Override
-            public boolean run(double pos) {
-                bot.flip(pos, pos);
-                bot.fp += 0.07;
-                bot.t.reset();
-                return pos > 0.7;
+            public boolean run(double time) {
+                bot.flip(0.7, 0.7);
+                return time > 1;
             }
         });
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(0.6,0.8);
-                return time > 1;
+                return time > 2;
             }
         });
         bot.flipOut.addStage(new Stage() {
             @Override
-            public boolean run(double pos) {
-                bot.flip(pos, pos);
-                bot.fp += 0.05;
-                return pos > 1;
+            public boolean run(double time) {
+                bot.flip(1, 1);
+                return time > 3;
             }
         });
 
     }
+    public void defineGrab(final TerraBot bot) {
+        bot.grab.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(0,0);
+                return time > 1;
+            }
+        });
+        bot.grab.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.grab(1);
+                return time > 2;
+            }
+        });
+        bot.grab.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(0.25,0.25);
+                return time > 3;
+            }
+        });
+    }
+
 
     public ArrayList<Double> dynamicsForFlipOut(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.fp);
         dynamics.add(bot.t.seconds());
-        dynamics.add(bot.fp);
+        dynamics.add(bot.t.seconds());
+        dynamics.add(bot.t.seconds());
+        return dynamics;
+    }
+    public ArrayList<Double> dynamicsGrab(TerraBot bot) {
+        ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
         return dynamics;
     }
 

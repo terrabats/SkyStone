@@ -1,10 +1,13 @@
 package global;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import teleFunctions.AutoModule;
 import teleFunctions.Limits;
@@ -25,19 +28,27 @@ public class TerraBot {
     public Servo f1 = null;
     public Servo f2 = null;
     public Servo g = null;
+    public Servo fg1 = null;
+    public Servo fg2 = null;
+
+    public DistanceSensor lh = null;
+    public DistanceSensor ss = null;
 
     public HardwareMap hwMap = null;
     public ElapsedTime t = new ElapsedTime();
+    public ElapsedTime t1 = new ElapsedTime();
     public Helper h = new Helper();
     public Limits lim = new Limits();
     public AutoModule flipOut = new AutoModule();
+    public AutoModule grab = new AutoModule();
+    public AutoModule place = new AutoModule();
 
     public boolean isPulling = false;
 
-    public final double minH = 0;
-    public final double maxH = 10;
+    public final double minH = 1;
+    public final double maxH = 27;
 
-    public double fp = 0.15;
+    public final double sp = 0.15;
 
 
 
@@ -56,6 +67,11 @@ public class TerraBot {
         f1 = hwMap.get(Servo.class, "f1");
         f2 = hwMap.get(Servo.class, "f2");
         g = hwMap.get(Servo.class, "g");
+        fg1 = hwMap.get(Servo.class, "fg1");
+        fg2 = hwMap.get(Servo.class, "fg2");
+        lh = hwMap.get(DistanceSensor.class, "lh");
+        ss = hwMap.get(DistanceSensor.class, "ss");
+
 
         l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -78,6 +94,8 @@ public class TerraBot {
         f1.setDirection(Servo.Direction.REVERSE);
         f2.setDirection(Servo.Direction.FORWARD);
         g.setDirection(Servo.Direction.REVERSE);
+        fg1.setDirection(Servo.Direction.FORWARD);
+        fg2.setDirection(Servo.Direction.REVERSE);
 
         l1.setPower(0);
         l2.setPower(0);
@@ -88,9 +106,11 @@ public class TerraBot {
         rft.setPower(0);
         lft.setPower(0);
 
-        f1.setPosition(fp);
-        f2.setPosition(fp);
+        f1.setPosition(sp);
+        f2.setPosition(sp);
         g.setPosition(0);
+        fg1.setPosition(0);
+        fg2.setPosition(0);
 
         lim.addLimit(rft, minH, maxH);
 
@@ -100,6 +120,7 @@ public class TerraBot {
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         h.defineFlipOut(this);
+        h.defineGrab(this);
 
 
 
@@ -130,9 +151,19 @@ public class TerraBot {
     public void grab(double pos){
         g.setPosition(pos);
     }
+
+    public void foundationGrab(double pos){
+        fg1.setPosition(pos);
+        fg2.setPosition(pos);
+    }
+    public double getLiftHeight(){
+        return lh.getDistance(DistanceUnit.INCH);
+    }
+    public double getStoneDistance(){
+        return ss.getDistance(DistanceUnit.INCH);
+    }
     public boolean isLiftInLimits(Gamepad g2){
-        //change pos input to distance sensor
-        return lim.isInLimits(g2, rft, 5);
+        return lim.isInLimits(g2, rft, getLiftHeight());
     }
     public double getCenterEncoder(){
         return -l2.getCurrentPosition() * 1.0;
@@ -144,8 +175,12 @@ public class TerraBot {
         return -l1.getCurrentPosition() * 1.0;
     }
 
+    public boolean noAutoModules(){
+        return !flipOut.executing && !grab.executing;
+    }
     public void update(){
         flipOut.update(h.dynamicsForFlipOut(this));
+        grab.update(h.dynamicsGrab(this));
     }
 
 }
