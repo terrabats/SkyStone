@@ -1,15 +1,11 @@
 package auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-import autoUtil.Path;
-import autoUtil.RobotFunctions;
-import autoUtil.TargetDetection;
-import global.CodeSeg;
-import global.Helper;
+import autoFunctions.Path;
+import autoFunctions.RobotFunctions;
 import global.TerraBot;
 @Autonomous(name = "AutoRed", group = "Auto")
 public class AutoRed extends LinearOpMode {
@@ -23,20 +19,6 @@ public class AutoRed extends LinearOpMode {
         initialize();
         waitForStart();
         path.addPose(10,0,0);
-        path.addPose(-10,0,0);
-        path.addPose(0,10,0);
-        path.addPose(0,-10,0);
-        path.addPose(0,0,90);
-        path.addPose(0,0,-90);
-        path.addCustom(new CodeSeg() {
-            @Override
-            public void run() {
-                telemetry.addData("Custom", "Block");
-                telemetry.update();
-                sleep(1000);
-            }
-        });
-        path.addPose(10,10,45);
         rf.start(path,this);
     }
 

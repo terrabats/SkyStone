@@ -1,8 +1,7 @@
-package autoUtil;
+package autoFunctions;
 
-import global.Helper;
 import global.TerraBot;
-import global.Vector;
+import util.Vector;
 
 public class Odometry {
     TerraBot bot; // Robot Object
@@ -26,6 +25,8 @@ public class Odometry {
     public double cl = 0;
     public double cc = 0;
 
+    public double vx = 0;
+
 
     public final double TICKS_FOR_ODOMETRY =  8192;
     public final double ENCODER_WHEEL_RADIUS = 2.5; // in cm
@@ -34,6 +35,7 @@ public class Odometry {
 
     public void init(TerraBot b){
         bot = b;
+
         updateEncoderPositions();
 
         sr = bot.getRightEncoder();
@@ -50,7 +52,7 @@ public class Odometry {
         updateEncoderPositions();
 
 
-        forward = (deltaRP + deltaLP)/2;
+        forward = (deltaRP + deltaLP)/4;
         turn = (deltaRP - deltaLP)/2;
         strafe = (deltaCP-turn)/2;
 
@@ -58,6 +60,8 @@ public class Odometry {
 
         Vector movementVect = new Vector(ticksToInches(strafe), ticksToInches(forward));
         movementVect = movementVect.getRotatedVector(theta);
+
+        vx = movementVect.x;
 
         ty += movementVect.y;
         tx += movementVect.x;

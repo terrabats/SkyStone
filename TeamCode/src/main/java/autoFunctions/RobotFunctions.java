@@ -1,15 +1,10 @@
-package autoUtil;
+package autoFunctions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import global.CodeSeg;
-import global.Helper;
 import global.TerraBot;
-///////////////////////////////////////////////////////////////////////////////////import autoUtil.TargetDetection.stoneP;
-import com.qualcomm.robotcore.util.Range;
+///////////////////////////////////////////////////////////////////////////////////import autoUtil.TerraCV.stoneP;
 
-import java.util.ArrayList;
 
 public class RobotFunctions {
     TerraBot bot = null;
@@ -24,11 +19,15 @@ public class RobotFunctions {
         bot.move(0.2,0,0);
         while (o.opModeIsActive() && path.isExecuting()){
             odometry.updateGlobalPosition();
-            double[] currentPose = odometry.getGlobalPose();
-            double[] pows = path.update(currentPose);
+            double[] pows = path.update(odometry);
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
+            o.telemetry.addData("cl",odometry.cl);
+            o.telemetry.addData("cr",odometry.cr);
+            o.telemetry.addData("Ty", odometry.ty);
+            //o.telemetry.addData("Pos", "{R, L, C, X, Y} = %f, %f, %f, %f, %f", odometry.ticksToInches(odometry.cr),odometry.ticksToInches(odometry.cl),odometry.cc, odometry.tx,odometry.ty);
+            o.telemetry.update();
         }
         bot.move(0,0,0);
     }
