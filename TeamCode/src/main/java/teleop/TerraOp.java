@@ -13,7 +13,6 @@ import teleFunctions.TeleThread;
 public class TerraOp extends OpMode {
     public TerraBot bot = new TerraBot();
     public TeleThread t = new TeleThread();
-    Odometry odometry = new Odometry();
     public Thread thread;
 
     private CodeSeg teleOpCode = new CodeSeg() {
@@ -32,9 +31,9 @@ public class TerraOp extends OpMode {
                 }
 
                 if(gamepad2.right_bumper){
-                    bot.grab(0);
-                }else if(gamepad2.left_bumper){
                     bot.grab(1);
+                }else if(gamepad2.left_bumper){
+                    bot.grab(0);
                 }
             }else {
                 bot.update();
@@ -48,6 +47,9 @@ public class TerraOp extends OpMode {
             if(gamepad2.b){
                 bot.t1.reset();
                 bot.grab.start();
+            }
+            if(gamepad2.y){
+                bot.place.start();
             }
 
 
@@ -68,8 +70,6 @@ public class TerraOp extends OpMode {
                 bot.foundationGrab(0);
             }
 
-            odometry.updateGlobalPosition();
-
             telemetry.addData("Height, StoneDistance", "%f, %f", bot.getLiftHeight(), bot.getStoneDistance());
             telemetry.update();
 
@@ -81,11 +81,6 @@ public class TerraOp extends OpMode {
         telemetry.addData("Status:", "Not Ready");
         telemetry.update();
         bot.init(hardwareMap);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-        }
-        odometry.init(bot);
         telemetry.addData("Status:", "Ready");
         telemetry.update();
         t.init(teleOpCode);
