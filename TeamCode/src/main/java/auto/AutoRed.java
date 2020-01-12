@@ -18,7 +18,8 @@ public class AutoRed extends LinearOpMode {
     public void runOpMode() {
         initialize();
         waitForStart();
-        path.addPose(10,0,0);
+        path.addPose(-5,40,0);
+        path.addPose(-40,-5,0);
         rf.start(path,this);
     }
 

@@ -1,5 +1,7 @@
 package autoFunctions;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.ArrayList;
 
 import util.CodeSeg;
@@ -16,7 +18,12 @@ public class Path {
     PID YControl = new PID();
     PID HControl = new PID();
 
-    final double ACCURACY = 0.5;
+    ElapsedTime t = new ElapsedTime();
+
+    final double XACCURACY = 1;
+    final double YACCURACY = 1;
+    final double HACCURACY = 5;
+    final double WAIT = 0.5;
 
     double XError = 0;
     double YError = 0;
@@ -37,9 +44,9 @@ public class Path {
         Customs.add(null);
 
 
-        XControl.setCoeffecients(0.13,0.2);
-        YControl.setCoeffecients(0.12,0.19);
-        HControl.setCoeffecients(0,0);
+        XControl.setCoeffecients(0.16,0.21);
+        YControl.setCoeffecients(0.14,0.19);
+        HControl.setCoeffecients(0.025,0.03);
     }
 
     public double[] update(Odometry odometry) {
@@ -51,8 +58,7 @@ public class Path {
             XVelocity = odometry.ticksToInches(odometry.strafe);
             YVelocity = odometry.ticksToInches(odometry.forward);
             HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
-
-            //isEnd();
+            isEnd();
             return calcPowers(currentPose);
         } else {
             double[] out = new double[3];
@@ -87,7 +93,7 @@ public class Path {
 
 
     public void isEnd() {
-        if (Math.abs(XError) < ACCURACY && Math.abs(YError) < ACCURACY && Math.abs(HError) < ACCURACY) {
+        if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
             count++;
         }
     }

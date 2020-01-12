@@ -10,6 +10,7 @@ import org.slf4j.helpers.Util;
 import java.util.ArrayList;
 
 import teleFunctions.Stage;
+import util.CodeSeg;
 
 public class Helper {
     public final double LIFT_CM_PER_TICK = 0.044879895;
@@ -68,7 +69,7 @@ public class Helper {
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.flip(1, 1);
+                bot.flip(0.9, 0.9);
                 return time > 3;
             }
         });
@@ -92,10 +93,43 @@ public class Helper {
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.flip(0.25,0.25);
+                bot.flip(0.3,0.3);
                 return time > 3;
             }
         });
+    }
+    public void definePlace(final TerraBot bot){
+        bot.place.addStage(new Stage() {
+            @Override
+            public boolean run(double pos) {
+                bot.lift(0.5);
+                bot.t1.reset();
+                return pos > 10;
+            }
+        });
+        bot.place.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.lift(0);
+                bot.flip(0.7,0.7);
+                return time > 1;
+            }
+        });
+        bot.place.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(0.6,0.8);
+                return time > 2;
+            }
+        });
+        bot.place.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(0.9,0.9);
+                return time > 3;
+            }
+        });
+
     }
 
 
@@ -108,6 +142,14 @@ public class Helper {
     }
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
+        return dynamics;
+    }
+    public ArrayList<Double> dynamicsPlace(TerraBot bot) {
+        ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.getStoneDistance());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
