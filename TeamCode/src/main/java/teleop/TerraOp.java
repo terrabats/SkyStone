@@ -51,6 +51,10 @@ public class TerraOp extends OpMode {
             if(gamepad2.y){
                 bot.place.start();
             }
+            if(gamepad2.x){
+                bot.t1.reset();
+                bot.retract.start();
+            }
 
 
             if(bot.isPulling && !gamepad1.left_bumper){

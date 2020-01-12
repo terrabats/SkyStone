@@ -39,6 +39,7 @@ public class TerraBot {
     public ElapsedTime t1 = new ElapsedTime();
     public Helper h = new Helper();
     public Limits lim = new Limits();
+
     public AutoModule flipOut = new AutoModule();
     public AutoModule grab = new AutoModule();
     public AutoModule place = new AutoModule();
@@ -123,6 +124,7 @@ public class TerraBot {
         h.defineFlipOut(this);
         h.defineGrab(this);
         h.definePlace(this);
+        h.defineRetract(this);
 
 
 
@@ -178,12 +180,13 @@ public class TerraBot {
     }
 
     public boolean noAutoModules(){
-        return !flipOut.executing && !grab.executing && !place.executing;
+        return !flipOut.executing && !grab.executing && !place.executing && !retract.executing;
     }
     public void update(){
         flipOut.update(h.dynamicsForFlipOut(this));
         grab.update(h.dynamicsGrab(this));
         place.update(h.dynamicsPlace(this));
+        retract.update(h.dynamicsRetract(this));
     }
 
 }
