@@ -27,7 +27,7 @@ public class EventTeleOp extends OpMode{
     @Override
     public void loop() {
         bot.move(-gamepad1.right_stick_y,gamepad1.right_stick_x, gamepad1.left_stick_x);
-        bot.front ((gamepad1.left_trigger)
+        
     }
 
     @Override
