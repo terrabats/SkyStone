@@ -131,6 +131,33 @@ public class Helper {
         });
 
     }
+    public void defineRetract(final TerraBot bot){
+        bot.retract.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.grab(0);
+                return time > 1;
+            }
+        });
+        bot.retract.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(bot.sp,bot.sp);
+                return time > 3;
+            }
+        });
+        bot.retract.addStage(new Stage() {
+            @Override
+            public boolean run(double pos) {
+                bot.lift(-0.4);
+                if(pos < bot.minH){
+                    bot.lift(0);
+                }
+                return pos < bot.minH;
+            }
+        });
+
+    }
 
 
     public ArrayList<Double> dynamicsForFlipOut(TerraBot bot) {
@@ -153,6 +180,13 @@ public class Helper {
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
+        return dynamics;
+    }
+    public ArrayList<Double> dynamicsRetract(TerraBot bot) {
+        ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.getLiftHeight());
         return dynamics;
     }
 
