@@ -19,6 +19,7 @@ import global.TerraBot;
 import util.Rect;
 
 public class TerraCV {
+
     public Helper h = new Helper();
     public TerraBot bot;
     public VuforiaLocalizer vuforia;

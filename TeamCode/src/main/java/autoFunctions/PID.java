@@ -9,6 +9,7 @@ public class PID {
         Kp = k;
         Kd = d;
     }
+
     public double getPower(double ce, double cv){
         return (Kp*abs(ce) - Kd*abs(cv));
     }

@@ -12,6 +12,7 @@ public class AutoBlue extends LinearOpMode {
     TerraCV tc = new TerraCV();
     TerraCV.StonePos stonePos;
 
+
     @Override
     public void runOpMode(){
         //Front of robot to stone = 19 inches

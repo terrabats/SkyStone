@@ -13,6 +13,7 @@ public class Odometry {
     double deltaRP = 0; //change in right pos
     double deltaLP = 0; //change in left pos
     double deltaCP = 0; //change in center pos
+
     public double forward = 0;
     public double turn = 0;
     public double strafe = 0;

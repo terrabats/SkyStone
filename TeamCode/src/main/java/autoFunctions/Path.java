@@ -16,6 +16,7 @@ public class Path {
     ArrayList<Double> HPoses = new ArrayList<>();
     ArrayList<CodeSeg> Customs = new ArrayList<>();
 
+
     PID XControl = new PID();
     PID YControl = new PID();
     PID HControl = new PID();

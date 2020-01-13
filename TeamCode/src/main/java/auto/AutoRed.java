@@ -14,6 +14,7 @@ public class AutoRed extends LinearOpMode {
     Path path = new Path();
 
 
+
     @Override
     public void runOpMode() {
         initialize();

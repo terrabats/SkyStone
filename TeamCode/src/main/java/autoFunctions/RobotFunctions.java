@@ -7,6 +7,7 @@ import global.TerraBot;
 
 
 public class RobotFunctions {
+
     TerraBot bot = null;
     Odometry odometry = new Odometry();
 

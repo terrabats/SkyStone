@@ -11,6 +11,7 @@ public class Rect {
         w = width;
         h = height;
     }
+
     public int getArea(){
         return w*h;
     }

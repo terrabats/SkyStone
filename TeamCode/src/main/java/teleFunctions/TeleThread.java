@@ -17,7 +17,6 @@ public class TeleThread implements Runnable{
     private synchronized boolean isExecuting() {
         return !this.executing;
     }
-
     @Override
     public void run() {
         while (isExecuting()){

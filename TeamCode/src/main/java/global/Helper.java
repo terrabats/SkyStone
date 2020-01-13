@@ -13,6 +13,7 @@ import teleFunctions.Stage;
 import util.CodeSeg;
 
 public class Helper {
+
     public final double LIFT_CM_PER_TICK = 0.044879895;
     public final double INTAKE_DEG_PER_TICK = 0.21428571428;
     public final double TICKS_FOR_MOVE = 36.96032508;
