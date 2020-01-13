@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import autoFunctions.Odometry;
+import global.Helper;
 import util.CodeSeg;
 import global.TerraBot;
 import teleFunctions.TeleThread;
@@ -13,12 +14,13 @@ import teleFunctions.TeleThread;
 public class TerraOp extends OpMode {
     public TerraBot bot = new TerraBot();
     public TeleThread t = new TeleThread();
+    public Helper h = new Helper();
     public Thread thread;
 
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
-            bot.move(-gamepad1.right_stick_y,gamepad1.right_stick_x, gamepad1.left_stick_x);
+            bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
 
             if(bot.noAutoModules()){
                 if(gamepad2.left_trigger > 0){

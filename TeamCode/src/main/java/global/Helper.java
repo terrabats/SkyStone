@@ -28,6 +28,21 @@ public class Helper {
     ElapsedTime timer = new ElapsedTime();
     public final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
 
+    public double calcPow(double in){
+        return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
+    }
+    public double[] normalize(double in[]){
+        double[] out = new double[3];
+        double sum = in[0]+in[1]+in[2];
+        if(sum > 1){
+            out[0] = in[0]/sum;
+            out[1] = in[1]/sum;
+            out[2] = in[2]/sum;
+        }else{
+            out = in;
+        }
+        return out;
+    }
     public int findMin(double[] in){
         double min = 100;
         int index = 0;

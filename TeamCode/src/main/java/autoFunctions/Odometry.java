@@ -31,7 +31,7 @@ public class Odometry {
     public final double TICKS_FOR_ODOMETRY =  8192;
     public final double ENCODER_WHEEL_RADIUS = 2.5; // in cm
     public final double RIGHT_AND_LEFT_ENCODER_RADIUS = 13.3;
-    public final double CENTER_ENCODER_RADIUS = 15.5;
+    public final double ENCODER_RATIO = 1.2;
 
     public void init(TerraBot b){
         bot = b;
@@ -54,7 +54,7 @@ public class Odometry {
 
         forward = (deltaRP + deltaLP)/4;
         turn = (deltaRP - deltaLP)/2;
-        strafe = (deltaCP-turn)/2;
+        strafe = ((deltaCP*ENCODER_RATIO)-turn)/2;
 
         theta += inchesToDegrees(ticksToInches(turn)); // Convert to degrees
 

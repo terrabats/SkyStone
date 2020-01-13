@@ -23,10 +23,6 @@ public class RobotFunctions {
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
-            o.telemetry.addData("Th",odometry.theta);
-            o.telemetry.addData("Tx",odometry.tx);
-            o.telemetry.addData("Ty", odometry.ty);
-            o.telemetry.update();
         }
         bot.move(0,0,0);
     }

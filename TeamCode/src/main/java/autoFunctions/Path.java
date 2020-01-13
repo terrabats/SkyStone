@@ -4,7 +4,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
+import global.Helper;
 import util.CodeSeg;
+import util.Vector;
 
 public class Path {
     int count = 1;
@@ -20,9 +22,11 @@ public class Path {
 
     ElapsedTime t = new ElapsedTime();
 
+    Helper h = new Helper();
+
     final double XACCURACY = 1;
     final double YACCURACY = 1;
-    final double HACCURACY = 5;
+    final double HACCURACY = 3;
     final double WAIT = 0.5;
 
     double XError = 0;
@@ -42,7 +46,6 @@ public class Path {
         YPoses.add(0.0);
         HPoses.add(0.0);
         Customs.add(null);
-
 
         XControl.setCoeffecients(0.16,0.21);
         YControl.setCoeffecients(0.14,0.19);
@@ -74,11 +77,22 @@ public class Path {
         double[] out = new double[3];
         if(count < XPoses.size()) {
             if (Customs.get(count) == null) {
-                double targetTheta = Math.atan2(YError, XError);
-                double robotTheta = Math.toRadians(currentPose[2]);
-                out[0] = -Math.cos(targetTheta - robotTheta) * XControl.getPower(XError,XVelocity);
-                out[1] = -Math.sin(targetTheta - robotTheta) * YControl.getPower(YError,YVelocity);
-                out[2] = Math.signum(HError) * HControl.getPower(HError,HVelocity);
+
+                double robotTheta = currentPose[2];
+
+                Vector mv = new Vector(XError,YError);
+                mv = mv.getRotatedVector(-robotTheta);
+
+                double[] rawPow = new double[3];
+                rawPow[0] = XControl.getPower(mv.x,XVelocity);
+                rawPow[1] = YControl.getPower(mv.y,YVelocity);
+                rawPow[2] = HControl.getPower(HError,HVelocity);
+                double[] normPow = h.normalize(rawPow);
+
+                out[0] = -Math.signum(mv.x) * normPow[0];
+                out[1] = -Math.signum(mv.y) * normPow[1];
+                out[2] = Math.signum(HError) * normPow[2];
+
             } else {
                 out[0] = 0;
                 out[1] = 0;
@@ -93,8 +107,16 @@ public class Path {
 
 
     public void isEnd() {
-        if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
-            count++;
+        if(count == XPoses.size()-1){
+            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && t.seconds() > WAIT) {
+                count++;
+            }else{
+                t.reset();
+            }
+        }else {
+            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                count++;
+            }
         }
     }
 
