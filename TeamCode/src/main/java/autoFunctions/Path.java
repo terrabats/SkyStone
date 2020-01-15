@@ -11,10 +11,10 @@ import util.Vector;
 public class Path {
     int count = 1;
 
-    ArrayList<Double> XPoses = new ArrayList<>();
-    ArrayList<Double> YPoses = new ArrayList<>();
-    ArrayList<Double> HPoses = new ArrayList<>();
-    ArrayList<CodeSeg> Customs = new ArrayList<>();
+    public ArrayList<Double> XPoses = new ArrayList<>();
+    public ArrayList<Double> YPoses = new ArrayList<>();
+    public ArrayList<Double> HPoses = new ArrayList<>();
+    public ArrayList<CodeSeg> Customs = new ArrayList<>();
 
 
     PID XControl = new PID();
@@ -28,7 +28,7 @@ public class Path {
     final double XACCURACY = 1;
     final double YACCURACY = 1;
     final double HACCURACY = 3;
-    final double WAIT = 0.5;
+    final double MINVEL = 0.1;
 
     double XError = 0;
     double YError = 0;
@@ -42,7 +42,7 @@ public class Path {
 
     boolean isDone = false;
 
-    public void init() {
+    public Path() {
         XPoses.add(0.0);
         YPoses.add(0.0);
         HPoses.add(0.0);
@@ -51,6 +51,12 @@ public class Path {
         XControl.setCoeffecients(0.16,0.21);
         YControl.setCoeffecients(0.14,0.19);
         HControl.setCoeffecients(0.025,0.03);
+    }
+
+    public void continuePath(Path p){
+        XPoses.set(0,p.XPoses.get(p.XPoses.size()-1));
+        YPoses.set(0,p.YPoses.get(p.YPoses.size()-1));
+        HPoses.set(0,p.HPoses.get(p.HPoses.size()-1));
     }
 
     public double[] update(Odometry odometry) {
@@ -109,10 +115,9 @@ public class Path {
 
     public void isEnd() {
         if(count == XPoses.size()-1){
-            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && t.seconds() > WAIT) {
+            double averageVel = h.average(XVelocity,YVelocity,HVelocity);
+            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && averageVel < MINVEL) {
                 count++;
-            }else{
-                t.reset();
             }
         }else {
             if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {

@@ -32,6 +32,9 @@ public class Helper {
     public double calcPow(double in){
         return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
     }
+    public double average(double vx, double vy, double vh){
+        return (vx+vy+vh)/3;
+    }
     public double[] normalize(double in[]){
         double[] out = new double[3];
         double sum = in[0]+in[1]+in[2];

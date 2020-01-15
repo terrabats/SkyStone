@@ -35,9 +35,10 @@ public class TerraCV {
     public double time = 0;
 
 
-    public void init(TerraBot b, LinearOpMode o){
+    public void init(TerraBot b, LinearOpMode o, int acc){
         bot = b;
         op = o;
+        Accuracy = acc;
         int cameraMonitorViewId = op.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", op.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = h.VUFORIA_KEY;

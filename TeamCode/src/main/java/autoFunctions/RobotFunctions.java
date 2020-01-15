@@ -9,7 +9,7 @@ import global.TerraBot;
 public class RobotFunctions {
 
     TerraBot bot = null;
-    Odometry odometry = new Odometry();
+    public Odometry odometry = new Odometry();
 
     public void init(TerraBot t) {
         bot = t;
@@ -17,13 +17,19 @@ public class RobotFunctions {
     }
 
     public void start(Path path, LinearOpMode o){
-        bot.move(0.2,0,0);
         while (o.opModeIsActive() && path.isExecuting()){
             odometry.updateGlobalPosition();
             double[] pows = path.update(odometry);
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
+            o.telemetry.addData("x", odometry.getGlobalPose()[0]);
+            o.telemetry.addData("y", odometry.getGlobalPose()[1]);
+            o.telemetry.addData("h", odometry.getGlobalPose()[2]);
+            o.telemetry.addData("vx", path.XVelocity);
+            o.telemetry.addData("vy", path.YVelocity);
+            o.telemetry.addData("vh", path.HVelocity);
+            o.telemetry.update();
         }
         bot.move(0,0,0);
     }
