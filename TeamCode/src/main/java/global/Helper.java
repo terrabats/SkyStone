@@ -99,21 +99,22 @@ public class Helper {
             @Override
             public boolean run(double time) {
                 bot.flip(0,0);
-                return time > 1;
+                bot.intake(0);
+                return time > 0.5;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.grab(1);
-                return time > 2;
+                return time > 1;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(0.3,0.3);
-                return time > 3;
+                return time > 1.5;
             }
         });
     }

@@ -50,7 +50,7 @@ public class TerraBot {
     public final double minH = 1;
     public final double maxH = 27;
 
-    public final double sp = 0.2;
+    public final double sp = 0.1;
 
 
 

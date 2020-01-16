@@ -15,11 +15,13 @@ public class TerraOp extends OpMode {
     public TerraBot bot = new TerraBot();
     public TeleThread t = new TeleThread();
     public Helper h = new Helper();
+    Odometry odometry = new Odometry();
     public Thread thread;
 
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
+
             bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
 
             if(bot.noAutoModules()){
@@ -75,8 +77,9 @@ public class TerraOp extends OpMode {
             }else if(gamepad1.left_trigger > 0){
                 bot.foundationGrab(0);
             }
+            odometry.updateGlobalPosition();
 
-            telemetry.addData("Height, StoneDistance", "%f, %f", bot.getLiftHeight(), bot.getStoneDistance());
+            telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
             telemetry.update();
 
         }
@@ -89,6 +92,7 @@ public class TerraOp extends OpMode {
         bot.init(hardwareMap);
         telemetry.addData("Status:", "Ready");
         telemetry.update();
+        odometry.init(bot);
         t.init(teleOpCode);
         thread = new Thread(t);
     }

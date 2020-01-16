@@ -3,16 +3,21 @@ package autoFunctions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import global.TerraBot;
+import util.CodeSeg;
 ///////////////////////////////////////////////////////////////////////////////////import autoUtil.TerraCV.stoneP;
 
 
 public class RobotFunctions {
 
     TerraBot bot = null;
+    LinearOpMode op = null;
     public Odometry odometry = new Odometry();
 
-    public void init(TerraBot t) {
+    public TerraCV.StonePos stonePos;
+
+    public void init(TerraBot t, LinearOpMode o) {
         bot = t;
+        op = o;
         odometry.init(bot);
     }
 
@@ -32,6 +37,60 @@ public class RobotFunctions {
             o.telemetry.update();
         }
         bot.move(0,0,0);
+    }
+
+    public void scanStones(Path p, final TerraCV cv){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.move(0,0,0);
+                cv.takePicture();
+                stonePos = cv.getStonePos(0,300);
+                op.telemetry.addData("Stone", stonePos.toString());
+                op.telemetry.update();
+            }
+        });
+    }
+
+    public void intake(Path p, final double pow){
+        bot.move(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.intake(pow);
+            }
+        });
+    }
+
+    public void grabFoundation(Path p, final double pos){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.move(0,0,0);
+                bot.foundationGrab(pos);
+            }
+        });
+    }
+
+    public void flip(Path p, final double p1, final double p2){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.move(0,0,0);
+                bot.flip(p1,p2);
+            }
+        });
+    }
+
+    public void grab(Path p, final double pos){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.move(0,0,0);
+                bot.grab(pos);
+                op.sleep(500);
+            }
+        });
     }
 
 
@@ -245,14 +304,14 @@ public class RobotFunctions {
 //        op.telemetry.update();
 //    }
 //
-//    public void telemetryText(String cap, String text) {
-//        op.telemetry.addData(cap, text);
-//        op.telemetry.update();
-//    }
-//
-//    public void telemetryValue(String cap, double d) {
-//        op.telemetry.addData(cap, d);
-//        op.telemetry.update();
-//    }
+    public void telemetryText(String text) {
+        op.telemetry.addData(":", text);
+        op.telemetry.update();
+    }
+
+    public void telemetryValue(String cap, double d) {
+        op.telemetry.addData(cap, d);
+        op.telemetry.update();
+    }
 
 }

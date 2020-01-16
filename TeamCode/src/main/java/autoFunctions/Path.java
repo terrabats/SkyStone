@@ -25,10 +25,11 @@ public class Path {
 
     Helper h = new Helper();
 
-    final double XACCURACY = 1;
-    final double YACCURACY = 1;
-    final double HACCURACY = 3;
-    final double MINVEL = 0.1;
+    public double XACCURACY = 1;
+    public double YACCURACY = 1;
+    public double HACCURACY = 5;
+    final double MINVEL = 0.05;
+    final double STALL = 5;
 
     double XError = 0;
     double YError = 0;
@@ -37,6 +38,8 @@ public class Path {
     double XVelocity = 0;
     double YVelocity= 0;
     double HVelocity = 0;
+
+    boolean waiting = false;
 
 
 
@@ -51,6 +54,12 @@ public class Path {
         XControl.setCoeffecients(0.16,0.21);
         YControl.setCoeffecients(0.14,0.19);
         HControl.setCoeffecients(0.025,0.03);
+    }
+
+    public void setCoefficents(double kx, double ky, double kh, double dx, double dy, double dh){
+        XControl.setCoeffecients(kx,dx);
+        YControl.setCoeffecients(ky,dy);
+        HControl.setCoeffecients(kh,dh);
     }
 
     public void continuePath(Path p){
@@ -114,8 +123,22 @@ public class Path {
 
 
     public void isEnd() {
+        double averageVel = h.average(XVelocity,YVelocity,HVelocity);
+//        if(averageVel < MINVEL){
+//            if(!waiting) {
+//                t.reset();
+//                waiting = true;
+//            }
+//        }else{
+//            waiting = false;
+//        }
+//
+//        if(t.seconds() > STALL && waiting){
+//            count++;
+//            waiting = false;
+//        }
+
         if(count == XPoses.size()-1){
-            double averageVel = h.average(XVelocity,YVelocity,HVelocity);
             if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && averageVel < MINVEL) {
                 count++;
             }

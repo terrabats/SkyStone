@@ -17,7 +17,7 @@ public class Odometry {
     public double forward = 0;
     public double turn = 0;
     public double strafe = 0;
-    double theta = 0; //total x
+    public double theta = 0; //total x
 
     public double sr = 0;
     public double sl = 0;
