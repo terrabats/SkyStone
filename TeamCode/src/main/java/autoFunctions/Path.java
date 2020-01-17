@@ -124,19 +124,6 @@ public class Path {
 
     public void isEnd() {
         double averageVel = h.average(XVelocity,YVelocity,HVelocity);
-//        if(averageVel < MINVEL){
-//            if(!waiting) {
-//                t.reset();
-//                waiting = true;
-//            }
-//        }else{
-//            waiting = false;
-//        }
-//
-//        if(t.seconds() > STALL && waiting){
-//            count++;
-//            waiting = false;
-//        }
 
         if(count == XPoses.size()-1){
             if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && averageVel < MINVEL) {
@@ -152,7 +139,7 @@ public class Path {
     public void addPose(double y, double x, double h) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
         YPoses.add(YPoses.get(YPoses.size() - 1) + y);
-        HPoses.add(HPoses.get(HPoses.size() - 1) + h);
+        HPoses.add(HPoses.get(HPoses.size() - 1) + h*1.09);
         Customs.add(null);
     }
 

@@ -1,9 +1,10 @@
 package Event;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@Disabled
 public class TeleEvent {
     public DcMotor left = null;
     public DcMotor right = null;

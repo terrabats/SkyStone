@@ -2,6 +2,8 @@ package global;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -34,6 +36,14 @@ public class Helper {
     }
     public double average(double vx, double vy, double vh){
         return (vx+vy+vh)/3;
+    }
+
+    public void initGyro(BNO055IMU g){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        g.initialize(parameters);
     }
     public double[] normalize(double in[]){
         double[] out = new double[3];

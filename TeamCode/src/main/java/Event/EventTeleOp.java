@@ -1,10 +1,12 @@
 package Event;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import Event.TeleEvent;
 
+@Disabled
 @TeleOp(name = "Terrabat", group = "new")
 public class EventTeleOp extends OpMode {
 

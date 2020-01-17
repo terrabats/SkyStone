@@ -1,5 +1,6 @@
 package global;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -7,7 +8,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.MagneticFlux;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
+import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import teleFunctions.AutoModule;
 import teleFunctions.Limits;
@@ -45,12 +57,17 @@ public class TerraBot {
     public AutoModule place = new AutoModule();
     public AutoModule retract = new AutoModule();
 
+    public BNO055IMU gyro;
+
     public boolean isPulling = false;
 
     public final double minH = 1;
     public final double maxH = 27;
 
     public final double sp = 0.1;
+
+    public float heading = 0;
+    public float lastAngle = 0;
 
 
 
@@ -73,6 +90,7 @@ public class TerraBot {
         fg2 = hwMap.get(Servo.class, "fg2");
         lh = hwMap.get(DistanceSensor.class, "lh");
         ss = hwMap.get(DistanceSensor.class, "ss");
+        gyro = hwMap.get(BNO055IMU.class , "gyro");
 
 
         l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -126,10 +144,13 @@ public class TerraBot {
         h.definePlace(this);
         h.defineRetract(this);
 
+        h.initGyro(gyro);
+
 
 
 
     }
+
 
     public void move(double y, double x, double t) {
         l1.setPower(y - x - t);
@@ -179,6 +200,21 @@ public class TerraBot {
         return -l1.getCurrentPosition() * 1.0;
     }
 
+    public double getHeading() {
+        float currentangle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        float deltaAngle = currentangle - lastAngle;
+        if (deltaAngle < -180)
+            deltaAngle += 360;
+        else if (deltaAngle > 180)
+            deltaAngle -= 360;
+        heading += deltaAngle;
+        lastAngle = currentangle;
+        return heading;
+    }
+    public void resetGyro() {
+        lastAngle = (int) gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        heading = 0;
+    }
     public boolean noAutoModules(){
         return !flipOut.executing && !grab.executing && !place.executing && !retract.executing;
     }

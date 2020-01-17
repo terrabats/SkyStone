@@ -1,6 +1,9 @@
 package autoFunctions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.Currency;
 
 import global.TerraBot;
 import util.CodeSeg;
@@ -12,6 +15,8 @@ public class RobotFunctions {
     TerraBot bot = null;
     LinearOpMode op = null;
     public Odometry odometry = new Odometry();
+
+    ElapsedTime timer = new ElapsedTime();
 
     public TerraCV.StonePos stonePos;
 
@@ -54,6 +59,7 @@ public class RobotFunctions {
 
     public void intake(Path p, final double pow){
         bot.move(0,0,0);
+        p.addPose(0,0,0);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -63,6 +69,7 @@ public class RobotFunctions {
     }
 
     public void grabFoundation(Path p, final double pos){
+        p.addPose(0,0,0);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -73,6 +80,7 @@ public class RobotFunctions {
     }
 
     public void flip(Path p, final double p1, final double p2){
+        p.addPose(0,0,0);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -83,6 +91,7 @@ public class RobotFunctions {
     }
 
     public void grab(Path p, final double pos){
+        p.addPose(0,0,0);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -91,6 +100,54 @@ public class RobotFunctions {
                 op.sleep(500);
             }
         });
+    }
+
+    public void pause(Path p, final long time){
+        p.addPose(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                bot.move(0,0,0);
+                op.sleep(time);
+            }
+        });
+    }
+
+    public void resetOdometry(final Path p){
+        p.addPose(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                odometry.reset();
+            }
+        });
+    }
+    public void resetHeading(final Path p, final int heading){
+        p.addPose(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                odometry.theta = (bot.getHeading() - heading);
+            }
+        });
+    }
+
+    public void setAccuracy(final Path p, final double x, final double y, final double h){
+        p.addPose(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                p.HACCURACY = h;
+                p.XACCURACY = x;
+                p.YACCURACY = y;
+            }
+        });
+    }
+    public void move(final double y, final double x, final double t, final double time){
+        timer.reset();
+        bot.move(y, x, t);
+        while (op.opModeIsActive() && timer.seconds() < time){}
+        bot.move(0,0,0);
     }
 
 
