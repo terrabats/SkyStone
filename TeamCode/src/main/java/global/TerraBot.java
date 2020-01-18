@@ -65,6 +65,7 @@ public class TerraBot {
     public final double maxH = 27;
 
     public final double sp = 0.1;
+    public final double sp2 = 0.6;
 
     public float heading = 0;
     public float lastAngle = 0;
@@ -128,7 +129,7 @@ public class TerraBot {
 
         f1.setPosition(sp);
         f2.setPosition(sp);
-        g.setPosition(0);
+        g.setPosition(sp2);
         fg1.setPosition(0);
         fg2.setPosition(0);
 

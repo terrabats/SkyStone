@@ -33,13 +33,13 @@ public class RobotFunctions {
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
-            o.telemetry.addData("x", odometry.getGlobalPose()[0]);
-            o.telemetry.addData("y", odometry.getGlobalPose()[1]);
-            o.telemetry.addData("h", odometry.getGlobalPose()[2]);
-            o.telemetry.addData("vx", path.XVelocity);
-            o.telemetry.addData("vy", path.YVelocity);
-            o.telemetry.addData("vh", path.HVelocity);
-            o.telemetry.update();
+//            o.telemetry.addData("x", odometry.getGlobalPose()[0]);
+//            o.telemetry.addData("y", odometry.getGlobalPose()[1]);
+//            o.telemetry.addData("h", odometry.getGlobalPose()[2]);
+//            o.telemetry.addData("vx", path.XVelocity);
+//            o.telemetry.addData("vy", path.YVelocity);
+//            o.telemetry.addData("vh", path.HVelocity);
+//            o.telemetry.update();
         }
         bot.move(0,0,0);
     }

@@ -1,6 +1,7 @@
 package auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
@@ -58,7 +59,7 @@ public class AutoRed extends LinearOpMode {
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
             rf.resetHeading(moveFoundation, -90);
             moveFoundation.addPose(30,0,0);
-            rf.flip(moveFoundation, 0.55, 0.75);
+            rf.flip(moveFoundation, 0.65, 0.85);
             moveFoundation.addPose(30,-5,-90);
             moveFoundation.addPose(0,-3,0);
             rf.grab(moveFoundation,0);
@@ -72,7 +73,7 @@ public class AutoRed extends LinearOpMode {
         }else {
             rf.resetHeading(moveFoundation, 90);
             moveFoundation.addPose(-30,0,0);
-            rf.flip(moveFoundation, 0.55, 0.75);
+            rf.flip(moveFoundation, 0.65, 0.85);
             moveFoundation.addPose(-30,7,90);
             moveFoundation.addPose(0,5,0);
             rf.grab(moveFoundation,0);
@@ -85,35 +86,37 @@ public class AutoRed extends LinearOpMode {
             rf.grabFoundation(moveFoundation, 0);
         }
         rf.start(moveFoundation, this);
-        rf.move( -0.9, 0,0, 1);
+        rf.move( -0.5, 0,0, 1);
         rf.odometry.reset();
         toSecond.addPose(56,3,0);
 
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            toSecond.addPose(10,0,0);
-            toSecond.addPose(10,17,-40);
+            toSecond.addPose(12,0,0);
+            toSecond.addPose(10,10,-40);
             rf.intake(toSecond,1);
             toSecond.addPose(2, 2, 10);
             toSecond.addPose(-22,-20,30);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             toSecond.addPose(20,0,0);
-            toSecond.addPose(10,17,-40);
+            toSecond.addPose(10,10,-40);
             rf.intake(toSecond,1);
             toSecond.addPose(4, 2, 10);
             toSecond.addPose(-33,-20,30);
         }else {
-            toSecond.addPose(29,0,0);
-            toSecond.addPose(10,17,-40);
+            toSecond.addPose(25,0,0);
+            toSecond.addPose(10,10,-40);
             rf.intake(toSecond,1);
             toSecond.addPose(2, 2, 10);
             toSecond.addPose(-38,-20,30);
         }
         grabStone2();
-        rf.flip(toSecond, 0.55, 0.75);
-        toSecond.addPose(-55,-4,0);
+        toSecond.addPose(-35,0,0);
+        rf.flip(toSecond, 0.65, 0.85);
+        toSecond.addPose(-21,-4,0);
         rf.grab(toSecond, 0);
         rf.flip(toSecond, bot.sp, bot.sp);
-        toSecond.addPose(40, 0, 0);
+        rf.pause(toSecond, 500);
+        toSecond.addPose(40, -2, 0);
         rf.start(toSecond, this);
 
 

@@ -25,12 +25,13 @@ public class Helper {
     public final double POWER_C = 0.15;
     public final double TIMEOUT = 2;
     public double oldHeight = 0;
-    private double exp = 11;
+    private double exp = 3;
     private double yint = 0.25;
     public VuforiaLocalizer vuforia;
     ElapsedTime timer = new ElapsedTime();
     public final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
 
+    public double currentHeight = 0;
     public double calcPow(double in){
         return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
     }
@@ -91,15 +92,15 @@ public class Helper {
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.flip(0.6,0.8);
-                return time > 2;
+                bot.flip(0.6,0.9);
+                return time > 1.5;
             }
         });
         bot.flipOut.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(0.9, 0.9);
-                return time > 3;
+                return time > 2;
             }
         });
 
@@ -110,21 +111,22 @@ public class Helper {
             public boolean run(double time) {
                 bot.flip(0,0);
                 bot.intake(0);
-                return time > 0.5;
+                bot.isPulling = false;
+                return time > 0.3;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.grab(1);
-                return time > 1;
+                return time > 0.7;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(0.3,0.3);
-                return time > 1.5;
+                return time > 1.2;
             }
         });
     }
@@ -140,6 +142,13 @@ public class Helper {
         bot.place.addStage(new Stage() {
             @Override
             public boolean run(double time) {
+                bot.lift(0.5);
+                return time > 0.2;
+            }
+        });
+        bot.place.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
                 bot.lift(0);
                 bot.flip(0.7,0.7);
                 return time > 1;
@@ -148,15 +157,15 @@ public class Helper {
         bot.place.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.flip(0.6,0.8);
-                return time > 2;
+                bot.flip(0.55,0.75);
+                return time > 1.5;
             }
         });
         bot.place.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(0.9,0.9);
-                return time > 3;
+                return time > 2;
             }
         });
 
@@ -165,15 +174,31 @@ public class Helper {
         bot.retract.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.grab(0);
+                bot.grab(bot.sp2);
                 return time > 1;
+            }
+        });
+        bot.retract.addStage(new Stage() {
+            @Override
+            public boolean run(double pos) {
+                currentHeight = pos;
+                return true;
+            }
+        });
+        bot.retract.addStage(new Stage() {
+            @Override
+            public boolean run(double pos) {
+                bot.lift(0.5);
+                bot.t1.reset();
+                return pos > (currentHeight+1);
             }
         });
         bot.retract.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(bot.sp,bot.sp);
-                return time > 3;
+                bot.lift(0);
+                return time > 1;
             }
         });
         bot.retract.addStage(new Stage() {
@@ -210,11 +235,14 @@ public class Helper {
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.t1.seconds());
         return dynamics;
     }
     public ArrayList<Double> dynamicsRetract(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
         dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.getLiftHeight());
+        dynamics.add(bot.getLiftHeight());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.getLiftHeight());
         return dynamics;
