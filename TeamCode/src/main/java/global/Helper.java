@@ -130,46 +130,6 @@ public class Helper {
             }
         });
     }
-    public void definePlace(final TerraBot bot){
-        bot.place.addStage(new Stage() {
-            @Override
-            public boolean run(double pos) {
-                bot.lift(0.5);
-                bot.t1.reset();
-                return pos > 10;
-            }
-        });
-        bot.place.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.lift(0.5);
-                return time > 0.2;
-            }
-        });
-        bot.place.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.lift(0);
-                bot.flip(0.7,0.7);
-                return time > 1;
-            }
-        });
-        bot.place.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.55,0.75);
-                return time > 1.5;
-            }
-        });
-        bot.place.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.9,0.9);
-                return time > 2;
-            }
-        });
-
-    }
     public void defineRetract(final TerraBot bot){
         bot.retract.addStage(new Stage() {
             @Override
@@ -224,15 +184,6 @@ public class Helper {
     }
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.t1.seconds());
-        return dynamics;
-    }
-    public ArrayList<Double> dynamicsPlace(TerraBot bot) {
-        ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.getStoneDistance());
-        dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());

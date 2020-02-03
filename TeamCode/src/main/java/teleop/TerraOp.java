@@ -18,69 +18,75 @@ public class TerraOp extends OpMode {
     Odometry odometry = new Odometry();
     public Thread thread;
 
+    String currentController = "A";
+
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
 
-            bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
-
-            if(bot.noAutoModules()){
-                if(gamepad2.left_trigger > 0){
-                    bot.flip(bot.sp,bot.sp);
+            if(currentController.equals("A")) {
+                bot.move(h.calcPow(-gamepad1.right_stick_y), h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
+                if (bot.isPulling && !gamepad1.left_bumper) {
+                    bot.intake(1);
+                } else if (gamepad1.right_bumper) {
+                    bot.isPulling = true;
+                } else if (gamepad1.left_bumper) {
+                    bot.isPulling = false;
+                    bot.intake(-1);
+                } else {
+                    bot.intake(0);
                 }
-                if(bot.isLiftInLimits(gamepad2)) {
-                    bot.lift((-gamepad2.right_stick_y / 2)+0.08);
-                }else{
-                    bot.lift(0.08);
+                if (gamepad1.right_trigger > 0) {
+                    bot.foundationGrab(1);
+                } else if (gamepad1.left_trigger > 0) {
+                    bot.foundationGrab(0);
                 }
 
-                if(gamepad2.right_bumper){
-                    bot.grab(1);
-                }else if(gamepad2.left_bumper){
-                    bot.grab(bot.sp2);
+                if(gamepad1.y){
+                    currentController = "B";
                 }
-            }else {
-                bot.update();
-            }
+            }else if(currentController.equals("B")){
+                if (bot.noAutoModules()) {
+                    if (gamepad1.left_trigger > 0) {
+                        bot.flip(bot.sp, bot.sp);
+                    }
+                    if (bot.isLiftInLimits(gamepad1)) {
+                        bot.lift((-gamepad1.right_stick_y / 2) + 0.08);
+                    } else {
+                        bot.lift(0.08);
+                    }
 
-            if(gamepad2.right_trigger > 0){
-                bot.t.reset();
-                bot.flipOut.start();
-            }
+                    if (gamepad1.right_bumper) {
+                        bot.grab(1);
+                    } else if (gamepad1.left_bumper) {
+                        bot.grab(bot.sp2);
+                    }
+                } else {
+                    bot.update();
+                }
 
-            if(gamepad1.b){
-                bot.t1.reset();
-                bot.grab.start();
-            }
-            if(gamepad2.y){
-                bot.place.start();
-            }
-            if(gamepad2.x){
-                bot.t1.reset();
-                bot.retract.start();
-            }
+                if (gamepad1.right_trigger > 0) {
+                    bot.t.reset();
+                    bot.flipOut.start();
+                }
 
-
-            if(bot.isPulling && !gamepad1.left_bumper){
-                bot.intake(1);
-            }else if(gamepad1.right_bumper){
-                bot.isPulling = true;
-            }else if(gamepad1.left_bumper){
-                bot.isPulling = false;
-                bot.intake(-1);
-            }else {
-                bot.intake(0);
-            }
-
-            if(gamepad1.right_trigger > 0){
-                bot.foundationGrab(1);
-            }else if(gamepad1.left_trigger > 0){
-                bot.foundationGrab(0);
+                if (gamepad1.b) {
+                    bot.t1.reset();
+                    bot.grab.start();
+                }
+                if (gamepad1.x) {
+                    bot.t1.reset();
+                    bot.retract.start();
+                }
+                if(gamepad1.y){
+                    currentController = "A";
+                }
             }
             odometry.updateGlobalPosition();
 
            // telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
-            telemetry.addData("Stone, Height","%f, %f" , bot.getStoneDistance(), bot.getLiftHeight());
+           // telemetry.addData("Stone, Height","%f, %f" , bot.getStoneDistance(), bot.getLiftHeight());
+            telemetry.addData("angle", bot.getHeading());
             telemetry.update();
 
         }

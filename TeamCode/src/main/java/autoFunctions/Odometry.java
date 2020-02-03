@@ -64,7 +64,8 @@ public class Odometry {
         turn = (deltaRP - deltaLP)/2;
         strafe = ((deltaCP*ENCODER_RATIO)-turn)/2;
 
-        theta += inchesToDegrees(ticksToInches(turn)); // Convert to degrees
+        //theta += inchesToDegrees(ticksToInches(turn)); // Convert to degrees
+        theta =  bot.getHeading();
 
         Vector movementVect = new Vector(ticksToInches(strafe), ticksToInches(forward));
         movementVect = movementVect.getRotatedVector(theta);

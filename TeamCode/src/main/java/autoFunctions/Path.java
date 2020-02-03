@@ -25,9 +25,9 @@ public class Path {
 
     Helper h = new Helper();
 
-    public double XACCURACY = 1;
-    public double YACCURACY = 1;
-    public double HACCURACY = 5;
+    public double XACCURACY = 0.5;
+    public double YACCURACY = 0.5;
+    public double HACCURACY = 2;
     final double MINVEL = 0.05;
     final double STALL = 5;
 
@@ -38,6 +38,10 @@ public class Path {
     double XVelocity = 0;
     double YVelocity= 0;
     double HVelocity = 0;
+
+    public double XErrorSum = 0;
+    public double YErrorSum = 0;
+    public double HErrorSum = 0;
 
     boolean waiting = false;
 
@@ -51,15 +55,15 @@ public class Path {
         HPoses.add(0.0);
         Customs.add(null);
 
-        XControl.setCoeffecients(0.16,0.21);
-        YControl.setCoeffecients(0.14,0.19);
-        HControl.setCoeffecients(0.025,0.03);
+        XControl.setCoeffecients(0.16,0.3, 0.3);
+        YControl.setCoeffecients(0.14,0.3, 0.3);
+        HControl.setCoeffecients(0.025,0.05, 0.3);
     }
 
-    public void setCoefficents(double kx, double ky, double kh, double dx, double dy, double dh){
-        XControl.setCoeffecients(kx,dx);
-        YControl.setCoeffecients(ky,dy);
-        HControl.setCoeffecients(kh,dh);
+    public void setCoefficents(double kx, double ky, double kh, double dx, double dy, double dh, double ix, double iy, double ih){
+        XControl.setCoeffecients(kx,dx,ix);
+        YControl.setCoeffecients(ky,dy, iy);
+        HControl.setCoeffecients(kh,dh, ih);
     }
 
     public void continuePath(Path p){
@@ -99,10 +103,17 @@ public class Path {
                 Vector mv = new Vector(XError,YError);
                 mv = mv.getRotatedVector(-robotTheta);
 
+                XErrorSum += mv.x * 0.1;
+                YErrorSum += mv.y * 0.1;
+                HErrorSum += HError * 0.1;
+                double averageVel = h.average(XVelocity,YVelocity,HVelocity);
+                if(averageVel > 0.05){
+                    resetSums();
+                }
                 double[] rawPow = new double[3];
-                rawPow[0] = XControl.getPower(mv.x,XVelocity);
-                rawPow[1] = YControl.getPower(mv.y,YVelocity);
-                rawPow[2] = HControl.getPower(HError,HVelocity);
+                rawPow[0] = XControl.getPower(mv.x,XVelocity, XErrorSum);
+                rawPow[1] = YControl.getPower(mv.y,YVelocity, YErrorSum);
+                rawPow[2] = HControl.getPower(HError,HVelocity, HErrorSum);
                 double[] normPow = h.normalize(rawPow);
 
                 out[0] = -Math.signum(mv.x) * normPow[0];
@@ -115,6 +126,7 @@ public class Path {
                 out[2] = 0;
                 Customs.get(count).run();
                 count++;
+                resetSums();
             }
         }
         return out;
@@ -128,12 +140,20 @@ public class Path {
         if(count == XPoses.size()-1){
             if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY && averageVel < MINVEL) {
                 count++;
+                resetSums();
             }
         }else {
             if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                 count++;
+                resetSums();
             }
         }
+    }
+
+    public void resetSums(){
+        XErrorSum = 0;
+        YErrorSum = 0;
+        HErrorSum = 0;
     }
 
     public void addPose(double y, double x, double h) {

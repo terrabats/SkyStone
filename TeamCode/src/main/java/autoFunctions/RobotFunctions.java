@@ -150,6 +150,15 @@ public class RobotFunctions {
         bot.move(0,0,0);
     }
 
+//    public void resetSum(final Path p){
+//        p.addCustom(new CodeSeg() {
+//            @Override
+//            public void run() {
+//                p.resetSums();
+//            }
+//        });
+//    }
+
 
 //    public void turnDeg(double deg, double p) {
 //        ElapsedTime total = new ElapsedTime();
