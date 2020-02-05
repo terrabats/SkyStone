@@ -48,7 +48,7 @@ public class TerraOp extends OpMode {
                 bot.flipOut.start();
             }
 
-            if(gamepad1.b){
+            if(gamepad2.y){
                 bot.t1.reset();
                 bot.grab.start();
             }

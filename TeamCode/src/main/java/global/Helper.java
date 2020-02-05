@@ -3,6 +3,7 @@ package global;
 import android.graphics.Color;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -122,13 +123,6 @@ public class Helper {
                 return time > 0.7;
             }
         });
-        bot.grab.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.3,0.3);
-                return time > 1.2;
-            }
-        });
     }
     public void defineRetract(final TerraBot bot){
         bot.retract.addStage(new Stage() {
@@ -184,7 +178,6 @@ public class Helper {
     }
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         return dynamics;
