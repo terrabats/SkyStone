@@ -44,10 +44,10 @@ public class Path {
     double HErrorSum = 0;
 
     public double xp = 0.2;
-    public double xd = 0.5;
+    public double xd = 0.6;
 
     public double yp = 0.12;
-    public double yd = 0.3;
+    public double yd = 0.4;
 
     public double hp = 0.03;
     public double hd = 0.03;
@@ -72,7 +72,7 @@ public class Path {
         HControl.setCoeffecients(kh,dh, ih);
     }
     public void multiplyKD(double scale){
-        setCoefficents(xp*scale, yp*scale, hp*scale, xd*scale, yd*scale, hd*scale, 0,0,0);
+        setCoefficents(xp*scale, yp*scale, hp*scale, xd*scale, yd*scale, hd*scale, XControl.Ki,YControl.Ki,HControl.Ki);
     }
     public void addI(double val){
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, val,val*0.9,val*0.25);
@@ -145,6 +145,7 @@ public class Path {
                 Customs.get(count).run();
                 resetCoeffeicents();
                 resetSums();
+                count++;
 
             }
         }
@@ -154,15 +155,17 @@ public class Path {
 
 
     public void isEnd() {
-        double averageVel = h.average(XVelocity,YVelocity,HVelocity);
-        if(averageVel < MINVEL && Math.abs(XError) < (XACCURACY*4) && Math.abs(YError) < (YACCURACY*4) && Math.abs(HError) < (HACCURACY*4)){
-            addI(0.05);
-            multiplyKD(1.1);
-        }
-        if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
-            count++;
-            resetCoeffeicents();
-            resetSums();
+        if(count < XPoses.size()) {
+            double averageVel = h.average(XVelocity, YVelocity, HVelocity);
+            if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
+                addI(0.08);
+                multiplyKD(1.2);
+            }
+            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                count++;
+                resetCoeffeicents();
+                resetSums();
+            }
         }
     }
 
