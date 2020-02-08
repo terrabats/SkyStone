@@ -51,7 +51,6 @@ public class TerraBot {
     public Helper h = new Helper();
     public Limits lim = new Limits();
 
-    public AutoModule flipOut = new AutoModule();
     public AutoModule grab = new AutoModule();
     public AutoModule retract = new AutoModule();
 
@@ -62,7 +61,7 @@ public class TerraBot {
     public final double minH = 1;
     public final double maxH = 27;
 
-    public final double sp = 0.1;
+    public final double sp = 0.2;
     public final double sp2 = 0.6;
 
     public float heading = 0;
@@ -137,7 +136,6 @@ public class TerraBot {
         r1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        h.defineFlipOut(this);
         h.defineGrab(this);
         h.defineRetract(this);
 
@@ -210,10 +208,9 @@ public class TerraBot {
         heading = 0;
     }
     public boolean noAutoModules(){
-        return !flipOut.executing && !grab.executing  && !retract.executing;
+        return !grab.executing  && !retract.executing;
     }
     public void update(){
-        flipOut.update(h.dynamicsForFlipOut(this));
         grab.update(h.dynamicsGrab(this));
         retract.update(h.dynamicsRetract(this));
     }

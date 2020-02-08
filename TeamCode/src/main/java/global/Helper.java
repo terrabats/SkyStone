@@ -82,30 +82,7 @@ public class Helper {
         return hsv;
     }
 
-    public void defineFlipOut(final TerraBot bot) {
-        bot.flipOut.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.7, 0.7);
-                return time > 1;
-            }
-        });
-        bot.flipOut.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.6,0.9);
-                return time > 1.5;
-            }
-        });
-        bot.flipOut.addStage(new Stage() {
-            @Override
-            public boolean run(double time) {
-                bot.flip(0.9, 0.9);
-                return time > 2;
-            }
-        });
 
-    }
     public void defineGrab(final TerraBot bot) {
         bot.grab.addStage(new Stage() {
             @Override
@@ -121,6 +98,13 @@ public class Helper {
             public boolean run(double time) {
                 bot.grab(1);
                 return time > 0.7;
+            }
+        });
+        bot.grab.addStage(new Stage() {
+            @Override
+            public boolean run(double time) {
+                bot.flip(bot.sp, bot.sp);
+                return time > 1;
             }
         });
     }
@@ -142,7 +126,7 @@ public class Helper {
         bot.retract.addStage(new Stage() {
             @Override
             public boolean run(double pos) {
-                bot.lift(0.5);
+                bot.lift(0.2);
                 bot.t1.reset();
                 return pos > (currentHeight+1);
             }
@@ -169,15 +153,9 @@ public class Helper {
     }
 
 
-    public ArrayList<Double> dynamicsForFlipOut(TerraBot bot) {
-        ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.t.seconds());
-        dynamics.add(bot.t.seconds());
-        dynamics.add(bot.t.seconds());
-        return dynamics;
-    }
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         return dynamics;

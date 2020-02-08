@@ -27,7 +27,7 @@ public class AutoBlue extends LinearOpMode {
     @Override
     public void runOpMode() {
         initialize();
-        bot.gyro.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        bot.gyro.startAccelerationIntegration(null,null,1);
         while (opModeIsActive()){
             telemetry.addData("Acceleration", bot.gyro.getAcceleration().xAccel);
             telemetry.addData("Position: x", bot.gyro.getPosition().toUnit(DistanceUnit.INCH).x);
