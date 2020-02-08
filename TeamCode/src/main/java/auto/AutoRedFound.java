@@ -22,9 +22,17 @@ public class AutoRedFound extends LinearOpMode {
         rf.telemetryText("ready");
         waitForStart();
         //ToFoundation
-        moveFoundation.addPose(-20,0,0);
-        rf.grabFoundation(moveFoundation, 1);
-        moveFoundation.addPose(20,10,-90);
+        moveFoundation.addPose(-30,-10,0);
+        rf.setScale(moveFoundation,0.4);
+        moveFoundation.addPose(-2,0,0);
+        rf.grabFoundation(moveFoundation, 0.9);
+        rf.pause(moveFoundation, 1000);
+        rf.setScale(moveFoundation, 1.2);
+        moveFoundation.addPose(15,15,-83);
+        rf.grabFoundation(moveFoundation, 0);
+        rf.pause(moveFoundation, 1000);
+        moveFoundation.addPose(-10,35,0);
+        rf.start(moveFoundation,this);
 
     }
 

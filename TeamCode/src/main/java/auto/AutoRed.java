@@ -49,7 +49,7 @@ public class AutoRed extends LinearOpMode {
             toFoundation.addPose(2,-6,10);
             toFoundation.addPose(-15,20,38);
         }
-//
+
 //        grabStone();
 //        rf.resetOdometry(toFoundation);
         rf.start(toFoundation,this);
@@ -126,18 +126,18 @@ public class AutoRed extends LinearOpMode {
         cv.init(bot,this, 5);
     }
 
-    private void grabStone(){
-        rf.flip(toFoundation, 0,0);
-        rf.pause(toFoundation,500);
-        rf.grab(toFoundation,1);
-        rf.intake(toFoundation,0);
-    }
-    private void grabStone2(){
-        rf.flip(toSecond, 0,0);
-        rf.pause(toSecond,500);
-        rf.grab(toSecond,1);
-        rf.intake(toSecond,0);
-    }
+//    private void grabStone(){
+//        rf.flip(toFoundation, 0,0);
+//        rf.pause(toFoundation,500);
+//        rf.grab(toFoundation,1);
+//        rf.intake(toFoundation,0);
+//    }
+//    private void grabStone2(){
+//        rf.flip(toSecond, 0,0);
+//        rf.pause(toSecond,500);
+//        rf.grab(toSecond,1);
+//        rf.intake(toSecond,0);
+//    }
 
 
 

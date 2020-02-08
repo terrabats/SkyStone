@@ -143,6 +143,16 @@ public class RobotFunctions {
             }
         });
     }
+    public void setScale(final Path p,final double scale){
+        p.addPose(0,0,0);
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                p.multiplyKD(scale);
+            }
+        });
+    }
+
     public void move(final double y, final double x, final double t, final double time){
         timer.reset();
         bot.move(y, x, t);
