@@ -113,30 +113,14 @@ public class Helper {
             @Override
             public boolean run(double time) {
                 bot.grab(bot.sp2);
-                return time > 1;
-            }
-        });
-        bot.retract.addStage(new Stage() {
-            @Override
-            public boolean run(double pos) {
-                currentHeight = pos;
-                return true;
-            }
-        });
-        bot.retract.addStage(new Stage() {
-            @Override
-            public boolean run(double pos) {
-                bot.lift(0.2);
-                bot.t1.reset();
-                return pos > (currentHeight+1);
+                return time > 0.5;
             }
         });
         bot.retract.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(bot.sp,bot.sp);
-                bot.lift(0);
-                return time > 1;
+                return time > 1.2;
             }
         });
         bot.retract.addStage(new Stage() {
@@ -163,8 +147,6 @@ public class Helper {
     public ArrayList<Double> dynamicsRetract(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
         dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.getLiftHeight());
-        dynamics.add(bot.getLiftHeight());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.getLiftHeight());
         return dynamics;
