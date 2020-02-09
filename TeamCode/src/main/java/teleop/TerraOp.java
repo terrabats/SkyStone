@@ -76,6 +76,7 @@ public class TerraOp extends OpMode {
             odometry.updateGlobalPosition();
 
             // telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
+            //telemetry.addData("height", bot.getLiftHeight());
             telemetry.update();
 
         }

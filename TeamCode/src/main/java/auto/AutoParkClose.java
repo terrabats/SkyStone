@@ -16,13 +16,20 @@ public class AutoParkClose extends LinearOpMode {
     TerraBot bot = new TerraBot();
     RobotFunctions rf = new RobotFunctions();
     Path move = new Path();
+
+    String side = "Red";
+
     @Override
     public void runOpMode() {
         initialize();
         rf.telemetryText("ready");
         waitForStart();
         //ToFoundation
-        move.addPose(0,-25, 0);
+        if(side == "Red") {
+            move.addPose(0,25, 0);
+        }else if(side == "Blue"){
+            move.addPose(0,-25, 0);
+        }
         move.addPose(15, 0, 0);
         rf.start(move,this);
 

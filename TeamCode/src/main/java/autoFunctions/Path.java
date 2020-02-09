@@ -172,9 +172,9 @@ public class Path {
                 }
             }else{
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
-                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
-                    addI(0.2);
-                    multiplyKD(2);
+                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 8) && Math.abs(YError) < (YACCURACY * 8) && Math.abs(HError) < (HACCURACY * 8)) {
+                    addI(0.12);
+                    multiplyKD(1.3);
                 }
                 if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                     count++;

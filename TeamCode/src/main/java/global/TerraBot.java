@@ -59,7 +59,7 @@ public class TerraBot {
     public boolean isPulling = false;
 
     public final double minH = 1;
-    public final double maxH = 27;
+    public final double maxH = 23;
 
     public final double sp = 0.2;
     public final double sp2 = 0.6;
