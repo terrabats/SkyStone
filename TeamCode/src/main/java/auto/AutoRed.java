@@ -48,7 +48,7 @@ public class AutoRed extends LinearOpMode {
         grabStone();
         toFoundation.addPose(0,50,0);
         rf.flip(toFoundation, 0.9, 0.8);
-        toFoundation.addPose(2,20,-85);
+        toFoundation.addPose(1,20,-85);
         rf.grab(toFoundation, bot.sp2);
         rf.pause(toFoundation, 500);
         rf.flip(toFoundation, bot.sp, bot.sp);
