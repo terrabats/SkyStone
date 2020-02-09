@@ -43,14 +43,17 @@ public class Path {
     double YErrorSum = 0;
     double HErrorSum = 0;
 
-    public double xp = 0.2;
-    public double xd = 0.6;
+    public double xp = 0.16;
+    public double xd = 0.3;
 
-    public double yp = 0.12;
-    public double yd = 0.4;
+    public double yp = 0.08;
+    public double yd = 0.2;
 
     public double hp = 0.03;
     public double hd = 0.03;
+
+
+    public boolean sketch = false;
 
 
 
@@ -156,15 +159,28 @@ public class Path {
 
     public void isEnd() {
         if(count < XPoses.size()) {
-            double averageVel = h.average(XVelocity, YVelocity, HVelocity);
-            if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
-                addI(0.08);
-                multiplyKD(1.2);
-            }
-            if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
-                count++;
-                resetCoeffeicents();
-                resetSums();
+            if(!sketch) {
+                double averageVel = h.average(XVelocity, YVelocity, HVelocity);
+                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
+                    addI(0.08);
+                    multiplyKD(1.05);
+                }
+                if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                    count++;
+                    resetCoeffeicents();
+                    resetSums();
+                }
+            }else{
+                double averageVel = h.average(XVelocity, YVelocity, HVelocity);
+                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
+                    addI(0.2);
+                    multiplyKD(2);
+                }
+                if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                    count++;
+                    resetCoeffeicents();
+                    resetSums();
+                }
             }
         }
     }

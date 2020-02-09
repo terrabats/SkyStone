@@ -23,12 +23,13 @@ public class AutoRedFound extends LinearOpMode {
         waitForStart();
         //ToFoundation
         moveFoundation.addPose(-30,-10,0);
-        rf.setScale(moveFoundation,0.1);
+        rf.setScale(moveFoundation,1.5, true);
         moveFoundation.addPose(-3,0,0);
         rf.grabFoundation(moveFoundation, 1);
         rf.pause(moveFoundation, 1000);
-        rf.setScale(moveFoundation, 2);
+        rf.setScale(moveFoundation, 6, true);
         moveFoundation.addPose(33,0,0);
+        rf.setScale(moveFoundation, 1.05, false);
         rf.grabFoundation(moveFoundation, 0);
         rf.pause(moveFoundation, 1000);
         moveFoundation.addPose(0,30,0);

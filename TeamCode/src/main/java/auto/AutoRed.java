@@ -18,8 +18,8 @@ public class AutoRed extends LinearOpMode {
     TerraCV cv = new TerraCV();
     Path toStone = new Path();
     Path toFoundation = new Path();
-    Path moveFoundation = new Path();
-    Path toSecond = new Path();
+//    Path moveFoundation = new Path();
+//    Path toSecond = new Path();
 
     @Override
     public void runOpMode() {
@@ -29,60 +29,58 @@ public class AutoRed extends LinearOpMode {
         //ToStone
         toStone.addPose(10,0,0);
         rf.scanStones(toStone,cv);
+        toStone.addPose(0,0,0);
         rf.start(toStone,this);
         //ToFoundation
         toFoundation.continuePath(toStone);
         //rf.resetSum(toFoundation);
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            toFoundation.addPose(21,1,-40);
+            toFoundation.addPose(23,1,-40);
             rf.intake(toFoundation, 1);
             toFoundation.addPose(2,4,-10);
-            toFoundation.addPose(-19,14,-46);
+            toFoundation.addPose(-14,-14,133);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            toFoundation.addPose(22,9,40);
+            toFoundation.addPose(23,10,40);
             rf.intake(toFoundation, 1);
             toFoundation.addPose(2,-4,10);
-            toFoundation.addPose(-15,13,43);
+            toFoundation.addPose(-12,-17,32);
         }else {
-            toFoundation.addPose(23,3,40);
+            toFoundation.addPose(23,2,40);
             rf.intake(toFoundation, 1);
-            toFoundation.addPose(2,-6,10);
-            toFoundation.addPose(-15,20,38);
+            toFoundation.addPose(2,-4,10);
+            toFoundation.addPose(-12,-11,32);
         }
+        grabStone();
+        toFoundation.addPose(0,-50,0);
+        rf.flip(toFoundation, 0.9, 0.8);
+        toFoundation.addPose(4,-20,85);
+        rf.grab(toFoundation, bot.sp2);
+        rf.pause(toFoundation, 500);
+        rf.flip(toFoundation, bot.sp, bot.sp);
 
-//        grabStone();
-//        rf.resetOdometry(toFoundation);
+
+        rf.setScale(toFoundation,1.5, true);
+        toFoundation.addPose(4,0,0);
+        rf.grabFoundation(toFoundation, 1.2);
+        rf.pause(toFoundation, 1000);
+        rf.setScale(toFoundation, 6, true);
+        toFoundation.addPose(-32,0,0);
+        rf.setScale(toFoundation, 1.05, false);
+        rf.grabFoundation(toFoundation, 0);
+        rf.pause(toFoundation, 1000);
+        toFoundation.addPose(0,30,0);
+        toFoundation.addPose(25, 0, 0);
+        toFoundation.addPose(0,20,0);
         rf.start(toFoundation,this);
-//
-//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-//            rf.resetHeading(moveFoundation, -90);
-//            moveFoundation.addPose(30,0,0);
-//            rf.flip(moveFoundation, 0.65, 0.85);
-//            moveFoundation.addPose(30,-5,-90);
-//            moveFoundation.addPose(0,-3,0);
-//            rf.grab(moveFoundation,0);
-//            rf.grabFoundation(moveFoundation, 1);
-//            moveFoundation.addPose(0,0,0);
-//            rf.pause(moveFoundation,500);
-//            rf.setAccuracy(moveFoundation, 3, 3, 15);
-//            moveFoundation.addPose(-20,10,-100);
-//            rf.flip(moveFoundation, bot.sp, bot.sp);
-//            rf.grabFoundation(moveFoundation, 0);
-//        }else {
-//            rf.resetHeading(moveFoundation, 90);
-//            moveFoundation.addPose(-30,0,0);
-//            rf.flip(moveFoundation, 0.65, 0.85);
-//            moveFoundation.addPose(-30,7,90);
-//            moveFoundation.addPose(0,5,0);
-//            rf.grab(moveFoundation,0);
-//            rf.grabFoundation(moveFoundation, 1);
-//            moveFoundation.addPose(0,0,0);
-//            rf.pause(moveFoundation,500);
-//            rf.setAccuracy(moveFoundation, 3, 3, 15);
-//            moveFoundation.addPose(20,-10,-100);
-//            rf.flip(moveFoundation, bot.sp, bot.sp);
-//            rf.grabFoundation(moveFoundation, 0);
-//        }
+//        toFoundation.addPose(0,5,0);
+//        rf.grab(toFoundation,0);
+//        rf.grabFoundation(toFoundation, 1);
+//        toFoundation.addPose(0,0,0);
+//        rf.pause(toFoundation,500);
+//        rf.setAccuracy(toFoundation, 3, 3, 15);
+//        toFoundation.addPose(20,-10,-100);
+//        rf.flip(toFoundation, bot.sp, bot.sp);
+//        rf.grabFoundation(toFoundation, 0);
 //        rf.start(moveFoundation, this);
 //        rf.move( -0.5, 0,0, 1);
 //        rf.odometry.reset();
@@ -123,15 +121,16 @@ public class AutoRed extends LinearOpMode {
     private void initialize(){
         bot.init(hardwareMap);
         rf.init(bot, this);
-        cv.init(bot,this, 5);
+        cv.init(bot,this, 4);
     }
 
-//    private void grabStone(){
-//        rf.flip(toFoundation, 0,0);
-//        rf.pause(toFoundation,500);
-//        rf.grab(toFoundation,1);
-//        rf.intake(toFoundation,0);
-//    }
+    private void grabStone(){
+        rf.flip(toFoundation, 0,0);
+        rf.pause(toFoundation,100);
+        rf.grab(toFoundation,1);
+        //rf.pause(toFoundation,500);
+        rf.intake(toFoundation,0);
+    }
 //    private void grabStone2(){
 //        rf.flip(toSecond, 0,0);
 //        rf.pause(toSecond,500);
