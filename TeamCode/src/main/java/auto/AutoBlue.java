@@ -59,7 +59,7 @@ public class AutoBlue extends LinearOpMode {
         rf.grabFoundation(toFoundation, 1.2);
         rf.pause(toFoundation, 1000);
         rf.setScale(toFoundation, 4, true);
-        toFoundation.addPose(-33,-1,0);
+        toFoundation.addPose(-34.5,-1,0);
         rf.setScale(toFoundation, 1.05, false);
         rf.grabFoundation(toFoundation, 0);
         rf.pause(toFoundation, 1000);

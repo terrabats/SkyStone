@@ -2,6 +2,7 @@ package global;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -90,14 +91,20 @@ public class TerraBot {
         gyro = hwMap.get(BNO055IMU.class , "gyro");
 
 
-        l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
         l1.setDirection(DcMotor.Direction.REVERSE);
         l2.setDirection(DcMotor.Direction.FORWARD);
@@ -106,7 +113,7 @@ public class TerraBot {
         rin.setDirection(DcMotor.Direction.FORWARD);
         lin.setDirection(DcMotor.Direction.REVERSE);
         rft.setDirection(DcMotor.Direction.REVERSE);
-        lft.setDirection(DcMotor.Direction.FORWARD);
+        lft.setDirection(DcMotor.Direction.REVERSE);
 
         f1.setDirection(Servo.Direction.REVERSE);
         f2.setDirection(Servo.Direction.FORWARD);

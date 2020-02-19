@@ -69,7 +69,7 @@ public class TerraOp extends OpMode {
             }
 
             if(gamepad1.right_trigger > 0){
-                bot.foundationGrab(1);
+                bot.foundationGrab(0.6);
             }else if(gamepad1.left_trigger > 0){
                 bot.foundationGrab(0);
             }
