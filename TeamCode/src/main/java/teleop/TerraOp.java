@@ -2,6 +2,9 @@ package teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import autoFunctions.Odometry;
 import global.Helper;
@@ -18,26 +21,61 @@ public class TerraOp extends OpMode {
     Odometry odometry = new Odometry();
     public Thread thread;
 
+    double fpow = 0;
+    double spow = 0;
+    double tpow = 0;
+
     private CodeSeg teleOpCode = new CodeSeg() {
         @Override
         public void run() {
 
-            bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
+            if(gamepad1.y){
+                bot.align.start();
+            }
+
+            //bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
+            if(!bot.align.executing) {
+                if (bot.highGear) {
+                    fpow = h.calcPow(-gamepad1.right_stick_y, 1);
+                    spow = h.calcPow(gamepad1.right_stick_x, 0.5);
+                    tpow = h.calcPow(gamepad1.left_stick_x, 0.6);
+                } else {
+                    fpow = h.calcPow(-gamepad1.right_stick_y, 0.4);
+                    spow = h.calcPow(gamepad1.right_stick_x, 0.4);
+                    tpow = h.calcPow(gamepad1.left_stick_x, 0.3);
+                }
+                bot.move(fpow, spow, tpow);
+            }else{
+                bot.update();
+            }
+
+
+            if(gamepad2.right_bumper && bot.highGear && bot.delay.seconds() > 0.3){
+                bot.highGear = false;
+                bot.delay.reset();
+            }else if(gamepad2.right_bumper && !bot.highGear && bot.delay.seconds() > 0.3){
+                bot.highGear = true;
+                bot.delay.reset();
+            }
 
             if(bot.noAutoModules()){
                 if(gamepad2.left_trigger > 0){
                     bot.flip(bot.sp,bot.sp);
                 }
                 if(bot.isLiftInLimits(gamepad2)) {
-                    bot.lift((-h.calcPow(gamepad2.right_stick_y) / 1.8)+0.08);
+                    bot.lift((-h.calcPow(gamepad2.right_stick_y, 0.3))+0.08);
                 }else{
                     bot.lift(0.08);
                 }
 
-                if(gamepad2.right_bumper){
+                if(gamepad2.left_bumper && bot.grabing && bot.delay.seconds() > 0.3){
                     bot.grab(1);
-                }else if(gamepad2.left_bumper){
+                    bot.grabing = false;
+                    bot.delay.reset();
+                }else if(gamepad2.left_bumper && !bot.grabing && bot.delay.seconds() > 0.3){
                     bot.grab(bot.sp2);
+                    bot.grabing = true;
+                    bot.delay.reset();
                 }
             }else {
                 bot.update();
@@ -50,6 +88,7 @@ public class TerraOp extends OpMode {
             if(gamepad2.y){
                 bot.t1.reset();
                 bot.grab.start();
+                bot.highGear = true;
             }
             if(gamepad2.x){
                 bot.t1.reset();
@@ -68,15 +107,16 @@ public class TerraOp extends OpMode {
                 bot.intake(0);
             }
 
-            if(gamepad1.right_trigger > 0){
-                bot.foundationGrab(0.6);
-            }else if(gamepad1.left_trigger > 0){
+            if(gamepad1.dpad_down){
+                bot.foundationGrab(0.85);
+            }else if(gamepad1.dpad_up){
                 bot.foundationGrab(0);
             }
             odometry.updateGlobalPosition();
 
-            // telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
+            telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
             //telemetry.addData("height", bot.getLiftHeight());
+            //telemetry.addData("stoneDis", bot.getStoneDistance());
             telemetry.update();
 
         }

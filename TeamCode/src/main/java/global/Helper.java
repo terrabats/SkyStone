@@ -17,24 +17,15 @@ import util.CodeSeg;
 
 public class Helper {
 
-    public final double LIFT_CM_PER_TICK = 0.044879895;
-    public final double INTAKE_DEG_PER_TICK = 0.21428571428;
-    public final double TICKS_FOR_MOVE = 36.96032508;
-    public final double STRAFE_CONSTANT = 1.315;
-    public final double TURN_CONSTANT = 0.291;
-    public final double INCHES_PER_SEC = 45;
-    public final double POWER_C = 0.15;
-    public final double TIMEOUT = 2;
-    public double oldHeight = 0;
-    private double exp = 3;
-    private double yint = 0.25;
-    public VuforiaLocalizer vuforia;
-    ElapsedTime timer = new ElapsedTime();
+
+    public final double MIN_STONE_DIS = 5;
     public final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
 
-    public double currentHeight = 0;
-    public double calcPow(double in){
-        return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
+    public boolean left = false;
+
+    public double calcPow(double in, double maxPow){
+        //return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
+        return maxPow*Math.signum(in);
     }
     public double average(double vx, double vy, double vh){
         return (vx+vy+vh)/3;
@@ -46,6 +37,9 @@ public class Helper {
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         g.initialize(parameters);
+    }
+    public boolean isStoneDetected(double dis){
+        return dis < MIN_STONE_DIS;
     }
     public double[] normalize(double in[]){
         double[] out = new double[3];
@@ -135,6 +129,21 @@ public class Helper {
         });
 
     }
+    public void defineAlign(final TerraBot bot){
+        bot.align.addStage(new Stage() {
+            public boolean run(double dis) {
+                bot.move(-0.3,-0.6, 0);
+                return isStoneDetected(dis);
+            }
+        });
+        bot.align.addStage(new Stage() {
+            @Override
+            public boolean run(double dis) {
+                bot.move(0,0,0);
+                return true;
+            }
+        });
+    }
 
 
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
@@ -149,6 +158,13 @@ public class Helper {
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.t1.seconds());
         dynamics.add(bot.getLiftHeight());
+        return dynamics;
+    }
+
+    public ArrayList<Double> dynamicsAlign(TerraBot bot){
+        ArrayList<Double> dynamics = new ArrayList<>();
+        dynamics.add(bot.getStoneDistance());
+        dynamics.add(bot.getStoneDistance());
         return dynamics;
     }
 
