@@ -24,49 +24,49 @@ public class AutoBlue extends LinearOpMode {
         initialize();
         rf.telemetryText("ready");
         waitForStart();
-        toStone.addPose(10,0,0);
-        rf.scanStones(toStone,cv);
-        toStone.addPose(0,0,0);
-        rf.start(toStone,this);
-        toFoundation.continuePath(toStone);
-        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            toFoundation.addPose(23,1,-40);
-            rf.intake(toFoundation, 1);
-            toFoundation.addPose(2,4,-10);
-            toFoundation.addPose(-14,-14,133);
-        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            toFoundation.addPose(23,10,40);
-            rf.intake(toFoundation, 1);
-            toFoundation.addPose(2,-4,10);
-            toFoundation.addPose(-12,-17,32);
-        }else {
-            toFoundation.addPose(23,2,40);
-            rf.intake(toFoundation, 1);
-            toFoundation.addPose(2,-4,10);
-            toFoundation.addPose(-12,-11,32);
-        }
-        grabStone();
-        toFoundation.addPose(0,-50,0);
-        rf.flip(toFoundation, 0.9, 0.8);
-        toFoundation.addPose(4,-20,85);
-        rf.grab(toFoundation, bot.sp2);
-        rf.pause(toFoundation, 500);
-        rf.flip(toFoundation, bot.sp, bot.sp);
-
-
-        rf.setScale(toFoundation,1.5, true);
-        toFoundation.addPose(4,0,0);
-        rf.grabFoundation(toFoundation, 1.2);
-        rf.pause(toFoundation, 1000);
-        rf.setScale(toFoundation, 4, true);
-        toFoundation.addPose(-34.5,-1,0);
-        rf.setScale(toFoundation, 1.05, false);
-        rf.grabFoundation(toFoundation, 0);
-        rf.pause(toFoundation, 1000);
-        toFoundation.addPose(0,30,0);
-        toFoundation.addPose(25, 0, 0);
-        toFoundation.addPose(0,20,0);
-        rf.start(toFoundation,this);
+//        toStone.addPose(10,0,0);
+//        rf.scanStones(toStone,cv);
+//        toStone.addPose(0,0,0);
+//        rf.start(toStone,this);
+//        toFoundation.continuePath(toStone);
+//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
+//            toFoundation.addPose(23,1,-40);
+//            rf.intake(toFoundation, 1);
+//            toFoundation.addPose(2,4,-10);
+//            toFoundation.addPose(-14,-14,133);
+//        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
+//            toFoundation.addPose(23,10,40);
+//            rf.intake(toFoundation, 1);
+//            toFoundation.addPose(2,-4,10);
+//            toFoundation.addPose(-12,-17,32);
+//        }else {
+//            toFoundation.addPose(23,2,40);
+//            rf.intake(toFoundation, 1);
+//            toFoundation.addPose(2,-4,10);
+//            toFoundation.addPose(-12,-11,32);
+//        }
+//        grabStone();
+//        toFoundation.addPose(0,-50,0);
+//        rf.flip(toFoundation, 0.9, 0.8);
+//        toFoundation.addPose(4,-20,85);
+//        rf.grab(toFoundation, bot.sp2);
+//        rf.pause(toFoundation, 500);
+//        rf.flip(toFoundation, bot.sp, bot.sp);
+//
+//
+//        rf.setScale(toFoundation,1.5, true);
+//        toFoundation.addPose(4,0,0);
+//        rf.grabFoundation(toFoundation, 1.2);
+//        rf.pause(toFoundation, 1000);
+//        rf.setScale(toFoundation, 4, true);
+//        toFoundation.addPose(-34.5,-1,0);
+//        rf.setScale(toFoundation, 1.05, false);
+//        rf.grabFoundation(toFoundation, 0);
+//        rf.pause(toFoundation, 1000);
+//        toFoundation.addPose(0,30,0);
+//        toFoundation.addPose(25, 0, 0);
+//        toFoundation.addPose(0,20,0);
+//        rf.start(toFoundation,this);
 
     }
 

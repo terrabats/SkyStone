@@ -16,6 +16,7 @@ public class Path {
     public ArrayList<Double> YPoses = new ArrayList<>();
     public ArrayList<Double> HPoses = new ArrayList<>();
     public ArrayList<CodeSeg> Customs = new ArrayList<>();
+    public ArrayList<Boolean> Ends = new ArrayList<>();
 
 
     PID XControl = new PID();
@@ -53,7 +54,7 @@ public class Path {
     public double hd = 0.03;
 
 
-    public boolean sketch = false;
+   // public boolean sketch = false;
 
 
 
@@ -79,6 +80,9 @@ public class Path {
     }
     public void addI(double val){
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, val,val*0.9,val*0.25);
+    }
+    public void deleteD(){
+        setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, 0, 0, 0, XControl.Ki,YControl.Ki,HControl.Ki);
     }
 
     public void resetCoeffeicents(){
@@ -159,22 +163,23 @@ public class Path {
 
     public void isEnd() {
         if(count < XPoses.size()) {
-            if(!sketch) {
+            if(!Ends.get(count)) {
+                deleteD();
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
                 if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
                     addI(0.08);
                     multiplyKD(1.05);
                 }
-                if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                if (Math.abs(XError) < (XACCURACY*4) && Math.abs(YError) < (YACCURACY*4) && Math.abs(HError) < (HACCURACY*4)) {
                     count++;
                     resetCoeffeicents();
                     resetSums();
                 }
             }else{
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
-                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 8) && Math.abs(YError) < (YACCURACY * 8) && Math.abs(HError) < (HACCURACY * 8)) {
+                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
                     addI(0.12);
-                    multiplyKD(1.3);
+                    multiplyKD(1.05);
                 }
                 if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                     count++;
@@ -190,17 +195,19 @@ public class Path {
         YErrorSum = 0;
         HErrorSum = 0;
     }
-    public void addPose(double y, double x, double h) {
+    public void addPose(double y, double x, double h, boolean isEnd) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
         YPoses.add(YPoses.get(YPoses.size() - 1) + y);
         HPoses.add(HPoses.get(HPoses.size() - 1) + h*1.09);
         Customs.add(null);
+        Ends.add(isEnd);
     }
 
     public void addCustom(CodeSeg c) {
         XPoses.add(XPoses.get(XPoses.size() - 1));
         YPoses.add(YPoses.get(YPoses.size() - 1));
         HPoses.add(HPoses.get(HPoses.size() - 1));
+        Ends.add(false);
         Customs.add(c);
 
     }
