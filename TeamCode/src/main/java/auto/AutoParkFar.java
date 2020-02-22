@@ -22,7 +22,7 @@ public class AutoParkFar extends LinearOpMode {
         rf.telemetryText("ready");
         waitForStart();
         //ToFoundation
-        move.addPose(15, 0, 0);
+        //move.addPose(15, 0, 0);
         rf.start(move,this);
 
     }

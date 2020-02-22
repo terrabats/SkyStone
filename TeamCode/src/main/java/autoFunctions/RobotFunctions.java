@@ -59,7 +59,7 @@ public class RobotFunctions {
 
     public void intake(Path p, final double pow){
         bot.move(0,0,0);
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -69,7 +69,7 @@ public class RobotFunctions {
     }
 
     public void grabFoundation(Path p, final double pos){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -80,7 +80,7 @@ public class RobotFunctions {
     }
 
     public void flip(Path p, final double p1, final double p2){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -91,7 +91,7 @@ public class RobotFunctions {
     }
 
     public void grab(Path p, final double pos){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -103,7 +103,7 @@ public class RobotFunctions {
     }
 
     public void pause(Path p, final long time){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -114,7 +114,7 @@ public class RobotFunctions {
     }
 
     public void resetOdometry(final Path p){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -123,7 +123,7 @@ public class RobotFunctions {
         });
     }
     public void resetHeading(final Path p, final int heading){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -133,7 +133,7 @@ public class RobotFunctions {
     }
 
     public void setAccuracy(final Path p, final double x, final double y, final double h){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -144,12 +144,11 @@ public class RobotFunctions {
         });
     }
     public void setScale(final Path p,final double scale, final boolean sketch){
-        p.addPose(0,0,0);
+        p.addPose(0,0,0,false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
                 p.multiplyKD(scale);
-                p.sketch = sketch;
             }
         });
 

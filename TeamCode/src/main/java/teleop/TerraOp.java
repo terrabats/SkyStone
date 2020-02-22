@@ -36,13 +36,13 @@ public class TerraOp extends OpMode {
             //bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
             if(!bot.align.executing) {
                 if (bot.highGear) {
-                    fpow = h.calcPow(-gamepad1.right_stick_y, 1);
-                    spow = h.calcPow(gamepad1.right_stick_x, 0.5);
-                    tpow = h.calcPow(gamepad1.left_stick_x, 0.6);
+                    fpow = h.calcPow(-gamepad1.right_stick_y, 1, bot);
+                    spow = h.calcPow(gamepad1.right_stick_x, 0.8, bot);
+                    tpow = h.calcPow(gamepad1.left_stick_x, 0.6, bot);
                 } else {
-                    fpow = h.calcPow(-gamepad1.right_stick_y, 0.4);
-                    spow = h.calcPow(gamepad1.right_stick_x, 0.4);
-                    tpow = h.calcPow(gamepad1.left_stick_x, 0.3);
+                    fpow = h.calcPow(-gamepad1.right_stick_y, 0.4, bot);
+                    spow = h.calcPow(gamepad1.right_stick_x, 0.4, bot);
+                    tpow = h.calcPow(gamepad1.left_stick_x, 0.3, bot);
                 }
                 bot.move(fpow, spow, tpow);
             }else{
@@ -63,7 +63,7 @@ public class TerraOp extends OpMode {
                     bot.flip(bot.sp,bot.sp);
                 }
                 if(bot.isLiftInLimits(gamepad2)) {
-                    bot.lift((-h.calcPow(gamepad2.right_stick_y, 0.3))+0.08);
+                    bot.lift((-gamepad2.right_stick_y*0.4)+0.08);
                 }else{
                     bot.lift(0.08);
                 }
@@ -93,6 +93,7 @@ public class TerraOp extends OpMode {
             if(gamepad2.x){
                 bot.t1.reset();
                 bot.retract.start();
+                bot.highGear = true;
             }
 
 

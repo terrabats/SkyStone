@@ -25,13 +25,13 @@ public class AutoParkClose extends LinearOpMode {
         rf.telemetryText("ready");
         waitForStart();
         //ToFoundation
-        if(side == "Red") {
-            move.addPose(0,25, 0);
-        }else if(side == "Blue"){
-            move.addPose(0,-25, 0);
-        }
-        move.addPose(15, 0, 0);
-        rf.start(move,this);
+//        if(side == "Red") {
+//            move.addPose(0,25, 0);
+//        }else if(side == "Blue"){
+//            move.addPose(0,-25, 0);
+//        }
+//        move.addPose(15, 0, 0);
+//        rf.start(move,this);
 
     }
 

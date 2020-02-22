@@ -19,13 +19,22 @@ public class Helper {
 
 
     public final double MIN_STONE_DIS = 5;
+    public final double deadRange = 0.3;
     public final String VUFORIA_KEY = "AdfjEqf/////AAABmUFlTr2/r0XAj6nkD8iAbHMf9l6LwV12Hw/ie9OuGUT4yTUjukPdz9SlCFs4axhhmCgHvzOeNhrjwoIbSCn0kCWxpfHAV9kakdMwFr6ysGpuQ9xh2xlICm2jXxVfqYKGlWm3IFk1GuGR7N5jt071axc/xFBQ0CntpghV6siUTyuD4du5rKhqO1pp4hILhJLF5I6LbkiXN93utfwje/8kEB3+V4TI+/rVj9W+c7z26rAQ34URhQ5AcPlhIfjLyUcTW15+UylM0dxGiMpQprreFVaOk32O2epod9yIB5zgSin1bd7PiCXHbPxhVhMz0cMNRJY1LLfuDru3npuemePUkpSOp5SFbuGjzso9hDA/6V3L";
 
     public boolean left = false;
 
-    public double calcPow(double in, double maxPow){
+    public double calcPow(double in, double maxPow, TerraBot bot){
         //return Math.signum(in)*yint+(Math.pow(in,exp)*(1-yint));
-        return maxPow*Math.signum(in);
+        if(bot.highGear) {
+            if (Math.abs(in) > deadRange) {
+                return maxPow * Math.signum(in);
+            } else {
+                return 0;
+            }
+        }else{
+            return maxPow * in;
+        }
     }
     public double average(double vx, double vy, double vh){
         return (vx+vy+vh)/3;
