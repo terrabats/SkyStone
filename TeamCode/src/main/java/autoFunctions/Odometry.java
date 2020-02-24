@@ -42,6 +42,7 @@ public class Odometry {
         sr = bot.getRightEncoder();
         sl = bot.getLeftEncoder();
         sc = bot.getCenterEncoder();
+
     }
 
     public void reset(){
