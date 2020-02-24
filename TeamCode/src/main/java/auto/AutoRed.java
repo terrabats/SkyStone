@@ -29,48 +29,51 @@ public class AutoRed extends LinearOpMode {
         rf.start(toStone,this);
         toFoundation.continuePath(toStone);
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            toFoundation.addPose(23,-2,-44, true);
+            toFoundation.addPose(25,-2,-45, true);
             rf.intake(toFoundation, 1);
-            toFoundation.addPose(2,4,-11, false);
-            toFoundation.addPose(-12,11,-35, true);
+            toFoundation.addPose(2,4,-5, false);
+            toFoundation.addPose(-15,11,-40, true);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            toFoundation.addPose(23,-10,-60, true);
+            toFoundation.addPose(25,-10,-40, true);
             rf.intake(toFoundation, 1);
             toFoundation.addPose(2,4,-10, false);
-            toFoundation.addPose(-12,17,-20, true);
+            toFoundation.addPose(-12,17,-40, false);
         }else {
-            toFoundation.addPose(23,-1,44, true);
+            toFoundation.addPose(25,-1,44, true);
             rf.intake(toFoundation, 1);
             toFoundation.addPose(2,-4,11, false);
-            toFoundation.addPose(-14,14,-145, true);
+            toFoundation.addPose(-14,14,-145, false);
         }
         grabStone();
+        toFoundation.addPose(0,50,0, false);
+        rf.flip(toFoundation, 0.8, 0.8);
+        toFoundation.addPose(4,20,-90, true);
+        dropStone();
+        rf.grabFoundation(toFoundation, 0.85);
+        toFoundation.addPose(4,0,0, false);
+        rf.setScale(toFoundation,1.5);
+        toFoundation.addPose(-10, -15, -50, false);
+        toFoundation.addPose(0,0,-40, false);
+        rf.grabFoundation(toFoundation, 0);
+        toFoundation.addPose(0, -55, 0, false);
+        toFoundation.addPose(15, -20, -20, true);
+        rf.intake(toFoundation, 1);
+        toFoundation.addPose(2, -4, 0, false);
+        toFoundation.addPose(-13, 20, 20, true);
+        grabStone();
+        toFoundation.addPose(0,40,0, false);
+        rf.flip(toFoundation, 0.8, 0.8);
+        toFoundation.addPose(-5,20,0, false);
+        dropStone();
+        rf.pause(toFoundation, 1500);
+        toFoundation.addPose(3, -70, 0, false);
+        toFoundation.addPose(15, -20, -20, true);
+        rf.intake(toFoundation, 1);
+        toFoundation.addPose(2, -4, 0, false);
+        toFoundation.addPose(-13, 20, 20, true);
+        grabStone();
+
         rf.start(toFoundation, this);
-
-
-
-
-//        toFoundation.addPose(0,50,0);
-//        rf.flip(toFoundation, 0.9, 0.8);
-//        toFoundation.addPose(1,20,-85);
-//        rf.grab(toFoundation, bot.sp2);
-//        rf.pause(toFoundation, 500);
-//        rf.flip(toFoundation, bot.sp, bot.sp);
-//
-//
-//        rf.setScale(toFoundation,1.5, true);
-//        toFoundation.addPose(4,0,0);
-//        rf.grabFoundation(toFoundation, 1.2);
-//        rf.pause(toFoundation, 1000);
-//        rf.setScale(toFoundation, 4, true);
-//        toFoundation.addPose(-34.5,1,0);
-//        rf.setScale(toFoundation, 1.05, false);
-//        rf.grabFoundation(toFoundation, 0);
-//        rf.pause(toFoundation, 1000);
-//        toFoundation.addPose(0,-30,0);
-//        toFoundation.addPose(25, 0, 0);
-//        toFoundation.addPose(0,-20,0);
-//        rf.start(toFoundation,this);
 
     }
 
@@ -81,11 +84,28 @@ public class AutoRed extends LinearOpMode {
     }
 
     private void grabStone(){
-        rf.flip(toFoundation, 0,0);
-        rf.pause(toFoundation,100);
-        rf.grab(toFoundation,1);
-        rf.intake(toFoundation,0);
+        CodeSeg grabStone = new CodeSeg() {
+            @Override
+            public void run() {
+                bot.flip(0,0);
+                rf.op.sleep(500);
+                bot.grab(1);
+                bot.intake(0);
+            }
+        };
+        rf.customThread(toFoundation, grabStone);
     }
 
+    private void dropStone(){
+        CodeSeg dropStone = new CodeSeg() {
+            @Override
+            public void run() {
+                bot.grab( bot.sp2);
+                rf.op.sleep(500);
+                bot.flip( bot.sp, bot.sp);
+            }
+        };
+        rf.customThread(toFoundation, dropStone);
+    }
 
 }

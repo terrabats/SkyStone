@@ -3,6 +3,7 @@ package autoFunctions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Currency;
 
 import global.TerraBot;
@@ -13,7 +14,7 @@ import util.CodeSeg;
 public class RobotFunctions {
 
     TerraBot bot = null;
-    LinearOpMode op = null;
+    public LinearOpMode op = null;
     public Odometry odometry = new Odometry();
 
     ElapsedTime timer = new ElapsedTime();
@@ -48,8 +49,8 @@ public class RobotFunctions {
             @Override
             public void run() {
                 cv.takePicture();
-                //stonePos = cv.getStonePos(0,300);
-                stonePos = TerraCV.StonePos.MIDDLE;
+                stonePos = cv.getStonePos(0,300);
+                stonePos = TerraCV.StonePos.RIGHT;
 //                op.telemetry.addData("Stone", stonePos.toString());
 //                op.telemetry.update();
             }
@@ -66,7 +67,6 @@ public class RobotFunctions {
     }
 
     public void grabFoundation(Path p, final double pos){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -77,7 +77,6 @@ public class RobotFunctions {
     }
 
     public void flip(Path p, final double p1, final double p2){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -88,7 +87,6 @@ public class RobotFunctions {
     }
 
     public void grab(Path p, final double pos){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -100,7 +98,6 @@ public class RobotFunctions {
     }
 
     public void pause(Path p, final long time){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -111,7 +108,6 @@ public class RobotFunctions {
     }
 
     public void resetOdometry(final Path p){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -120,7 +116,6 @@ public class RobotFunctions {
         });
     }
     public void resetHeading(final Path p, final int heading){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -130,7 +125,6 @@ public class RobotFunctions {
     }
 
     public void setAccuracy(final Path p, final double x, final double y, final double h){
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -140,8 +134,7 @@ public class RobotFunctions {
             }
         });
     }
-    public void setScale(final Path p,final double scale, final boolean sketch){
-        p.addPose(0,0,0,false);
+    public void setScale(final Path p,final double scale){
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
@@ -156,6 +149,21 @@ public class RobotFunctions {
         bot.move(y, x, t);
         while (op.opModeIsActive() && timer.seconds() < time){}
         bot.move(0,0,0);
+    }
+
+    public void customThread(final Path p, final CodeSeg code){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        code.run();
+                    }
+                });
+                t.start();
+            }
+        });
     }
 
     public void telemetryText(String text) {

@@ -29,7 +29,7 @@ public class Path {
 
     public double XACCURACY = 0.5;
     public double YACCURACY = 0.5;
-    public double HACCURACY = 2;
+    public double HACCURACY = 4;
     final double MINVEL = 0.05;
 
     double XError = 0;
