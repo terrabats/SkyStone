@@ -41,25 +41,22 @@ public class RobotFunctions {
 //            o.telemetry.addData("vh", path.HVelocity);
 //            o.telemetry.update();
         }
-        bot.move(0,0,0);
     }
 
     public void scanStones(Path p, final TerraCV cv){
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
-                bot.move(0,0,0);
                 cv.takePicture();
-                stonePos = cv.getStonePos(0,300);
-                op.telemetry.addData("Stone", stonePos.toString());
-                op.telemetry.update();
+                //stonePos = cv.getStonePos(0,300);
+                stonePos = TerraCV.StonePos.MIDDLE;
+//                op.telemetry.addData("Stone", stonePos.toString());
+//                op.telemetry.update();
             }
         });
     }
 
     public void intake(Path p, final double pow){
-        bot.move(0,0,0);
-        p.addPose(0,0,0, false);
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {

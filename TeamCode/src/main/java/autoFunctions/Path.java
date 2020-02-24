@@ -53,6 +53,8 @@ public class Path {
     public double hp = 0.03;
     public double hd = 0.03;
 
+    public boolean runningCustom = false;
+
 
    // public boolean sketch = false;
 
@@ -67,6 +69,7 @@ public class Path {
         YPoses.add(0.0);
         HPoses.add(0.0);
         Customs.add(null);
+        Ends.add(null);
         resetCoeffeicents();
     }
 
@@ -77,6 +80,9 @@ public class Path {
     }
     public void multiplyKD(double scale){
         setCoefficents(xp*scale, yp*scale, hp*scale, xd*scale, yd*scale, hd*scale, XControl.Ki,YControl.Ki,HControl.Ki);
+    }
+    public void multiplyK(double scale){
+        setCoefficents(xp*scale, yp*scale, hp*scale, XControl.Kd, YControl.Kd, HControl.Kd, XControl.Ki,YControl.Ki,HControl.Ki);
     }
     public void addI(double val){
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, val,val*0.9,val*0.25);
@@ -101,19 +107,18 @@ public class Path {
         double[] currentPose = odometry.getGlobalPose();
         if (count < XPoses.size()) {
             double pows[] = calcPowers(currentPose);
-            XError = currentPose[0] - XPoses.get(count);
-            YError = currentPose[1] - YPoses.get(count);
-            HError = currentPose[2] - HPoses.get(count);
-            XVelocity = odometry.ticksToInches(odometry.strafe);
-            YVelocity = odometry.ticksToInches(odometry.forward);
-            HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
-            isEnd();
+            if(!runningCustom) {
+                XError = currentPose[0] - XPoses.get(count);
+                YError = currentPose[1] - YPoses.get(count);
+                HError = currentPose[2] - HPoses.get(count);
+                XVelocity = odometry.ticksToInches(odometry.strafe);
+                YVelocity = odometry.ticksToInches(odometry.forward);
+                HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
+                isEnd();
+            }
             return pows;
         } else {
-            double[] out = new double[3];
-            out[0] = 0;
-            out[1] = 0;
-            out[2] = 0;
+            double[] out = null;
             isDone = true;
             return out;
         }
@@ -144,16 +149,15 @@ public class Path {
                 out[0] = -Math.signum(mv.x) * normPow[0];
                 out[1] = -Math.signum(mv.y) * normPow[1];
                 out[2] = Math.signum(HError) * normPow[2];
+                runningCustom = false;
 
             } else {
-                out[0] = 0;
-                out[1] = 0;
-                out[2] = 0;
+                out = null;
                 Customs.get(count).run();
                 resetCoeffeicents();
                 resetSums();
                 count++;
-
+                runningCustom = true;
             }
         }
         return out;
@@ -165,11 +169,6 @@ public class Path {
         if(count < XPoses.size()) {
             if(!Ends.get(count)) {
                 deleteD();
-                double averageVel = h.average(XVelocity, YVelocity, HVelocity);
-                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
-                    addI(0.08);
-                    multiplyKD(1.05);
-                }
                 if (Math.abs(XError) < (XACCURACY*4) && Math.abs(YError) < (YACCURACY*4) && Math.abs(HError) < (HACCURACY*4)) {
                     count++;
                     resetCoeffeicents();
@@ -178,8 +177,7 @@ public class Path {
             }else{
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
                 if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
-                    addI(0.12);
-                    multiplyKD(1.05);
+                    addI(0.08);
                 }
                 if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                     count++;
@@ -198,7 +196,7 @@ public class Path {
     public void addPose(double y, double x, double h, boolean isEnd) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
         YPoses.add(YPoses.get(YPoses.size() - 1) + y);
-        HPoses.add(HPoses.get(HPoses.size() - 1) + h*1.09);
+        HPoses.add(HPoses.get(HPoses.size() - 1) + h);
         Customs.add(null);
         Ends.add(isEnd);
     }
