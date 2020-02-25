@@ -8,6 +8,7 @@ import java.util.Currency;
 
 import global.TerraBot;
 import util.CodeSeg;
+import util.Rect;
 ///////////////////////////////////////////////////////////////////////////////////import autoUtil.TerraCV.stoneP;
 
 
@@ -43,13 +44,23 @@ public class RobotFunctions {
 //            o.telemetry.update();
         }
     }
+    public void scanStonesBeforeInit(TerraCV cv){
+        while (!op.isStarted()){
+            cv.takePictureBeforeInit();
+            Rect area = new Rect(240, 400, 720, 150);
+            stonePos = cv.getStonePos(area);
+            op.telemetry.addData("stonePos", stonePos);
+            op.telemetry.update();
+        }
+    }
 
     public void scanStones(Path p, final TerraCV cv){
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
                 cv.takePicture();
-                stonePos = cv.getStonePos(0,300);
+                Rect area = new Rect(0,0,1270, 710);
+                stonePos = cv.getStonePos(area);
                 stonePos = TerraCV.StonePos.RIGHT;
 //                op.telemetry.addData("Stone", stonePos.toString());
 //                op.telemetry.update();
