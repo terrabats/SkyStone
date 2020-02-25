@@ -48,7 +48,11 @@ public class RobotFunctions {
         while (!op.isStarted()){
             cv.takePictureBeforeInit();
             Rect area = new Rect(240, 400, 720, 150);
-            stonePos = cv.getStonePos(area);
+
+            TerraCV.StonePos sp = cv.getStonePos(area);
+            if(sp != null) {
+                stonePos = sp;
+            }
             op.telemetry.addData("stonePos", stonePos);
             op.telemetry.update();
         }

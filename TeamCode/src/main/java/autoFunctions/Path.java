@@ -27,9 +27,9 @@ public class Path {
 
     Helper h = new Helper();
 
-    public double XACCURACY = 0.5;
-    public double YACCURACY = 0.5;
-    public double HACCURACY = 4;
+    public double XACCURACY = 1;
+    public double YACCURACY = 1;
+    public double HACCURACY = 6;
     final double MINVEL = 0.05;
 
     double XError = 0;
@@ -45,13 +45,13 @@ public class Path {
     double HErrorSum = 0;
 
     public double xp = 0.16;
-    public double xd = 0.3;
+    public double xd = 0.15;
 
     public double yp = 0.08;
-    public double yd = 0.2;
+    public double yd = 0.1;
 
     public double hp = 0.03;
-    public double hd = 0.03;
+    public double hd = 0.015;
 
     public boolean runningCustom = false;
 
@@ -169,14 +169,14 @@ public class Path {
         if(count < XPoses.size()) {
             if(!Ends.get(count)) {
                 deleteD();
-                if (Math.abs(XError) < (XACCURACY*4) && Math.abs(YError) < (YACCURACY*4) && Math.abs(HError) < (HACCURACY*4)) {
+                if (Math.abs(XError) < (XACCURACY*2) && Math.abs(YError) < (YACCURACY*2) && Math.abs(HError) < (HACCURACY*2)) {
                     count++;
                     resetCoeffeicents();
                     resetSums();
                 }
             }else{
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
-                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 4) && Math.abs(YError) < (YACCURACY * 4) && Math.abs(HError) < (HACCURACY * 4)) {
+                if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 2) && Math.abs(YError) < (YACCURACY * 2) && Math.abs(HError) < (HACCURACY * 2)) {
                     addI(0.08);
                 }
                 if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {

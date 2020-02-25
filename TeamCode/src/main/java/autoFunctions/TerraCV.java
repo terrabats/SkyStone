@@ -30,6 +30,8 @@ public class TerraCV {
     public Bitmap bm;
     LinearOpMode op;
 
+    public boolean discount = false;
+
     public int Accuracy = 7;
 
 
@@ -93,25 +95,29 @@ public class TerraCV {
     public StonePos getStonePos(Rect area){
         debug.reset();
         StonePos pos;
-        int th = area.getWidth()/3;
-        Rect left = new Rect(area.getX1(),area.getY1(),th,area.getHeight());
-        Rect middle = new Rect(area.getX1()+th,area.getY1(),th,area.getHeight());
-        Rect right = new Rect(area.getX1()+2*th,area.getY1(),th,area.getHeight());
+        int th = area.getWidth() / 3;
+        Rect left = new Rect(area.getX1(), area.getY1(), th, area.getHeight());
+        Rect middle = new Rect(area.getX1() + th, area.getY1(), th, area.getHeight());
+        Rect right = new Rect(area.getX1() + 2 * th, area.getY1(), th, area.getHeight());
         double[] values = new double[3];
         values[0] = getAverageOfPixelsBeforeInit(left);
         values[1] = getAverageOfPixelsBeforeInit(middle);
         values[2] = getAverageOfPixelsBeforeInit(right);
         int index = h.findMin(values);
-        if(index == 0){
+        if (index == 0) {
             pos = StonePos.LEFT;
-        }else if(index == 1){
+        } else if (index == 1) {
             pos = StonePos.MIDDLE;
-        }else{
+        } else {
             pos = StonePos.RIGHT;
         }
         time = debug.milliseconds();
 
-        return pos;
+        if(!discount) {
+            return pos;
+        }else{
+            return null;
+        }
     }
 
     public double getAverageOfPixels(Rect rect){
@@ -153,6 +159,7 @@ public class TerraCV {
                 }
             }
             if(op.isStarted()){
+                discount = true;
                 break;
             }
         }

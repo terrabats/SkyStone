@@ -17,8 +17,7 @@ public class AutoRed extends LinearOpMode {
     TerraBot bot = new TerraBot();
     RobotFunctions rf = new RobotFunctions();
     TerraCV cv = new TerraCV();
-    Path toStone = new Path();
-    Path toFoundation = new Path();
+    Path path = new Path();
     TerraCV.StonePos stonePos;
 
     @Override
@@ -29,32 +28,33 @@ public class AutoRed extends LinearOpMode {
         rf.telemetryText("scaning...");
         rf.scanStonesBeforeInit(cv);
         waitForStart();
-//        toStone.addPose(10,0,0, false);
-//        rf.scanStones(toStone,cv);
-//        rf.start(toStone,this);
-//        toFoundation.continuePath(toStone);
-//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
+        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
 //            toFoundation.addPose(25,-2,-45, true);
 //            rf.intake(toFoundation, 1);
 //            toFoundation.addPose(2,4,-5, false);
 //            toFoundation.addPose(-15,11,-40, true);
-//        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-//            toFoundation.addPose(25,-10,-40, true);
-//            rf.intake(toFoundation, 1);
-//            toFoundation.addPose(2,4,-10, false);
-//            toFoundation.addPose(-12,17,-40, false);
-//        }else {
+        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
+            path.addPose(34,9,45, true);
+            rf.intake(path, 1);
+            path.addPose(2,-4,10, false);
+            path.addPose(-13, 15, 35,false);
+        }else {
 //            toFoundation.addPose(25,-1,44, true);
 //            rf.intake(toFoundation, 1);
 //            toFoundation.addPose(2,-4,11, false);
 //            toFoundation.addPose(-14,14,-145, false);
-//        }
-//        grabStone();
-//        toFoundation.addPose(0,50,0, false);
-//        rf.flip(toFoundation, 0.8, 0.8);
-//        toFoundation.addPose(4,20,-90, true);
-//        dropStone();
-//        rf.grabFoundation(toFoundation, 0.85);
+        }
+        grabStone();
+        path.addPose(0,50,0, false);
+        rf.flip(path, 0.8, 0.8);
+        rf.grabFoundation(path, 0.6);
+        path.addPose(0,20,90, true);
+        path.addPose(4, 0, 0, false);
+        rf.grabFoundation(path, 0.85);
+        rf.start(path, this);
+
+//        dropStone()
+// rf.grabFoundation(toFoundation, 0.85);
 //        toFoundation.addPose(4,0,0, false);
 //        rf.setScale(toFoundation,4);
 //        toFoundation.addPose(-10, -20, -50, false);
@@ -104,7 +104,7 @@ public class AutoRed extends LinearOpMode {
                 bot.intake(0);
             }
         };
-        rf.customThread(toFoundation, grabStone);
+        rf.customThread(path, grabStone);
     }
 
     private void dropStone(){
@@ -116,7 +116,7 @@ public class AutoRed extends LinearOpMode {
                 bot.flip(bot.sp, bot.sp);
             }
         };
-        rf.customThread(toFoundation, dropStone);
+        rf.customThread(path, dropStone);
     }
 
 }
