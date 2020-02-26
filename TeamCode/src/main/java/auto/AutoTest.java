@@ -61,8 +61,11 @@ public class AutoTest extends LinearOpMode {
 //        rf.grabFoundation(path, 0);
 //
 //        rf.intake(path, 1);
-        path.addPose(0, -10, 0, true);
-        path.addPose(10, -10, 0, true);
+        path.addPose(0,0,90,  true);
+        path.addPose(0, -50, 0, true);
+        rf.intake(path, 1);
+        path.addPose(15, -10, 0, true);
+        path.addPose(0, -4, 0, true);
         //path.addPose(0, -4, 0, false);
         rf.start(path, this);
 

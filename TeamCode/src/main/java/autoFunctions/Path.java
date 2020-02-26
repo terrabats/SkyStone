@@ -185,11 +185,13 @@ public class Path {
                 multiplyD(scaleD);
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
                 if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 2) && Math.abs(YError) < (YACCURACY * 2) && Math.abs(HError) < (HACCURACY * 2)) {
-                    addI(0.08);
+                   addI(0.08);
                 }
-                if (averageVel < MINVEL && Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+
+                if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                     count++;
                     resetSums();
+                    deleteI();
                 }
             }
         }

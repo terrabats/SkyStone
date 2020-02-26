@@ -19,6 +19,7 @@ public class AutoRed extends LinearOpMode {
     RobotFunctions rf = new RobotFunctions();
     TerraCV cv = new TerraCV();
     Path path = new Path();
+    Path path2 = new Path();
     TerraCV.StonePos stonePos;
 
     @Override
@@ -37,8 +38,8 @@ public class AutoRed extends LinearOpMode {
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path.addPose(34,9,45, true);
             rf.intake(path, 1);
-            path.addPose(2,-4,10, false);
-            path.addPose(-13, 15, 35,false);
+            path.addPose(2,-5,10, false);
+            path.addPose(-13, 16, 35,false);
         }else {
 //            toFoundation.addPose(25,-1,44, true);
 //            rf.intake(toFoundation, 1);
@@ -57,15 +58,25 @@ public class AutoRed extends LinearOpMode {
         dropStone();
         rf.setScale(path, 4);
         path.addPose(-10,-20, -50, false);
-        path.addPose(3, -10, -50, false);
+        path.addPose(0, -10, -50, false);
         rf.grabFoundation(path, 0);
-
-        rf.intake(path, 1);
-        path.addPose(0, -60, 0, true);
-        path.addPose(15, -10, 0, true);
-        path.addPose(0, -4, 0, false);
         rf.start(path, this);
 
+        path2.continuePath(path);
+        path2.addPose(7, -69, 0, true);
+//        rf.setAccuracy(path2, 1, 1, 6);
+//        rf.intake(path2, 1);
+//        path2.addPose(5, -5, -25, true);
+//        path2.addPose(10, -10, 0, false);
+//        path2.addPose(-22, 20, 35, false);
+//        grabStone();
+//        path2.addPose(0, 40, 0, false);
+//        rf.flip(path2, 0.8, 0.8);
+//        path2.addPose(0, 20, 0, false);
+        dropStone();
+
+
+        rf.start(path2, this);
         //dropStone()
 // rf.grabFoundation(toFoundation, 0.85);
 //        toFoundation.addPose(4,0,0, false);
