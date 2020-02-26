@@ -13,8 +13,8 @@ import global.TerraBot;
 import util.CodeSeg;
 import util.Rect;
 
-@Autonomous(name = "AutoRed", group = "Auto")
-public class AutoRed extends LinearOpMode {
+@Autonomous(name = "AutoTest", group = "Auto")
+public class AutoTest extends LinearOpMode {
     TerraBot bot = new TerraBot();
     RobotFunctions rf = new RobotFunctions();
     TerraCV cv = new TerraCV();
@@ -29,41 +29,41 @@ public class AutoRed extends LinearOpMode {
         rf.telemetryText("scaning...");
         rf.scanStonesBeforeInit(cv);
         waitForStart();
-        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-//            toFoundation.addPose(25,-2,-45, true);
-//            rf.intake(toFoundation, 1);
-//            toFoundation.addPose(2,4,-5, false);
-//            toFoundation.addPose(-15,11,-40, true);
-        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path.addPose(34,9,45, true);
-            rf.intake(path, 1);
-            path.addPose(2,-4,10, false);
-            path.addPose(-13, 15, 35,false);
-        }else {
-//            toFoundation.addPose(25,-1,44, true);
-//            rf.intake(toFoundation, 1);
-//            toFoundation.addPose(2,-4,11, false);
-//            toFoundation.addPose(-14,14,-145, false);
-        }
-        grabStone();
-        path.addPose(0,50,0, false);
-        rf.flip(path, 0.8, 0.8);
-        rf.grabFoundation(path, 0.6);
-        rf.setAccuracy(path, 0.5, 0.5, 2);
-        path.addPose(2,20,90, true);
-        rf.setAccuracy(path, 1, 1, 6);
-        path.addPose(4, 0, 0, false);
-        rf.grabFoundation(path, 0.85);
-        dropStone();
-        rf.setScale(path, 4);
-        path.addPose(-10,-20, -50, false);
-        path.addPose(3, -10, -50, false);
-        rf.grabFoundation(path, 0);
-
-        rf.intake(path, 1);
-        path.addPose(0, -60, 0, true);
-        path.addPose(15, -10, 0, true);
-        path.addPose(0, -4, 0, false);
+//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
+////            toFoundation.addPose(25,-2,-45, true);
+////            rf.intake(toFoundation, 1);
+////            toFoundation.addPose(2,4,-5, false);
+////            toFoundation.addPose(-15,11,-40, true);
+//        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
+//            path.addPose(34,9,45, true);
+//            rf.intake(path, 1);
+//            path.addPose(2,-4,10, false);
+//            path.addPose(-13, 15, 35,false);
+//        }else {
+////            toFoundation.addPose(25,-1,44, true);
+////            rf.intake(toFoundation, 1);
+////            toFoundation.addPose(2,-4,11, false);
+////            toFoundation.addPose(-14,14,-145, false);
+//        }
+//        grabStone();
+//        path.addPose(0,50,0, false);
+//        rf.flip(path, 0.8, 0.8);
+//        rf.grabFoundation(path, 0.6);
+//        rf.setAccuracy(path, 0.5, 0.5, 2);
+//        path.addPose(2,20,90, true);
+//        rf.setAccuracy(path, 1, 1, 6);
+//        path.addPose(4, 0, 0, false);
+//        rf.grabFoundation(path, 0.85);
+//        dropStone();
+//        rf.setScale(path, 4);
+//        path.addPose(-10,-20, -50, false);
+//        path.addPose(3, -10, -50, false);
+//        rf.grabFoundation(path, 0);
+//
+//        rf.intake(path, 1);
+        path.addPose(0, -10, 0, true);
+        path.addPose(10, -10, 0, true);
+        //path.addPose(0, -4, 0, false);
         rf.start(path, this);
 
         //dropStone()

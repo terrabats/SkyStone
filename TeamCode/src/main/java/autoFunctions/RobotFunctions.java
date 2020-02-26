@@ -73,20 +73,18 @@ public class RobotFunctions {
     }
 
     public void intake(Path p, final double pow){
-        CodeSeg code = new CodeSeg() {
+        p.addCustom(new CodeSeg() {
             @Override
             public void run() {
                 bot.intake(pow);
             }
-        };
-        customThread(p, code);
+        });
     }
 
     public void grabFoundation(Path p, final double pos){
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
-                bot.move(0,0,0);
                 bot.foundationGrab(pos);
             }
         });
@@ -96,7 +94,6 @@ public class RobotFunctions {
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
-                bot.move(0,0,0);
                 bot.flip(p1,p2);
             }
         });
@@ -106,9 +103,8 @@ public class RobotFunctions {
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
-                bot.move(0,0,0);
                 bot.grab(pos);
-                op.sleep(500);
+                //op.sleep(500);
             }
         });
     }
@@ -117,7 +113,6 @@ public class RobotFunctions {
         p.addCustom(new CodeSeg() {
             @Override
             public void run() {
-                bot.move(0,0,0);
                 op.sleep(time);
             }
         });
@@ -150,6 +145,14 @@ public class RobotFunctions {
             }
         });
     }
+    public void multiplyD(final Path p, final double scale){
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                p.scaleD = scale;
+            }
+        });
+    }
     public void setScale(final Path p,final double scale){
         p.addCustom(new CodeSeg() {
             @Override
@@ -164,7 +167,6 @@ public class RobotFunctions {
         timer.reset();
         bot.move(y, x, t);
         while (op.opModeIsActive() && timer.seconds() < time){}
-        bot.move(0,0,0);
     }
 
     public void customThread(final Path p, final CodeSeg code){
@@ -182,14 +184,19 @@ public class RobotFunctions {
         });
     }
 
-    public void telemetryText(String text) {
+    public void telemetryText(final String text) {
         op.telemetry.addData(":", text);
         op.telemetry.update();
     }
 
-    public void telemetryValue(String cap, double d) {
-        op.telemetry.addData(cap, d);
-        op.telemetry.update();
+    public void telemetryValue(Path p, final String cap, final double d) {
+        p.addCustom(new CodeSeg() {
+            @Override
+            public void run() {
+                op.telemetry.addData(cap, d);
+                op.telemetry.update();
+            }
+        });
     }
 
 }

@@ -118,6 +118,7 @@ public class TerraOp extends OpMode {
             telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
             //telemetry.addData("height", bot.getLiftHeight());
             //telemetry.addData("stoneDis", bot.getStoneDistance());
+            //telemetry.addData("gyro", bot.getHeading());
             telemetry.update();
 
         }

@@ -19,9 +19,9 @@ public class Path {
     public ArrayList<Boolean> Ends = new ArrayList<>();
 
 
-    PID XControl = new PID();
-    PID YControl = new PID();
-    PID HControl = new PID();
+    public PID XControl = new PID();
+    public PID YControl = new PID();
+    public PID HControl = new PID();
 
     ElapsedTime t = new ElapsedTime();
 
@@ -55,6 +55,8 @@ public class Path {
 
     public boolean runningCustom = false;
 
+    public double scaleD = 2;
+
 
    // public boolean sketch = false;
 
@@ -84,11 +86,17 @@ public class Path {
     public void multiplyK(double scale){
         setCoefficents(xp*scale, yp*scale, hp*scale, XControl.Kd, YControl.Kd, HControl.Kd, XControl.Ki,YControl.Ki,HControl.Ki);
     }
+    public void multiplyD(double scale){
+        setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp,xd*scale, yd*scale, hd*scale, XControl.Ki,YControl.Ki,HControl.Ki);
+    }
     public void addI(double val){
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, val,val*0.9,val*0.25);
     }
     public void deleteD(){
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, 0, 0, 0, XControl.Ki,YControl.Ki,HControl.Ki);
+    }
+    public void deleteI(){
+        setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, 0,0,0);
     }
 
     public void resetCoeffeicents(){
@@ -154,7 +162,6 @@ public class Path {
             } else {
                 out = null;
                 Customs.get(count).run();
-                resetCoeffeicents();
                 resetSums();
                 count++;
                 runningCustom = true;
@@ -168,20 +175,20 @@ public class Path {
     public void isEnd() {
         if(count < XPoses.size()) {
             if(!Ends.get(count)) {
+                deleteI();
                 deleteD();
                 if (Math.abs(XError) < (XACCURACY*2) && Math.abs(YError) < (YACCURACY*2) && Math.abs(HError) < (HACCURACY*2)) {
                     count++;
-                    resetCoeffeicents();
                     resetSums();
                 }
             }else{
+                multiplyD(scaleD);
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
                 if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 2) && Math.abs(YError) < (YACCURACY * 2) && Math.abs(HError) < (HACCURACY * 2)) {
                     addI(0.08);
                 }
-                if (Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
+                if (averageVel < MINVEL && Math.abs(XError) < XACCURACY && Math.abs(YError) < YACCURACY && Math.abs(HError) < HACCURACY) {
                     count++;
-                    resetCoeffeicents();
                     resetSums();
                 }
             }
@@ -205,7 +212,7 @@ public class Path {
         XPoses.add(XPoses.get(XPoses.size() - 1));
         YPoses.add(YPoses.get(YPoses.size() - 1));
         HPoses.add(HPoses.get(HPoses.size() - 1));
-        Ends.add(false);
+        Ends.add(null);
         Customs.add(c);
 
     }
