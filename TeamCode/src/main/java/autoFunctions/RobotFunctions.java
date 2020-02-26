@@ -73,12 +73,13 @@ public class RobotFunctions {
     }
 
     public void intake(Path p, final double pow){
-        p.addCustom(new CodeSeg() {
+        CodeSeg code = new CodeSeg() {
             @Override
             public void run() {
                 bot.intake(pow);
             }
-        });
+        };
+        customThread(p, code);
     }
 
     public void grabFoundation(Path p, final double pos){
