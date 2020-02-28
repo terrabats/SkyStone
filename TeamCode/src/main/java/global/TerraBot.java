@@ -64,7 +64,7 @@ public class TerraBot {
     public final double minH = 1.5;
     public final double maxH = 23;
 
-    public final double sp = 0.23;
+    public final double sp = 0.2;
     public final double sp2 = 0.6;
 
     public float heading = 0;
