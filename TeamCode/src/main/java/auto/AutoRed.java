@@ -46,18 +46,18 @@ public class AutoRed extends LinearOpMode {
             path.addPose(3,-5,10, false);
             path.addPose(-14, 20, 25,false);
         }
-        grabStone();
+        grabStone(path);
         path.addPose(-2,50,0, false);
         rf.flip(path, 0.8, 0.8);
         rf.grabFoundation(path, 0.6);
-        rf.multiplyD(path, 3);
+        rf.multiplyD(path, 3.5);
         rf.setAccuracy(path, 0.5, 0.5, 2);
         path.addPose(0,20,90, true);
         rf.setAccuracy(path, 1, 1, 6);
         rf.multiplyD(path, 2);
         path.addPose(6, 0, 0, false);
         rf.grabFoundation(path, 0.85);
-        dropStone();
+        dropStone(path);
         rf.setScale(path, 4);
         path.addPose(-10,-20, -50, false);
         path.addPose(5, -10, -50, false);
@@ -65,23 +65,39 @@ public class AutoRed extends LinearOpMode {
         rf.start(path, this);
         path2.continuePath(path);
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            path2.addPose(6, -45, 0, true);
+            path2.addPose(6, -54, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(10,-16,-25, false);
-            path2.addPose(-13, 10, 10, false);
-            path2.addPose(0,40,0,false);
+            path2.addPose(10,-3,-10, true);
+            path2.addPose(0,-4,0,false);
+            path2.addPose(-13, 20, 20, false);
+            grabStone(path2);
+            path2.addPose(-2,26,0,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-
-        }else {
-            path2.addPose(6, -45, 0, true);
+            path2.addPose(6, -68, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(10,-16,-25, false);
-            path2.addPose(-13, 10, 10, false);
-            path2.addPose(0,40,0,false);
+            path2.addPose(10,-3,-10, true);
+            path2.addPose(0,-4,0,false);
+            path2.addPose(-13, 20, 20, false);
+            grabStone(path2);
+            path2.addPose(-2,40,0,false);
+        }else {
+            path2.addPose(6, -78, 0, true);
+            rf.intake(path2, 1);
+            path2.addPose(10,-3,-10, true);
+            path2.addPose(0,-4,0,false);
+            path2.addPose(-13, 20, 20, false);
+            grabStone(path2);
+            path2.addPose(-2,50,0,false);
         }
+        rf.flip(path2, 0.8, 0.8);
+        path2.addPose(0,10,0, false);
+        bot.move(0,0,0);
+        rf.pause(path2, 500);
+        dropStone(path2);
 
 
         rf.start(path2, this);
+        bot.move(0,0,0);
 
     }
 
@@ -91,7 +107,7 @@ public class AutoRed extends LinearOpMode {
         cv.init(bot,this, 3);
     }
 
-    private void grabStone(){
+    private void grabStone(Path p){
         CodeSeg grabStone = new CodeSeg() {
             @Override
             public void run() {
@@ -102,10 +118,10 @@ public class AutoRed extends LinearOpMode {
                 bot.intake(0);
             }
         };
-        rf.customThread(path, grabStone);
+        rf.customThread(p, grabStone);
     }
 
-    private void dropStone(){
+    private void dropStone(Path p){
         CodeSeg dropStone = new CodeSeg() {
             @Override
             public void run() {
@@ -115,7 +131,7 @@ public class AutoRed extends LinearOpMode {
                 bot.flip(bot.sp, bot.sp);
             }
         };
-        rf.customThread(path, dropStone);
+        rf.customThread(p, dropStone);
     }
 
 }
