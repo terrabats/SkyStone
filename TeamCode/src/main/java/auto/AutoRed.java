@@ -35,7 +35,7 @@ public class AutoRed extends LinearOpMode {
             path.addPose(34,-2,-55, true);
             rf.intake(path, 1);
             path.addPose(3,5,-10, false);
-            path.addPose(-14, 10, 155,false);
+            path.addPose(-14, 12, 155,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path.addPose(34,8,55, true);
             rf.intake(path, 1);
@@ -61,90 +61,93 @@ public class AutoRed extends LinearOpMode {
         dropStone(path);
         rf.setScale(path, 4);
         path.addPose(-10,-20, -50, false);
-        path.addPose(5, -10, -50, false);
+        path.addPose(5, 8, -40, false);
         rf.grabFoundation(path, 0);
         rf.start(path, this);
         path2.continuePath(path);
+
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            path2.addPose(6, -54, 0, true);
+            path2.addPose(4, -69, 0, true);
             rf.intake(path2, 1);
             path2.addPose(10,-3,-10, true);
             path2.addPose(0,-4,0,false);
-            path2.addPose(-13, 20, 20, false);
+            path2.addPose(-13, 20, 10, false);
             grabStone(path2);
-            path2.addPose(-2,26,0,false);
+            path2.addPose(-2,16,0,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path2.addPose(4, -68, 0, true);
+            path2.addPose(4, -83, 0, true);
             rf.intake(path2, 1);
             path2.addPose(12,0,-10, true);
             path2.addPose(0,-7,0,false);
-            path2.addPose(-13, 20, 20, false);
+            path2.addPose(-13, 20, 10, false);
+            grabStone(path2);
+            path2.addPose(-2,30,0,false);
+        }else {
+            path2.addPose(4, -91, 0, true);
+            rf.intake(path2, 1);
+            path2.addPose(14,-3,-10, true);
+            path2.addPose(0,-5,0,false);
+            path2.addPose(-15, 20, 10, false);
             grabStone(path2);
             path2.addPose(-2,40,0,false);
-        }else {
-            path2.addPose(6, -74, 0, true);
-            rf.intake(path2, 1);
-            path2.addPose(12,-3,-10, true);
-            path2.addPose(0,-5,0,false);
-            path2.addPose(-13, 20, 20, false);
-            grabStone(path2);
-            path2.addPose(-2,50,0,false);
         }
-        rf.flip(path2, 0.8, 0.8);
-        path2.addPose(-6,15,0, true);
         rf.start(path2, this);
         bot.move(0,0,0);
-        path3.continuePath(path2);
-        dropStone(path3);
-        rf.pause(path3, 500);
-        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            path3.addPose(10, -60, 0, true);
-            rf.intake(path3, 1);
-            path3.addPose(13,-3,-20, true);
-            path3.addPose(0,-5,0,false);
-            path3.addPose(-14, 20, 20, false);
-            grabStone(path3);
-            path3.addPose(0,35,0,false);
-            rf.flip(path3, 0.8, 0.8);
-            rf.setScale(path3, 3);
-            path3.addPose(0,35, 0, true);
-            rf.setScale(path3, 1);
-        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path3.addPose(6, -75, 0, true);
-            rf.intake(path3, 1);
-            path3.addPose(13,-3,-20, true);
-            path3.addPose(0,-5,0,false);
-            path3.addPose(-12, 20, 20, false);
-            grabStone(path3);
-            path3.addPose(0,45,0,false);
-            rf.flip(path3, 0.8, 0.8);
-            rf.setScale(path3, 2);
-            path3.addPose(0,35, 0, false);
-            rf.setScale(path3, 1);
-        }else {
-            path3.addPose(6, -40, 0, false);
-            path3.addPose(20,-23,-20, true);
-            rf.intake(path3, 1);
-            rf.setScale(path3, 0.5);
-            path3.addPose(5, -8, 0, false);
-            rf.setScale(path3, 1);
-            path3.addPose(-23, 27, 20, false);
-            grabStone(path3);
-            path3.addPose(0,40,0, false);
-            rf.flip(path3, 0.8,0.8);
-            rf.setScale(path3, 2);
-            path3.addPose(0,25, 0, false);
-            rf.setScale(path3, 1);
-        }
-        rf.start(path3, this);
-        bot.move(0,0,0);
-        path4.continuePath(path3);
-        path4.addPose(-6, 0, 0,true);
-        dropStone(path4);
-        rf.pause(path4, 500);
-        path4.addPose(2,-40, 0, true);
-        rf.start(path4, this);
-        bot.move(0,0,0);
+//        rf.flip(path2, 0.8, 0.8);
+//        path2.addPose(-6,15,0, true);
+//        rf.start(path2, this);
+//        bot.move(0,0,0);
+//        path3.continuePath(path2);
+//        dropStone(path3);
+//        rf.pause(path3, 500);
+//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
+//            path3.addPose(10, -60, 0, true);
+//            rf.intake(path3, 1);
+//            path3.addPose(13,-3,-20, true);
+//            path3.addPose(0,-5,0,false);
+//            path3.addPose(-14, 20, 20, false);
+//            grabStone(path3);
+//            path3.addPose(0,35,0,false);
+//            rf.flip(path3, 0.8, 0.8);
+//            rf.setScale(path3, 3);
+//            path3.addPose(0,35, 0, true);
+//            rf.setScale(path3, 1);
+//        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
+//            path3.addPose(6, -75, 0, true);
+//            rf.intake(path3, 1);
+//            path3.addPose(13,-3,-20, true);
+//            path3.addPose(0,-5,0,false);
+//            path3.addPose(-12, 20, 20, false);
+//            grabStone(path3);
+//            path3.addPose(0,45,0,false);
+//            rf.flip(path3, 0.8, 0.8);
+//            rf.setScale(path3, 2);
+//            path3.addPose(0,35, 0, false);
+//            rf.setScale(path3, 1);
+//        }else {
+//            path3.addPose(6, -40, 0, false);
+//            path3.addPose(20,-23,-20, true);
+//            rf.intake(path3, 1);
+//            rf.setScale(path3, 0.5);
+//            path3.addPose(5, -8, 0, false);
+//            rf.setScale(path3, 1);
+//            path3.addPose(-23, 27, 20, false);
+//            grabStone(path3);
+//            path3.addPose(0,40,0, false);
+//            rf.flip(path3, 0.8,0.8);
+//            rf.setScale(path3, 2);
+//            path3.addPose(0,25, 0, false);
+//            rf.setScale(path3, 1);
+//        }
+//        rf.start(path3, this);
+//        bot.move(0,0,0);
+//        path4.continuePath(path3);
+//        path4.addPose(-6, 0, 0,true);
+//        dropStone(path4);
+//        rf.pause(path4, 500);
+//        path4.addPose(2,-40, 0, true);
+//        rf.start(path4, this);
+//        bot.move(0,0,0);
 
     }
 

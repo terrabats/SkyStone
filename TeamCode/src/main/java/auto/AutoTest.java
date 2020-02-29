@@ -29,18 +29,9 @@ public class AutoTest extends LinearOpMode {
         rf.telemetryText("scaning...");
         //rf.scanStonesBeforeInit(cv);
         waitForStart();
-        path.addPose(50, 0, 0, false);
-        path.addPose(23,20,-20, true);
+        //path.addPose(90, 0, 0, true);
         rf.intake(path, 1);
-        path.addPose(5, 3, 0, false);
-        path.addPose(-27, -23, 20, false);
-        grabStone();
-        path.addPose(-30,0,0, false);
-        rf.flip(path, 0.8,0.8);
-        path.addPose(-30,0, 0, true);
-        rf.pause(path, 500);
-        dropStone();
-
+        path.addPose(12,-3,-10, true);
         //path.addPose();
         rf.start(path, this);
         bot.move(0,0,0);
