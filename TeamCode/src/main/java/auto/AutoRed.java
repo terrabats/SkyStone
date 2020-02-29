@@ -74,9 +74,9 @@ public class AutoRed extends LinearOpMode {
             grabStone(path2);
             path2.addPose(-2,26,0,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path2.addPose(6, -68, 0, true);
+            path2.addPose(4, -68, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(10,0,-10, true);
+            path2.addPose(12,0,-10, true);
             path2.addPose(0,-7,0,false);
             path2.addPose(-13, 20, 20, false);
             grabStone(path2);
@@ -107,19 +107,19 @@ public class AutoRed extends LinearOpMode {
             path3.addPose(0,35,0,false);
             rf.flip(path3, 0.8, 0.8);
             rf.setScale(path3, 3);
-            path3.addPose(0,30, 0, true);
+            path3.addPose(0,35, 0, true);
             rf.setScale(path3, 1);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path3.addPose(10, -75, 0, true);
+            path3.addPose(6, -75, 0, true);
             rf.intake(path3, 1);
             path3.addPose(13,-3,-20, true);
             path3.addPose(0,-5,0,false);
-            path3.addPose(-14, 20, 20, false);
+            path3.addPose(-12, 20, 20, false);
             grabStone(path3);
             path3.addPose(0,45,0,false);
             rf.flip(path3, 0.8, 0.8);
-            rf.setScale(path3, 3);
-            path3.addPose(0,30, 0, true);
+            rf.setScale(path3, 2);
+            path3.addPose(0,35, 0, false);
             rf.setScale(path3, 1);
         }else {
             path3.addPose(6, -40, 0, false);
@@ -132,8 +132,8 @@ public class AutoRed extends LinearOpMode {
             grabStone(path3);
             path3.addPose(0,40,0, false);
             rf.flip(path3, 0.8,0.8);
-            rf.setScale(path3, 3);
-            path3.addPose(0,20, 0, true);
+            rf.setScale(path3, 2);
+            path3.addPose(0,25, 0, false);
             rf.setScale(path3, 1);
         }
         rf.start(path3, this);
