@@ -20,6 +20,7 @@ public class AutoRed extends LinearOpMode {
     TerraCV cv = new TerraCV();
     Path path = new Path();
     Path path2 = new Path();
+    Path path3 = new Path();
     TerraCV.StonePos stonePos;
 
     @Override
@@ -75,28 +76,52 @@ public class AutoRed extends LinearOpMode {
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path2.addPose(6, -68, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(10,-3,-10, true);
-            path2.addPose(0,-4,0,false);
+            path2.addPose(10,0,-10, true);
+            path2.addPose(0,-7,0,false);
             path2.addPose(-13, 20, 20, false);
             grabStone(path2);
             path2.addPose(-2,40,0,false);
         }else {
-            path2.addPose(6, -78, 0, true);
+            path2.addPose(6, -74, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(10,-3,-10, true);
-            path2.addPose(0,-4,0,false);
+            path2.addPose(12,-3,-10, true);
+            path2.addPose(0,-5,0,false);
             path2.addPose(-13, 20, 20, false);
             grabStone(path2);
             path2.addPose(-2,50,0,false);
         }
         rf.flip(path2, 0.8, 0.8);
-        path2.addPose(0,10,0, false);
-        bot.move(0,0,0);
-        rf.pause(path2, 500);
-        dropStone(path2);
-
-
+        path2.addPose(-6,15,0, true);
         rf.start(path2, this);
+        bot.move(0,0,0);
+        path3.continuePath(path2);
+        dropStone(path3);
+        rf.pause(path3, 500);
+        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
+
+        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
+
+        }else {
+            path3.addPose(6, -40, 0, false);
+            path3.addPose(20,-23,-20, true);
+            rf.intake(path3, 1);
+            rf.setScale(path3, 0.5);
+            path3.addPose(5, -8, 0, false);
+            rf.setScale(path3, 1);
+            path3.addPose(-23, 27, 20, false);
+            grabStone(path3);
+            path3.addPose(0,40,0, false);
+            rf.flip(path3, 0.8,0.8);
+            rf.setScale(path3, 3);
+            path3.addPose(0,20, 0, true);
+            rf.setScale(path3, 1);
+        }
+        path3.addPose(-6, 0, 0,false);
+        rf.pause(path3, 500);
+        dropStone(path3);
+        rf.pause(path3, 500);
+        path3.addPose(2,-40, 0, true);
+        rf.start(path3, this);
         bot.move(0,0,0);
 
     }

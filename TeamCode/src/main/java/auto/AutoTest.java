@@ -27,81 +27,23 @@ public class AutoTest extends LinearOpMode {
         rf.telemetryText("done initing");
         sleep(1000);
         rf.telemetryText("scaning...");
-        rf.scanStonesBeforeInit(cv);
+        //rf.scanStonesBeforeInit(cv);
         waitForStart();
-//        if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-////            toFoundation.addPose(25,-2,-45, true);
-////            rf.intake(toFoundation, 1);
-////            toFoundation.addPose(2,4,-5, false);
-////            toFoundation.addPose(-15,11,-40, true);
-//        }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-//            path.addPose(34,9,45, true);
-//            rf.intake(path, 1);
-//            path.addPose(2,-4,10, false);
-//            path.addPose(-13, 15, 35,false);
-//        }else {
-////            toFoundation.addPose(25,-1,44, true);
-////            rf.intake(toFoundation, 1);
-////            toFoundation.addPose(2,-4,11, false);
-////            toFoundation.addPose(-14,14,-145, false);
-//        }
-//        grabStone();
-//        path.addPose(0,50,0, false);
-//        rf.flip(path, 0.8, 0.8);
-//        rf.grabFoundation(path, 0.6);
-//        rf.setAccuracy(path, 0.5, 0.5, 2);
-//        path.addPose(2,20,90, true);
-//        rf.setAccuracy(path, 1, 1, 6);
-//        path.addPose(4, 0, 0, false);
-//        rf.grabFoundation(path, 0.85);
-//        dropStone();
-//        rf.setScale(path, 4);
-//        path.addPose(-10,-20, -50, false);
-//        path.addPose(3, -10, -50, false);
-//        rf.grabFoundation(path, 0);
-//
-//        rf.intake(path, 1);
-        path.addPose(0,0,90,  true);
-        path.addPose(0, -50, 0, true);
+        path.addPose(50, 0, 0, false);
+        path.addPose(23,20,-20, true);
         rf.intake(path, 1);
-        path.addPose(15, -10, 0, true);
-        path.addPose(0, -4, 0, true);
-        //path.addPose(0, -4, 0, false);
+        path.addPose(5, 3, 0, false);
+        path.addPose(-27, -23, 20, false);
+        grabStone();
+        path.addPose(-30,0,0, false);
+        rf.flip(path, 0.8,0.8);
+        path.addPose(-30,0, 0, true);
+        rf.pause(path, 500);
+        dropStone();
+
+        //path.addPose();
         rf.start(path, this);
-
-        //dropStone()
-// rf.grabFoundation(toFoundation, 0.85);
-//        toFoundation.addPose(4,0,0, false);
-//        rf.setScale(toFoundation,4);
-//        toFoundation.addPose(-10, -20, -50, false);
-//        toFoundation.addPose(0,-5,-40, false);
-//        rf.setScale(toFoundation, 1);
-        //rf.grabFoundation(toFoundation, 0);
-//        toFoundation.addPose(0, -45, 0, false);
-//        toFoundation.addPose(16, -20, -20, true);
-//        rf.intake(toFoundation, 1);
-//        toFoundation.addPose(2, -6, 0, false);
-//        toFoundation.addPose(-13, 20, 20, true);
-//        grabStone();
-//        toFoundation.addPose(0,35,0, false);
-//        rf.flip(toFoundation, 0.8, 0.8);
-//        toFoundation.addPose(-5,20,0, false);
-//        dropStone();
-//        rf.pause(toFoundation, 500);
-//        toFoundation.addPose(3, -52, 0, false);
-//        toFoundation.addPose(12, -30, -20, true);
-//        rf.intake(toFoundation, 1);
-//        toFoundation.addPose(2, -5, 0, false);
-//        toFoundation.addPose(-13, 20, 20, false);
-//        grabStone();
-//        toFoundation.addPose(0, 70, 0, false);
-//        rf.flip(toFoundation, 0.8, 0.8);
-//        dropStone();
-//        rf.pause(toFoundation, 500);
-//        toFoundation.addPose(0, -40, 0, true);
-//
-//        rf.start(toFoundation, this);
-
+        bot.move(0,0,0);
     }
 
     private void initialize(){
