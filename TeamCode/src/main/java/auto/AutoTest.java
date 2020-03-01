@@ -30,8 +30,8 @@ public class AutoTest extends LinearOpMode {
         //rf.scanStonesBeforeInit(cv);
         waitForStart();
         //path.addPose(90, 0, 0, true);
-        rf.intake(path, 1);
-        path.addPose(12,-3,-10, true);
+        rf.flip(path, 0.8,0.8);
+        path.addPose(-30,-6,-0, true);
         //path.addPose();
         rf.start(path, this);
         bot.move(0,0,0);

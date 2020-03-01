@@ -65,7 +65,7 @@ public class TerraBot {
     public final double maxH = 23;
 
     public final double sp = 0.18;
-    public final double sp2 = 0.6;
+    public final double sp2 = 0.55;
 
     public float heading = 0;
     public float lastAngle = 0;
