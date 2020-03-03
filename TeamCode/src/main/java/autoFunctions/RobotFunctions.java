@@ -4,11 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Currency;
 
 import global.TerraBot;
 import util.CodeSeg;
 import util.Rect;
+import java.util.Random;
 ///////////////////////////////////////////////////////////////////////////////////import autoUtil.TerraCV.stoneP;
 
 
@@ -22,11 +24,57 @@ public class RobotFunctions {
 
     public TerraCV.StonePos stonePos;
 
+    //Inspirational Messages
+    public ArrayList<String> ims = new ArrayList<>();
+
     public void init(TerraBot t, LinearOpMode o) {
         bot = t;
         op = o;
         odometry.init(bot);
+        initIMs();
     }
+
+    public void initIMs(){
+        ims.add("NitDaWit Just a Piece of ...");
+        ims.add("The red is blood the person is you Im done with this so f u.");
+        ims.add("No Excuses");
+        ims.add("The tape is stuck!");
+        ims.add("I can't do relic!");
+        ims.add("Is Shuhul hurt");
+        ims.add("Jeff is watching");
+        ims.add("Bob Smith");
+        ims.add("Robo Avatars crying");
+        ims.add("Shuhuls computer");
+        ims.add("Big Boy Roy");
+        ims.add("Less Friction");
+        ims.add("Your PC ran into fatal errors");
+        ims.add("For testing purposes only");
+        ims.add("My hands I messed up");
+        ims.add("I made a mistake");
+        ims.add("Flow Chart");
+        ims.add("Ayush Servo");
+        ims.add("Titanium dik");
+        ims.add("Roy 'I need you for support' Help me up");
+        ims.add("Peter and Steven have blessed you");
+        ims.add("SEVEN STONE AUTO INIT");
+        ims.add("Mogli");
+        ims.add("Chipmunk");
+        ims.add("FLippin leave");
+        ims.add("UWU");
+        ims.add("Jeff stop looking at this or Ill personally disqualify");
+        ims.add("Saftey glasses in the pits or GTFO");
+        ims.add("Panda Chicken");
+        ims.add("Bracket Sources");
+        ims.add("'My Heart... its beating too fast I cant stop'");
+    }
+
+    public void generateRandomIM(){
+        Random rand = new Random();
+        int index = rand.nextInt(ims.size());
+        String out = ims.get(index+1);
+        telemetryText(out);
+    }
+
 
     public void start(Path path, LinearOpMode o){
         while (o.opModeIsActive() && path.isExecuting()){
@@ -203,6 +251,11 @@ public class RobotFunctions {
                 op.telemetry.update();
             }
         });
+    }
+    public void pauseBeforeInit(double secs){
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
+        while (!op.isStarted() && time.seconds() < secs){}
     }
 
 }

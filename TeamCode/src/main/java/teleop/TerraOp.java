@@ -63,7 +63,7 @@ public class TerraOp extends OpMode {
                     bot.flip(bot.sp,bot.sp);
                 }
                 if(bot.isLiftInLimits(gamepad2)) {
-                    bot.lift((-gamepad2.right_stick_y*0.4)+0.08);
+                    bot.lift((-gamepad2.right_stick_y*0.65)+0.08);
                 }else{
                     bot.lift(0.08);
                 }

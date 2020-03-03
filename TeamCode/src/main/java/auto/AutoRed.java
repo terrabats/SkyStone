@@ -27,8 +27,8 @@ public class AutoRed extends LinearOpMode {
     public void runOpMode() {
         initialize();
         rf.telemetryText("done initing");
-        sleep(1000);
-        rf.telemetryText("loading chunks...");
+        rf.generateRandomIM();
+        rf.pauseBeforeInit(4);
         rf.scanStonesBeforeInit(cv);
         waitForStart();
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
