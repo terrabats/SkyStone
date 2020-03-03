@@ -28,7 +28,7 @@ public class AutoRed extends LinearOpMode {
         initialize();
         rf.telemetryText("done initing");
         sleep(1000);
-        rf.telemetryText("scaning...");
+        rf.telemetryText("loading chunks...");
         rf.scanStonesBeforeInit(cv);
         waitForStart();
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
@@ -69,7 +69,7 @@ public class AutoRed extends LinearOpMode {
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
             path2.addPose(4, -77, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(12,-1,-30, true);
+            path2.addPose(11,-1,-30, true);
             path2.addPose(2,-4,10,false);
             path2.addPose(-16, 20, 20, false);
             grabStone(path2);
@@ -77,7 +77,7 @@ public class AutoRed extends LinearOpMode {
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path2.addPose(4, -87, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(12,-1,-30, true);
+            path2.addPose(11,-1,-30, true);
             path2.addPose(2,-4,10,false);
             path2.addPose(-16, 20, 20, false);
             grabStone(path2);
@@ -85,24 +85,24 @@ public class AutoRed extends LinearOpMode {
         }else {
             path2.addPose(4, -96, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(12,-1,-30, true);
+            path2.addPose(11,-1,-30, true);
             path2.addPose(2,-4,10,false);
             path2.addPose(-16, 20, 20, false);
             grabStone(path2);
             path2.addPose(-2,40,0,false);
         }
         rf.flip(path2, 0.8, 0.8);
-        path2.addPose(-6,43,0, true);
+        path2.addPose(-4,43,0, true);
+        dropStone(path2);
         rf.start(path2, this);
         bot.move(0,0,0);
         path3.continuePath(path2);
-        dropStone(path3);
         rf.pause(path3, 200);
-        path3.addPose(6,-43,0, false);
+        path3.addPose(4,-43,0, false);
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
             path3.addPose(4, -45, 0, true);
             rf.intake(path3, 1);
-            path3.addPose(12,-1,-30, true);
+            path3.addPose(11,-1,-30, true);
             path3.addPose(2,-4,10,false);
             path3.addPose(-16, 20, 20, false);
             grabStone(path3);
@@ -110,7 +110,7 @@ public class AutoRed extends LinearOpMode {
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path3.addPose(4, -54, 0, true);
             rf.intake(path3, 1);
-            path3.addPose(12,-1,-30, true);
+            path3.addPose(11,-1,-30, true);
             path3.addPose(2,-4,10,false);
             path3.addPose(-16, 20, 20, false);
             grabStone(path3);
@@ -122,7 +122,7 @@ public class AutoRed extends LinearOpMode {
             rf.setScale(path3, 0.5);
             path3.addPose(5, -8, 0, false);
             rf.setScale(path3, 1);
-            path3.addPose(-23, 27, 20, false);
+            path3.addPose(-25, 10, 20, false);
             grabStone(path3);
             path3.addPose(0,40,0, false);
         }

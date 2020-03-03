@@ -53,7 +53,13 @@ public class RobotFunctions {
             if(sp != null) {
                 stonePos = sp;
             }
-            op.telemetry.addData("stonePos", stonePos);
+            if(stonePos.equals(TerraCV.StonePos.RIGHT)) {
+                op.telemetry.addData("status", "READy");
+            }else if(stonePos.equals(TerraCV.StonePos.MIDDLE)){
+                op.telemetry.addData("status", "REaDY");
+            }else if (stonePos.equals(TerraCV.StonePos.LEFT)){
+                op.telemetry.addData("status", "rEADY");
+            }
             op.telemetry.update();
         }
     }
