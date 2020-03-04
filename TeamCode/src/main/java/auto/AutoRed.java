@@ -70,18 +70,18 @@ public class AutoRed extends LinearOpMode {
             path2.addPose(4, -77, 0, true);
             rf.intake(path2, 1);
             path2.addPose(11,-1,-30, true);
-            path2.addPose(2,-4,10,false);
-            path2.addPose(-16, 20, 20, false);
+            path2.addPose(2,-5,10,false);
+            path2.addPose(-16, 2, 20, false);
             grabStone(path2);
-            path2.addPose(-2,24,0,false);
+            path2.addPose(-2,25,0,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
-            path2.addPose(4, -87, 0, true);
+            path2.addPose(4, -86, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(11,-1,-30, true);
-            path2.addPose(2,-4,10,false);
-            path2.addPose(-16, 20, 20, false);
+            path2.addPose(12,-1,-30, true);
+            path2.addPose(2,-6,10,false);
+            path2.addPose(-18, 20, 20, false);
             grabStone(path2);
-            path2.addPose(-2,32,0,false);
+            path2.addPose(-2,37,0,false);
         }else {
             path2.addPose(4, -96, 0, true);
             rf.intake(path2, 1);
