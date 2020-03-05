@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+import autoFunctions.AutoThread;
 import autoFunctions.Path;
 import autoFunctions.RobotFunctions;
 import autoFunctions.TerraCV;
@@ -28,12 +29,18 @@ public class AutoTest extends LinearOpMode {
         sleep(1000);
         rf.telemetryText("scaning...");
         //rf.scanStonesBeforeInit(cv);
+        //rf.startOdoThread();
         waitForStart();
         //path.addPose(90, 0, 0, true);
-        rf.flip(path, 0.8,0.8);
-        path.addPose(-30,-6,-0, true);
+        path.addPose(90,0,0, true);
+        path.addPose(5, 10, 90, true);
+        path.addPose(10, 5, 90, true);
+        path.addPose(-5, -10, 90, true);
+        path.addPose(-10, -5, 90, true);
+        path.addPose(-90,0,0, true);
         //path.addPose();
         rf.start(path, this);
+        //rf.odoThread.stop();
         bot.move(0,0,0);
     }
 

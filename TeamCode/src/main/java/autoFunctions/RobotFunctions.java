@@ -24,6 +24,9 @@ public class RobotFunctions {
 
     public TerraCV.StonePos stonePos;
 
+    public AutoThread odoThread = new AutoThread();
+    public Thread thread;
+
     //Inspirational Messages
     public ArrayList<String> ims = new ArrayList<>();
 
@@ -75,14 +78,30 @@ public class RobotFunctions {
         telemetryText(out);
     }
 
+    public void startOdoThread(){
+        CodeSeg code  = new CodeSeg() {
+            @Override
+            public void run() {
+                odometry.updateGlobalPosition();
+            }
+        };
+        odoThread.init(code);
+        thread = new Thread(odoThread);
+        thread.start();
+
+
+    }
+
 
     public void start(Path path, LinearOpMode o){
+        //odometry.updateGlobalPosition();
         while (o.opModeIsActive() && path.isExecuting()){
-            odometry.updateGlobalPosition();
+            //odometry.updateGlobalPosition();
             double[] pows = path.update(odometry);
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);
             }
+
 //            o.telemetry.addData("x", odometry.getGlobalPose()[0]);
 //            o.telemetry.addData("y", odometry.getGlobalPose()[1]);
 //            o.telemetry.addData("h", odometry.getGlobalPose()[2]);
