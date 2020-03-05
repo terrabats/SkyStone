@@ -48,12 +48,12 @@ public class AutoRed extends LinearOpMode {
             path.addPose(-15, 20, 25,false);
         }
         grabStone(path);
-        path.addPose(-2,50,0, false);
+        path.addPose(-2,40,0, false);
         rf.flip(path, 0.8, 0.8);
         rf.grabFoundation(path, 0.6);
-        rf.multiplyD(path, 3.5);
+        rf.multiplyD(path, 2.5);
         rf.setAccuracy(path, 0.5, 0.5, 2);
-        path.addPose(0,20,90, true);
+        path.addPose(0,30,90, true);
         rf.setAccuracy(path, 1, 1, 6);
         rf.multiplyD(path, 2);
         path.addPose(6, 0, 0, false);
@@ -79,7 +79,7 @@ public class AutoRed extends LinearOpMode {
             rf.intake(path2, 1);
             path2.addPose(12,-1,-30, true);
             path2.addPose(2,-6,10,false);
-            path2.addPose(-18, 20, 20, false);
+            path2.addPose(-18, 19, 20, false);
             grabStone(path2);
             path2.addPose(-2,37,0,false);
         }else {
