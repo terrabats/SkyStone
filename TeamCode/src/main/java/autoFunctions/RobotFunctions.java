@@ -96,7 +96,7 @@ public class RobotFunctions {
     public void start(Path path, LinearOpMode o){
         //odometry.updateGlobalPosition();
         while (o.opModeIsActive() && path.isExecuting()){
-            //odometry.updateGlobalPosition();
+            odometry.updateGlobalPosition();
             double[] pows = path.update(odometry);
             if(pows!= null) {
                 bot.move(pows[1], pows[0], pows[2]);

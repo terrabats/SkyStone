@@ -37,6 +37,7 @@ public class AutoTest extends LinearOpMode {
         path.addPose(10, 5, 90, true);
         path.addPose(-5, -10, 90, true);
         path.addPose(-10, -5, 90, true);
+        rf.setAccuracy(path, 0.2, 0.2, 1);
         path.addPose(-90,0,0, true);
         //path.addPose();
         rf.start(path, this);

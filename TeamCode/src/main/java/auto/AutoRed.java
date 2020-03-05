@@ -30,7 +30,7 @@ public class AutoRed extends LinearOpMode {
         rf.generateRandomIM();
         rf.pauseBeforeInit(4);
         rf.scanStonesBeforeInit(cv);
-        rf.startOdoThread();
+        //rf.startOdoThread();
         waitForStart();
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
             path.addPose(34,-2,-55, true);
@@ -70,11 +70,11 @@ public class AutoRed extends LinearOpMode {
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
             path2.addPose(4, -77, 0, true);
             rf.intake(path2, 1);
-            path2.addPose(11,-1,-30, true);
+            path2.addPose(12,-1,-30, true);
             path2.addPose(2,-5,10,false);
             path2.addPose(-16, 2, 20, false);
             grabStone(path2);
-            path2.addPose(-2,25,0,false);
+            path2.addPose(-2,38,0,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path2.addPose(4, -86, 0, true);
             rf.intake(path2, 1);
@@ -101,7 +101,7 @@ public class AutoRed extends LinearOpMode {
         rf.pause(path3, 200);
         path3.addPose(4,-43,0, false);
         if(rf.stonePos.equals(TerraCV.StonePos.RIGHT)){
-            path3.addPose(4, -45, 0, true);
+            path3.addPose(4, -40, 0, true);
             rf.intake(path3, 1);
             path3.addPose(11,-1,-30, true);
             path3.addPose(2,-4,10,false);
@@ -123,7 +123,7 @@ public class AutoRed extends LinearOpMode {
             rf.setScale(path3, 0.5);
             path3.addPose(5, -8, 0, false);
             rf.setScale(path3, 1);
-            path3.addPose(-25, 10, 20, false);
+            path3.addPose(-29, 10, 20, false);
             grabStone(path3);
             path3.addPose(0,40,0, false);
         }
@@ -137,7 +137,7 @@ public class AutoRed extends LinearOpMode {
         path4.addPose(0,-40, 0, true);
         rf.start(path4, this);
         bot.move(0,0,0);
-        rf.odoThread.stop();
+        //rf.odoThread.stop();
 
     }
 

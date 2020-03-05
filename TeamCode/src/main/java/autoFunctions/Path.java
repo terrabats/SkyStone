@@ -47,7 +47,7 @@ public class Path {
     public double xp = 0.16;
     public double xd = 0.15;
 
-    public double yp = 0.08;
+    public double yp = 0.08; // 0.08
     public double yd = 0.1;
 
     public double hp = 0.03;
@@ -182,7 +182,6 @@ public class Path {
                     resetSums();
                 }
             }else{
-
                 multiplyD(scaleD);
                 double averageVel = h.average(XVelocity, YVelocity, HVelocity);
                 if (averageVel < MINVEL && Math.abs(XError) < (XACCURACY * 2) && Math.abs(YError) < (YACCURACY * 2) && Math.abs(HError) < (HACCURACY * 2)) {
