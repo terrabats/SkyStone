@@ -138,21 +138,6 @@ public class Helper {
         });
 
     }
-    public void defineAlign(final TerraBot bot){
-        bot.align.addStage(new Stage() {
-            public boolean run(double dis) {
-                bot.move(-0.3,-0.6, 0);
-                return isStoneDetected(dis);
-            }
-        });
-        bot.align.addStage(new Stage() {
-            @Override
-            public boolean run(double dis) {
-                bot.move(0,0,0);
-                return true;
-            }
-        });
-    }
 
 
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
@@ -170,12 +155,6 @@ public class Helper {
         return dynamics;
     }
 
-    public ArrayList<Double> dynamicsAlign(TerraBot bot){
-        ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.getStoneDistance());
-        dynamics.add(bot.getStoneDistance());
-        return dynamics;
-    }
 
 
 

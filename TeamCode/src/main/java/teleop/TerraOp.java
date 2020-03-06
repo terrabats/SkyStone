@@ -29,25 +29,17 @@ public class TerraOp extends OpMode {
         @Override
         public void run() {
 
-            if(gamepad1.y){
-                bot.align.start();
-            }
-
             //bot.move(h.calcPow(-gamepad1.right_stick_y),h.calcPow(gamepad1.right_stick_x), h.calcPow(gamepad1.left_stick_x));
-            if(!bot.align.executing) {
-                if (bot.highGear) {
-                    fpow = h.calcPow(-gamepad1.right_stick_y, 1, bot);
-                    spow = h.calcPow(gamepad1.right_stick_x, 0.8, bot);
-                    tpow = h.calcPow(gamepad1.left_stick_x, 0.6, bot);
-                } else {
-                    fpow = h.calcPow(-gamepad1.right_stick_y, 0.4, bot);
-                    spow = h.calcPow(gamepad1.right_stick_x, 0.4, bot);
-                    tpow = h.calcPow(gamepad1.left_stick_x, 0.3, bot);
-                }
-                bot.move(fpow, spow, tpow);
-            }else{
-                bot.update();
+            if (bot.highGear) {
+                fpow = h.calcPow(-gamepad1.right_stick_y, 1, bot);
+                spow = h.calcPow(gamepad1.right_stick_x, 0.8, bot);
+                tpow = h.calcPow(gamepad1.left_stick_x, 0.6, bot);
+            } else {
+                fpow = h.calcPow(-gamepad1.right_stick_y, 0.4, bot);
+                spow = h.calcPow(gamepad1.right_stick_x, 0.4, bot);
+                tpow = h.calcPow(gamepad1.left_stick_x, 0.3, bot);
             }
+            bot.move(fpow, spow, tpow);
 
 
             if(gamepad2.right_bumper && bot.highGear && bot.delay.seconds() > 0.3){

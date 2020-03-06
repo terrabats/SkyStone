@@ -45,7 +45,6 @@ public class TerraBot {
     public Servo fg2 = null;
 
     public DistanceSensor lh = null;
-    public DistanceSensor sd = null;
 
     public HardwareMap hwMap = null;
     public ElapsedTime t = new ElapsedTime();
@@ -55,7 +54,6 @@ public class TerraBot {
 
     public AutoModule grab = new AutoModule();
     public AutoModule retract = new AutoModule();
-    public AutoModule align = new AutoModule();
 
     public BNO055IMU gyro;
 
@@ -95,7 +93,6 @@ public class TerraBot {
         fg2 = hwMap.get(Servo.class, "fg2");
         lh = hwMap.get(DistanceSensor.class, "lh");
         gyro = hwMap.get(BNO055IMU.class , "gyro");
-        sd = hwMap.get(DistanceSensor.class, "sd");
 
 
         l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -147,7 +144,6 @@ public class TerraBot {
 
         h.defineGrab(this);
         h.defineRetract(this);
-        h.defineAlign(this);
 
         h.initGyro(gyro);
 
@@ -189,9 +185,6 @@ public class TerraBot {
     public double getLiftHeight(){
         return lh.getDistance(DistanceUnit.INCH);
     }
-    public double getStoneDistance(){
-        return sd.getDistance(DistanceUnit.INCH);
-    }
     public boolean isLiftInLimits(Gamepad g2){
         return lim.isInLimits(g2, rft, getLiftHeight());
     }
@@ -226,7 +219,7 @@ public class TerraBot {
     public void update(){
         grab.update(h.dynamicsGrab(this));
         retract.update(h.dynamicsRetract(this));
-        align.update(h.dynamicsAlign(this));
+
     }
 
 }
