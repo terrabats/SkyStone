@@ -65,10 +65,16 @@ public class RobotFunctions {
         ims.add("FLippin leave");
         ims.add("UWU");
         ims.add("Jeff stop looking at this or Ill personally disqualify");
-        ims.add("Saftey glasses in the pits or GTFO");
+        ims.add("Safety glasses in the pits or GTFO");
         ims.add("Panda Chicken");
         ims.add("Bracket Sources");
         ims.add("'My Heart... its beating too fast I cant stop'");
+        ims.add("14 volt big boy");
+        ims.add("rolling sky grind");
+        ims.add("this was supposed to be MY day");
+        ims.add("1115, 8802, 14525, world record no penalties");
+        ims.add("Higuchi nada nada bada enchilada na ana na...");
+
     }
 
     public void generateRandomIM(){
