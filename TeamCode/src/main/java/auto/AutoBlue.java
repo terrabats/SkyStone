@@ -36,12 +36,12 @@ public class AutoBlue extends LinearOpMode {
             path.addPose(34,0,-55, true);
             rf.intake(path, 1);
             path.addPose(3,5,-10, false);
-            path.addPose(-15, -20, -25,false);
+            path.addPose(-13, -20, -25,false);
         }else if(rf.stonePos.equals(TerraCV.StonePos.MIDDLE)){
             path.addPose(34,-8,-55, true);
             rf.intake(path, 1);
             path.addPose(3,5,-10, false);
-            path.addPose(-15, -12, -25,false);
+            path.addPose(-13, -12, -25,false);
         }else {
             path.addPose(34,2,55, true);
             rf.intake(path, 1);

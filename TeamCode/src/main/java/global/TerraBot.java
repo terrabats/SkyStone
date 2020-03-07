@@ -43,6 +43,7 @@ public class TerraBot {
     public Servo g = null;
     public Servo fg1 = null;
     public Servo fg2 = null;
+    public Servo c = null;
 
     public DistanceSensor lh = null;
 
@@ -91,6 +92,7 @@ public class TerraBot {
         g = hwMap.get(Servo.class, "g");
         fg1 = hwMap.get(Servo.class, "fg1");
         fg2 = hwMap.get(Servo.class, "fg2");
+        c = hwMap.get(Servo.class, "c");
         lh = hwMap.get(DistanceSensor.class, "lh");
         gyro = hwMap.get(BNO055IMU.class , "gyro");
 
@@ -119,6 +121,7 @@ public class TerraBot {
         g.setDirection(Servo.Direction.REVERSE);
         fg1.setDirection(Servo.Direction.FORWARD);
         fg2.setDirection(Servo.Direction.REVERSE);
+        c.setDirection(Servo.Direction.FORWARD);
 
         l1.setPower(0);
         l2.setPower(0);
@@ -134,6 +137,7 @@ public class TerraBot {
         g.setPosition(sp2);
         fg1.setPosition(0);
         fg2.setPosition(0);
+        c.setPosition(0);
 
         lim.addLimit(rft, minH, maxH);
 
@@ -182,6 +186,8 @@ public class TerraBot {
         fg1.setPosition(pos);
         fg2.setPosition(pos);
     }
+
+    public void cap(double pos){c.setPosition(pos);}
     public double getLiftHeight(){
         return lh.getDistance(DistanceUnit.INCH);
     }

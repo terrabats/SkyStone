@@ -105,6 +105,12 @@ public class TerraOp extends OpMode {
             }else if(gamepad1.dpad_up){
                 bot.foundationGrab(0);
             }
+
+            if(gamepad2.dpad_down){
+                bot.cap(1);
+            }else if(gamepad2.dpad_up){
+                bot.cap(0);
+            }
             odometry.updateGlobalPosition();
 
             telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
