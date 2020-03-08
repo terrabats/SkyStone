@@ -90,24 +90,24 @@ public class Helper {
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
-                bot.flip(0,0);
+                bot.flip(0.15,0.15);
                 bot.intake(0);
                 bot.isPulling = false;
-                return time > 0.3;
+                return time > 0.2;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.grab(1);
-                return time > 0.7;
+                return time > 0.6;
             }
         });
         bot.grab.addStage(new Stage() {
             @Override
             public boolean run(double time) {
                 bot.flip(bot.sp, bot.sp);
-                return time > 1;
+                return time > 0.9;
             }
         });
     }
