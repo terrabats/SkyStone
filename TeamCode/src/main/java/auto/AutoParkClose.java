@@ -17,21 +17,13 @@ public class AutoParkClose extends LinearOpMode {
     RobotFunctions rf = new RobotFunctions();
     Path move = new Path();
 
-    String side = "Red";
-
     @Override
     public void runOpMode() {
         initialize();
         rf.telemetryText("ready");
         waitForStart();
-        //ToFoundation
-//        if(side == "Red") {
-//            move.addPose(0,25, 0);
-//        }else if(side == "Blue"){
-//            move.addPose(0,-25, 0);
-//        }
-//        move.addPose(15, 0, 0);
-//        rf.start(move,this);
+        move.addPose(10,0,0,true);
+        rf.start(move,this);
 
     }
 
