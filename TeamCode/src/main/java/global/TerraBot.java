@@ -54,7 +54,7 @@ public class TerraBot {
     public Limits lim = new Limits();
 
     public AutoModule grab = new AutoModule();
-    public AutoModule retract = new AutoModule();
+    public AutoModule retract = new AutoModule(); 
 
     public BNO055IMU gyro;
 
