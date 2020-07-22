@@ -38,6 +38,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.hardware.usb.UsbDevice;
@@ -118,9 +119,15 @@ import org.firstinspires.ftc.robotcore.internal.ui.UILocation;
 import org.firstinspires.ftc.robotcore.internal.webserver.RobotControllerWebInfo;
 import org.firstinspires.ftc.robotserver.internal.programmingmode.ProgrammingModeManager;
 import org.firstinspires.inspection.RcInspectionActivity;
+import org.tensorflow.lite.Interpreter;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 @SuppressWarnings("WeakerAccess")
 public class FtcRobotControllerActivity extends Activity
@@ -169,6 +176,7 @@ public class FtcRobotControllerActivity extends Activity
   private static boolean permissionsValidated = false;
 
   private WifiDirectChannelChanger wifiDirectChannelChanger;
+  public Interpreter tflite;
 
   protected class RobotRestarter implements Restarter {
 
@@ -259,6 +267,12 @@ public class FtcRobotControllerActivity extends Activity
     if (enforcePermissionValidator()) {
       return;
     }
+
+//    try{
+//        tflite = new Interpreter(loadModelFile());
+//    }catch (Exception e){
+//        e.printStackTrace();
+//    }
 
     RobotLog.onApplicationStart();  // robustify against onCreate() following onDestroy() but using the same app instance, which apparently does happen
     RobotLog.vv(TAG, "onCreate()");
@@ -807,4 +821,13 @@ public class FtcRobotControllerActivity extends Activity
       wifiMuteStateMachine.consumeEvent(WifiMuteEvent.USER_ACTIVITY);
     }
   }
+
+//  private MappedByteBuffer loadModelFile() throws IOException {
+//    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("test.tflite");
+//    FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+//    FileChannel fileChannel = fileInputStream.getChannel();
+//    long startOffset = fileDescriptor.getStartOffset();
+//    long declaredLength = fileDescriptor.getDeclaredLength();
+//    return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
+//  }
 }
