@@ -45,7 +45,9 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -120,7 +122,10 @@ import org.firstinspires.ftc.robotcore.internal.webserver.RobotControllerWebInfo
 import org.firstinspires.ftc.robotserver.internal.programmingmode.ProgrammingModeManager;
 import org.firstinspires.inspection.RcInspectionActivity;
 import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.TensorFlowLite;
 
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
@@ -176,7 +181,7 @@ public class FtcRobotControllerActivity extends Activity
   private static boolean permissionsValidated = false;
 
   private WifiDirectChannelChanger wifiDirectChannelChanger;
-  public Interpreter tflite;
+  public static Interpreter tflite;
 
   protected class RobotRestarter implements Restarter {
 
@@ -261,18 +266,13 @@ public class FtcRobotControllerActivity extends Activity
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
 
     if (enforcePermissionValidator()) {
       return;
     }
 
-//    try{
-//        tflite = new Interpreter(loadModelFile());
-//    }catch (Exception e){
-//        e.printStackTrace();
-//    }
 
     RobotLog.onApplicationStart();  // robustify against onCreate() following onDestroy() but using the same app instance, which apparently does happen
     RobotLog.vv(TAG, "onCreate()");
@@ -394,6 +394,13 @@ public class FtcRobotControllerActivity extends Activity
     if (preferencesHelper.readBoolean(getString(R.string.pref_wifi_automute), false)) {
       initWifiMute(true);
     }
+
+    try{
+      tflite = new Interpreter(loadModelFile());
+    }catch (IOException e){
+
+    }
+
   }
 
   protected UpdateUI createUpdateUI() {
@@ -820,14 +827,15 @@ public class FtcRobotControllerActivity extends Activity
     if (wifiMuteStateMachine != null) {
       wifiMuteStateMachine.consumeEvent(WifiMuteEvent.USER_ACTIVITY);
     }
+
   }
 
-//  private MappedByteBuffer loadModelFile() throws IOException {
-//    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("test.tflite");
-//    FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-//    FileChannel fileChannel = fileInputStream.getChannel();
-//    long startOffset = fileDescriptor.getStartOffset();
-//    long declaredLength = fileDescriptor.getDeclaredLength();
-//    return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
-//  }
+  private MappedByteBuffer loadModelFile() throws IOException {
+    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("Skystone.tflite");
+    FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+    FileChannel fileChannel = fileInputStream.getChannel();
+    long startOffset = fileDescriptor.getStartOffset();
+    long declaredLength = fileDescriptor.getDeclaredLength();
+    return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
+  }
 }
