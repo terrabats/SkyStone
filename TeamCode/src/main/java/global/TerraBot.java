@@ -73,6 +73,8 @@ public class TerraBot {
     public boolean grabing = true;
     public ElapsedTime delay = new ElapsedTime();
 
+    public final double lowRange = 0.5;
+
 
 
 
@@ -158,19 +160,12 @@ public class TerraBot {
 
 
     public void move(double y, double x, double t) {
-        l1.setPower(norm(y, - x) - t);
-        r1.setPower(norm(y ,+ x) + t);
-        r2.setPower(norm(-y, + x) - t);
-        l2.setPower(norm(-y ,- x )+ t);
+        l1.setPower(y - x- t);
+        r1.setPower(y + x + t);
+        r2.setPower(-y + x - t);
+        l2.setPower(-y - x + t);
     }
-    private double norm(double a, double b) {
-        double l = Math.sqrt(a * a + b * b);
-        if (l > 0.1) {
-            return (a / l) + (b / l);
-        } else {
-            return a + b;
-        }
-    }
+
 
     public void intake(double p) {
         rin.setPower(p);

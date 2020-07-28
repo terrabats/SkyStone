@@ -19,6 +19,7 @@ import teleFunctions.TeleThread;
 public class TensorFlowTestOp extends OpMode {
 
     TensorFlowTest tf = new TensorFlowTest();
+    int inp = 0;
 
     @Override
     public void init() {
@@ -32,8 +33,13 @@ public class TensorFlowTestOp extends OpMode {
 
     @Override
     public void loop() {
+
+        if(gamepad1.x){
+            inp+=1;
+        }
         if(gamepad1.y){
-            telemetry.addData("Guess: ", tf.predict(1));
+            telemetry.addData("Input: ",inp);
+            telemetry.addData("Guess: ", tf.predict(inp));
             telemetry.update();
         }
     }

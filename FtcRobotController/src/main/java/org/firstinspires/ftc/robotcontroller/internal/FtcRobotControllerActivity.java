@@ -831,7 +831,7 @@ public class FtcRobotControllerActivity extends Activity
   }
 
   private MappedByteBuffer loadModelFile() throws IOException {
-    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("Skystone.tflite");
+    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("test.tflite");
     FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
     FileChannel fileChannel = fileInputStream.getChannel();
     long startOffset = fileDescriptor.getStartOffset();

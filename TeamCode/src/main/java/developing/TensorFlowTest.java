@@ -20,8 +20,8 @@ public class TensorFlowTest {
     }
 
     public float predict(float in) {
-        float[] inputVal = new float[1];
-        inputVal[0] = in;
+        float[][] inputVal = new float[1][1];
+        inputVal[0][0] = in;
         float[][] outputval = new float[1][1];
         tflite.run(inputVal, outputval);
         float inferredValue = outputval[0][0];
