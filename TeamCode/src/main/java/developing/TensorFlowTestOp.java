@@ -1,5 +1,7 @@
 package developing;
 
+import android.graphics.Bitmap;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,13 +21,18 @@ import teleFunctions.TeleThread;
 public class TensorFlowTestOp extends OpMode {
 
     TensorFlowTest tf = new TensorFlowTest();
-    int inp = 0;
+    CameraFunctions cf = new CameraFunctions();
+
+    Bitmap bm = null;
+
+
 
     @Override
     public void init() {
         telemetry.addData("Status:", "Not Ready");
         telemetry.update();
         tf.init();
+        cf.init(this);
         telemetry.addData("Status:", "Ready");
         telemetry.update();
     }
@@ -35,11 +42,18 @@ public class TensorFlowTestOp extends OpMode {
     public void loop() {
 
         if(gamepad1.x){
-            inp+=1;
+            bm = cf.takePicture();
+            if(bm == null){
+                telemetry.addData("It ", "Failed");
+                telemetry.update();
+            }else {
+                telemetry.addData("It ", "Worked");
+                telemetry.update();
+                byte[] arr = cf.bitmapToArray(bm);
+            }
         }
         if(gamepad1.y){
-            telemetry.addData("Input: ",inp);
-            telemetry.addData("Guess: ", tf.predict(inp));
+            telemetry.addData("Guess: ", tf.predict(10));
             telemetry.update();
         }
     }
