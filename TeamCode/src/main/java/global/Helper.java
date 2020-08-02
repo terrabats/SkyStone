@@ -1,6 +1,7 @@
 package global;
 
 import android.graphics.Color;
+import android.os.Build;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -10,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.slf4j.helpers.Util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import teleFunctions.Stage;
@@ -84,6 +87,14 @@ public class Helper {
         Color.RGBToHSV(r, g, b, hsv);
         return hsv;
     }
+    public static String getDataAndTime(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            return  dtf.format(now);
+        }
+        return "fail";
+    }
 
 
     public void defineGrab(final TerraBot bot) {
@@ -154,6 +165,8 @@ public class Helper {
         dynamics.add(bot.getLiftHeight());
         return dynamics;
     }
+
+
 
 
 

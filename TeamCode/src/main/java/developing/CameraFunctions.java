@@ -2,6 +2,7 @@
 package developing;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -15,11 +16,19 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import global.Helper;
 import global.TerraBot;
+import teleFunctions.TeleThread;
+import util.CodeSeg;
 import util.Rect;
 
 public class CameraFunctions {
@@ -31,6 +40,16 @@ public class CameraFunctions {
     public Image img;
     public Bitmap bm;
     OpMode op;
+
+    ArrayList<Bitmap> vid = new ArrayList<>();
+    TeleThread recThread = new TeleThread();
+    TeleThread saveThread = new TeleThread();
+    Storage st = new Storage();
+    String nameOfVid;
+
+
+    private boolean doNotRecord = false;
+
 
 
     public void init(OpMode o) {
@@ -47,6 +66,9 @@ public class CameraFunctions {
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
 
+    }
+    public void disableRecording(){
+        doNotRecord = true;
     }
 
     public Bitmap takePicture() {
@@ -65,5 +87,37 @@ public class CameraFunctions {
             bm = vuforia.convertFrameToBitmap(currentFrame);
         }
         return bm;
+    }
+
+
+    public void startRec(){
+        if(!doNotRecord) {
+            recThread.init(new CodeSeg() {
+                @Override
+                public void run() {
+                    vid.add(takePicture());
+                }
+            });
+            Thread t = new Thread(recThread);
+            t.start();
+        }
+    }
+    public void stopRecAndSave(String name){
+        if(!doNotRecord) {
+            nameOfVid = name;
+            recThread.stop();
+            saveThread.init(new CodeSeg() {
+                @Override
+                public void run() {
+                    st.saveVideo(getVid(), nameOfVid);
+                }
+            });
+            saveThread.changeToOnce();
+            Thread t = new Thread(saveThread);
+            t.start();
+        }
+    }
+    public ArrayList<Bitmap> getVid(){
+        return vid;
     }
 }

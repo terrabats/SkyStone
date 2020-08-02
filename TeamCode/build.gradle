@@ -20,5 +20,4 @@ android{
     }
 }
 dependencies {
-    implementation 'org.jcodec:jcodec:0.2.3'
 }

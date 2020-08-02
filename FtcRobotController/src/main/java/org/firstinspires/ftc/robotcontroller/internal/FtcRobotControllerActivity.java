@@ -50,6 +50,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -442,6 +443,8 @@ public class FtcRobotControllerActivity extends Activity
         return false;
       }
     });
+
+
   }
 
   @Override
@@ -831,6 +834,10 @@ public class FtcRobotControllerActivity extends Activity
     }
 
   }
+
+
+
+
 
   private MappedByteBuffer loadModelFile() throws IOException {
     AssetFileDescriptor fileDescriptor = this.getAssets().openFd("test.tflite");
