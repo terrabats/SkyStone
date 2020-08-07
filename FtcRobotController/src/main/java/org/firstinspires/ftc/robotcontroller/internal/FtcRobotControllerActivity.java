@@ -124,8 +124,6 @@ import org.firstinspires.ftc.robotcore.internal.ui.UILocation;
 import org.firstinspires.ftc.robotcore.internal.webserver.RobotControllerWebInfo;
 import org.firstinspires.ftc.robotserver.internal.programmingmode.ProgrammingModeManager;
 import org.firstinspires.inspection.RcInspectionActivity;
-import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.TensorFlowLite;
 
 
 import java.io.File;
@@ -185,7 +183,6 @@ public class FtcRobotControllerActivity extends Activity
   private static boolean permissionsValidated = false;
 
   private WifiDirectChannelChanger wifiDirectChannelChanger;
-  public static Interpreter tflite;
   public static AssetManager assetManager;
 
   protected class RobotRestarter implements Restarter {

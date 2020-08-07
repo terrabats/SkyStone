@@ -20,4 +20,5 @@ android{
     }
 }
 dependencies {
+    //implementation (name:'org.tensorflow:tensorflow-lite:2.3.0',ext:'arr')
 }

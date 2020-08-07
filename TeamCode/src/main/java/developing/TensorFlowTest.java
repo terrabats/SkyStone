@@ -43,7 +43,7 @@ public class TensorFlowTest {
     }
 
     public MappedByteBuffer loadModelFile() throws IOException {
-        AssetFileDescriptor fileDescriptor = FtcRobotControllerActivity.assetManager.openFd("test.tflite");
+        AssetFileDescriptor fileDescriptor = FtcRobotControllerActivity.assetManager.openFd("class.tflite");
         FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = fileInputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();

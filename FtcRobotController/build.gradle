@@ -21,6 +21,7 @@ android {
 dependencies {
 // implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
 //    implementation 'org.tensorflow:tensorflow-android:+'
+    //implementation (name:'org.tensorflow:tensorflow-lite:2.3.0',ext:'arr')
 }
 
 repositories {
