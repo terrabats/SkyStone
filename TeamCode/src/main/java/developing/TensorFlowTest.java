@@ -17,7 +17,11 @@ public class TensorFlowTest {
     public Interpreter tflite;
 
     public void init() {
-        tflite = FtcRobotControllerActivity.tflite;
+        try{
+            tflite = new Interpreter(loadModelFile());
+        }catch (IOException e){
+
+        }
     }
 
     public float predictNum(float in) {
@@ -28,6 +32,7 @@ public class TensorFlowTest {
         float inferredValue = outputval[0][0];
         return inferredValue;
     }
+
     public float predictClass(Bitmap in) {
         Bitmap[] inputVal = new Bitmap[1];
         inputVal[0] = in;
@@ -35,6 +40,15 @@ public class TensorFlowTest {
         tflite.run(inputVal, outputval);
         float inferredValue = outputval[0][0];
         return inferredValue;
+    }
+
+    public MappedByteBuffer loadModelFile() throws IOException {
+        AssetFileDescriptor fileDescriptor = FtcRobotControllerActivity.assetManager.openFd("test.tflite");
+        FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = fileInputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
     }
 
 }

@@ -39,6 +39,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.hardware.usb.UsbDevice;
@@ -185,6 +186,7 @@ public class FtcRobotControllerActivity extends Activity
 
   private WifiDirectChannelChanger wifiDirectChannelChanger;
   public static Interpreter tflite;
+  public static AssetManager assetManager;
 
   protected class RobotRestarter implements Restarter {
 
@@ -398,11 +400,12 @@ public class FtcRobotControllerActivity extends Activity
       initWifiMute(true);
     }
 
-    try{
-      tflite = new Interpreter(loadModelFile());
-    }catch (IOException e){
-
-    }
+//    try{
+//      tflite = new Interpreter(loadModelFile());
+//    }catch (IOException e){
+//
+//    }
+    loadAssetManager();
 
   }
 
@@ -838,13 +841,7 @@ public class FtcRobotControllerActivity extends Activity
 
 
 
-
-  private MappedByteBuffer loadModelFile() throws IOException {
-    AssetFileDescriptor fileDescriptor = this.getAssets().openFd("test.tflite");
-    FileInputStream fileInputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-    FileChannel fileChannel = fileInputStream.getChannel();
-    long startOffset = fileDescriptor.getStartOffset();
-    long declaredLength = fileDescriptor.getDeclaredLength();
-    return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
+  private void loadAssetManager(){
+    assetManager = this.getAssets();
   }
 }
