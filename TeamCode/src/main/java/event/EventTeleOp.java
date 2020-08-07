@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class EventTeleOp extends OpMode {
 
 
-    public TeleEvent bot = new TeleEvent();
+    public EventBot bot = new EventBot();
 
     @Override
     public void init() {

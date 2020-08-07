@@ -119,29 +119,6 @@ public class TerraCV {
             return null;
         }
     }
-
-    public double getAverageOfPixels(Rect rect){
-        double total = 0;
-        int x1 = rect.getX1();
-        int y1 = rect.getY1();
-        int x2 = rect.getX2();
-        int y2 = rect.getY2();
-
-        for (int x = x1; x < x2; x+= Accuracy) {
-            for (int y = y1; y < y2; y+=Accuracy ) {
-                int pix = bm.getPixel(x,y);
-                float[] hsv = h.rgbToHSV(pix);
-                total += hsv[2];
-                if(!op.opModeIsActive()){
-                    break;
-                }
-            }
-            if(!op.opModeIsActive()){
-                break;
-            }
-        }
-        return total/(rect.getArea());
-    }
     public double getAverageOfPixelsBeforeInit(Rect rect){
         double total = 0;
         int x1 = rect.getX1();

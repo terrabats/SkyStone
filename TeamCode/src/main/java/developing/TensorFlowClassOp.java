@@ -20,11 +20,11 @@ import global.TerraBot;
 import teleFunctions.TeleThread;
 
 
-@TeleOp(name = "TensorFlowTestOp", group = "new")
-public class TensorFlowTestOp extends OpMode {
+@TeleOp(name = "TensorFlowClassOp", group = "new")
+public class TensorFlowClassOp extends OpMode {
 
     TensorFlowTest tf = new TensorFlowTest();
-
+    CameraFunctions cf = new CameraFunctions();
 
 
     @Override
@@ -32,6 +32,7 @@ public class TensorFlowTestOp extends OpMode {
         telemetry.addData("Status:", "Not Ready");
         telemetry.update();
         tf.init();
+        cf.init(this);
         telemetry.addData("Status:", "Ready");
         telemetry.update();
     }
@@ -39,7 +40,8 @@ public class TensorFlowTestOp extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.y){
-            telemetry.addData("Guess: ", tf.predictNum(10));
+            Bitmap in  = cf.takePicture();
+            telemetry.addData("Guess: ", tf.predictClass(in));
             telemetry.update();
         }
     }

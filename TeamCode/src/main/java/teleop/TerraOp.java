@@ -42,11 +42,8 @@ public class TerraOp extends OpMode {
             bot.move(fpow, spow, tpow);
 
 
-            if(gamepad2.right_bumper && bot.highGear && bot.delay.seconds() > 0.3){
-                bot.highGear = false;
-                bot.delay.reset();
-            }else if(gamepad2.right_bumper && !bot.highGear && bot.delay.seconds() > 0.3){
-                bot.highGear = true;
+            if(gamepad2.right_bumper && bot.delay.seconds() > 0.3){
+                bot.highGear = !bot.highGear;
                 bot.delay.reset();
             }
 

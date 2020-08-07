@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 @Disabled
-public class TeleEvent {
+public class EventBot {
     public DcMotor left = null;
     public DcMotor right = null;
     public DcMotor front = null;
