@@ -26,7 +26,6 @@ public class TensorFlowTest {
         tflite.run(inputVal, outputval);
         float inferredValue = outputval[0][0];
         return inferredValue;
-
         
     }
 
