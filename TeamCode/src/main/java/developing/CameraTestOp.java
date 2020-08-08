@@ -34,7 +34,7 @@ public class CameraTestOp extends OpMode {
         telemetry.addData("Status:", "Not Ready");
         telemetry.update();
         bot.init(hardwareMap);
-        cf.init(this);
+        cf.init(this, true);
 //        cf.disableRecording();
         telemetry.addData("Status:", "Ready");
         telemetry.update();
