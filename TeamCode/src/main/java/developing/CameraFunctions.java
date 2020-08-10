@@ -47,6 +47,7 @@ public class CameraFunctions {
     TeleThread saveThread = new TeleThread();
     Storage st = new Storage();
     String nameOfVid;
+    ElapsedTime timer = new ElapsedTime();
 
     public int pixel_format = PixelFormat.RGB_565;
 
@@ -72,6 +73,7 @@ public class CameraFunctions {
 
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
         vuforia.setFrameQueueCapacity(1);
+
 
     }
     public void disableRecording(){
@@ -102,6 +104,7 @@ public class CameraFunctions {
 
     public void startRec(){
         if(!doNotRecord) {
+            timer.reset();
             recThread.init(new CodeSeg() {
                 @Override
                 public void run() {
@@ -119,7 +122,7 @@ public class CameraFunctions {
             saveThread.init(new CodeSeg() {
                 @Override
                 public void run() {
-                    st.saveVideo(getVid(), nameOfVid);
+                    st.saveVideo(getVid(), null, nameOfVid, timer.seconds());
                 }
             });
             saveThread.changeToOnce();

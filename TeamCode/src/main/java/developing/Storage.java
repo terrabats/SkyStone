@@ -16,20 +16,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Storage {
     public int num = 0;
 
-    public void saveBitmap(Bitmap in,String dirname, String name){
-        File filepath = Environment.getExternalStorageDirectory();
-        File dir = new File(filepath.getAbsolutePath()+"/test/");
-        dir.mkdir();
-        File dir1= new File(dir.getAbsolutePath()+"/"+dirname+"/");
-        dir1.mkdir();
-        File f = new File(dir1,name);
 
+    public void saveBitmap(Bitmap in,String dirname, String name){
+        File outFile = getOutputFile(dirname);
+        File f = new File(outFile,name);
         try {
             f.createNewFile();
         } catch (IOException e) {
@@ -51,13 +48,47 @@ public class Storage {
         }
 
     }
-    public void saveVideo(ArrayList<Bitmap> vid, String name){
-        for (Bitmap curr : vid) {
-            saveBitmap(curr, name, Integer.toString(num) + ".png");
-            num++;
+    public File getOutputFile(String dirname){
+        File filepath = Environment.getExternalStorageDirectory();
+        File dir = new File(filepath.getAbsolutePath()+"/test/");
+        dir.mkdir();
+        File dir1= new File(dir.getAbsolutePath()+"/"+dirname+"/");
+        dir1.mkdir();
+        return dir1;
+    }
+
+    public void saveText(String in, String dirname, String name)  {
+        File outFile = getOutputFile(dirname);
+        try (PrintWriter out = new PrintWriter(outFile.getAbsolutePath() + name)) {
+            out.println(in);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
         }
     }
 
+    public void saveVideoData(ArrayList<String> vidData, String dirname, String name){
+        File outFile =  getOutputFile(dirname);
+        try {
+            PrintWriter out = new PrintWriter(outFile.getAbsolutePath() + name);
+            for( String s:vidData){
+                out.println(s);
+            }
+            out.flush();
+            out.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
 
+    public void saveVideo(ArrayList<Bitmap> vid,ArrayList<String> vidData, String dirname,double time){
+        for (Bitmap curr : vid) {
+            saveBitmap(curr, dirname, Integer.toString(num) + ".png");
+            num++;
+        }
+        if(vidData != null){
+            saveVideoData(vidData, dirname, "videoData.txt");
+        }
+        saveText(Double.toString(time/vid.size()), dirname, "time.txt");
+    }
 
 }
