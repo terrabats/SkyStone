@@ -89,7 +89,7 @@ public class Helper {
     }
     public static String getDataAndTime(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy MM dd HH:mm:ss");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy MM dd HH mm ss");
             LocalDateTime now = LocalDateTime.now();
             return  dtf.format(now);
         }
