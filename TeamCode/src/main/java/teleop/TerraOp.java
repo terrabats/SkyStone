@@ -78,12 +78,13 @@ public class TerraOp extends OpMode {
             }
 
             if(gamepad2.y){
-                bot.t1.reset();
+                bot.timer1.reset();
                 bot.grab.start();
                 bot.highGear = true;
             }
+
             if(gamepad2.x){
-                bot.t1.reset();
+                bot.timer1.reset();
                 bot.retract.start();
                 bot.highGear = true;
             }

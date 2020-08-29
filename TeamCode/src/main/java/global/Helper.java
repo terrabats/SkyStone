@@ -142,15 +142,15 @@ public class Helper {
 
     public ArrayList<Double> dynamicsGrab(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.timer1.seconds());
+        dynamics.add(bot.timer1.seconds());
+        dynamics.add(bot.timer1.seconds());
         return dynamics;
     }
     public ArrayList<Double> dynamicsRetract(TerraBot bot) {
         ArrayList<Double> dynamics = new ArrayList<>();
-        dynamics.add(bot.t1.seconds());
-        dynamics.add(bot.t1.seconds());
+        dynamics.add(bot.timer1.seconds());
+        dynamics.add(bot.timer1.seconds());
         dynamics.add(bot.getLiftHeight());
         return dynamics;
     }

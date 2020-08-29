@@ -48,8 +48,7 @@ public class TerraBot {
     public DistanceSensor lh = null;
 
     public HardwareMap hwMap = null;
-    public ElapsedTime t = new ElapsedTime();
-    public ElapsedTime t1 = new ElapsedTime();
+    public ElapsedTime timer1 = new ElapsedTime();
     public Helper h = new Helper();
     public Limits lim = new Limits();
 
