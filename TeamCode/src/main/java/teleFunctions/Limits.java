@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import java.util.ArrayList;
 
 public class Limits {
+
     ArrayList<DcMotor> motors = new ArrayList<>();
     ArrayList<Double> lower = new ArrayList<>();
     ArrayList<Double> upper = new ArrayList<>();
@@ -22,16 +23,21 @@ public class Limits {
         double lower_bound = lower.get(i);
         double upper_bound = upper.get(i);
 
+
+
         MotionMode dir = null;
+
         boolean inLim = true;
-        if (lower_bound >= pos) {
+
+        if (pos <= lower_bound) {
             dir = MotionMode.FORWARD;
             inLim = false;
         } else if (pos >= upper_bound) {
             dir = MotionMode.REVERSE;
             inLim = false;
         }
-        if (dir != null) {
+
+        if (!inLim) {
             if (dir == getControllerDirection(g2)) {
                 inLim = true;
             }

@@ -36,6 +36,7 @@ public class Helper {
             return maxPow * in;
         }
     }
+
     public double average(double vx, double vy, double vh){
         return (vx+vy+vh)/3;
     }
@@ -47,6 +48,7 @@ public class Helper {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         g.initialize(parameters);
     }
+
     public boolean isStoneDetected(double dis){
         return dis < MIN_STONE_DIS;
     }

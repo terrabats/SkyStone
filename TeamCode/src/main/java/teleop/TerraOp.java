@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import java.util.Timer;
+
 import autoFunctions.Odometry;
 import global.Helper;
 import util.CodeSeg;
@@ -20,6 +22,8 @@ public class TerraOp extends OpMode {
     public Helper h = new Helper();
     Odometry odometry = new Odometry();
     public Thread thread;
+
+
 
     double fpow = 0;
     double spow = 0;
@@ -40,6 +44,10 @@ public class TerraOp extends OpMode {
                 tpow = h.calcPow(gamepad1.left_stick_x, 0.3, bot);
             }
             bot.move(fpow, spow, tpow);
+
+
+
+
 
 
             if(gamepad2.right_bumper && bot.highGear && bot.delay.seconds() > 0.3){
@@ -90,6 +98,8 @@ public class TerraOp extends OpMode {
             }
 
 
+
+
             if(bot.isPulling && !gamepad1.left_bumper){
                 bot.intake(1);
             }else if(gamepad1.right_bumper){
@@ -114,11 +124,14 @@ public class TerraOp extends OpMode {
             }
             odometry.updateGlobalPosition();
 
-            telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx,odometry.ty, odometry.theta);
+            telemetry.addData("x, y, h", "%f, %f, %f", odometry.tx, odometry.ty, odometry.theta);
             //telemetry.addData("height", bot.getLiftHeight());
             //telemetry.addData("stoneDis", bot.getStoneDistance());
             //telemetry.addData("gyro", bot.getHeading());
             telemetry.update();
+
+
+
 
         }
     };
@@ -141,9 +154,7 @@ public class TerraOp extends OpMode {
     }
 
     @Override
-    public void loop() {
-
-    }
+    public void loop() {}
 
     @Override
     public void stop() {

@@ -21,9 +21,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.internal.android.dex.Code;
+
+import java.util.ArrayList;
 
 import teleFunctions.AutoModule;
 import teleFunctions.Limits;
+import teleFunctions.Stage;
+import util.CodeSeg;
+import util.Rect;
+import util.Vector;
 
 
 public class TerraBot {
@@ -35,27 +42,43 @@ public class TerraBot {
 
     public DcMotor rin = null;
     public DcMotor lin = null;
+
     public DcMotor rft = null;
     public DcMotor lft = null;
 
     public Servo f1 = null;
     public Servo f2 = null;
+
     public Servo g = null;
+
     public Servo fg1 = null;
     public Servo fg2 = null;
+
     public Servo c = null;
+
+
 
     public DistanceSensor lh = null;
 
     public HardwareMap hwMap = null;
-    public ElapsedTime timer1 = new ElapsedTime();
+
     public Helper h = new Helper();
+
+
     public Limits lim = new Limits();
 
     public AutoModule grab = new AutoModule();
     public AutoModule retract = new AutoModule();
 
+    //for automodules
+    public ElapsedTime timer1 = new ElapsedTime();
+
+    public ElapsedTime delay = new ElapsedTime();
+
     public BNO055IMU gyro;
+
+
+
 
     public boolean isPulling = false;
 
@@ -69,8 +92,8 @@ public class TerraBot {
     public float lastAngle = 0;
 
     public boolean highGear = true;
+
     public boolean grabing = true;
-    public ElapsedTime delay = new ElapsedTime();
 
 
 
@@ -86,15 +109,16 @@ public class TerraBot {
         lin = hwMap.get(DcMotor.class, "lin");
         rft = hwMap.get(DcMotor.class, "rft");
         lft = hwMap.get(DcMotor.class, "lft");
+
         f1 = hwMap.get(Servo.class, "f1");
         f2 = hwMap.get(Servo.class, "f2");
         g = hwMap.get(Servo.class, "g");
         fg1 = hwMap.get(Servo.class, "fg1");
         fg2 = hwMap.get(Servo.class, "fg2");
         c = hwMap.get(Servo.class, "c");
+
         lh = hwMap.get(DistanceSensor.class, "lh");
         gyro = hwMap.get(BNO055IMU.class , "gyro");
-
 
         l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -104,7 +128,6 @@ public class TerraBot {
         lin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         l1.setDirection(DcMotor.Direction.REVERSE);
         l2.setDirection(DcMotor.Direction.FORWARD);
@@ -138,6 +161,7 @@ public class TerraBot {
         fg2.setPosition(0);
         c.setPosition(0);
 
+
         lim.addLimit(rft, minH, maxH);
 
         l1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -147,15 +171,15 @@ public class TerraBot {
 
         h.defineGrab(this);
         h.defineRetract(this);
-
         h.initGyro(gyro);
-
-
 
 
     }
 
 
+
+
+    //t stands for turn
     public void move(double y, double x, double t) {
         l1.setPower(y - x - t);
         r1.setPower(y + x + t);
@@ -173,10 +197,11 @@ public class TerraBot {
         lft.setPower(p);
     }
 
-    public void flip(double p1,double p2){
+    public void flip(double p1, double p2){
         f1.setPosition(p1);
         f2.setPosition(p2);
     }
+
     public void grab(double pos){
         g.setPosition(pos);
     }
@@ -187,21 +212,22 @@ public class TerraBot {
     }
 
     public void cap(double pos){c.setPosition(pos);}
+
+
+
+
+
     public double getLiftHeight(){
         return lh.getDistance(DistanceUnit.INCH);
     }
-    public boolean isLiftInLimits(Gamepad g2){
-        return lim.isInLimits(g2, rft, getLiftHeight());
-    }
-    public double getCenterEncoder(){
-        return -l2.getCurrentPosition() * 1.0;
-    }
+    public boolean isLiftInLimits(Gamepad g2){ return lim.isInLimits(g2, rft, getLiftHeight()); }
+
+    public double getCenterEncoder(){ return -l2.getCurrentPosition() * 1.0; }
     public double getLeftEncoder(){
         return -r1.getCurrentPosition() * 1.0;
     }
-    public double getRightEncoder(){
-        return -l1.getCurrentPosition() * 1.0;
-    }
+    public double getRightEncoder(){ return -l1.getCurrentPosition() * 1.0; }
+
 
     public double getHeading() {
         float currentangle = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
@@ -214,13 +240,14 @@ public class TerraBot {
         lastAngle = currentangle;
         return heading;
     }
+
     public void resetGyro() {
         lastAngle = (int) gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         heading = 0;
     }
-    public boolean noAutoModules(){
-        return !grab.executing  && !retract.executing;
-    }
+
+    public boolean noAutoModules(){ return !grab.executing  && !retract.executing; }
+
     public void update(){
         grab.update(h.dynamicsGrab(this));
         retract.update(h.dynamicsRetract(this));

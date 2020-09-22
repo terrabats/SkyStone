@@ -1,9 +1,12 @@
 package autoFunctions;
 
 public class PID {
+
     public double Kp = 0;
-    public double Kd = 0;
     public double Ki = 0;
+    public double Kd = 0;
+
+    //PID = Proportional, Integral, Derivative
 
 
     public void setCoeffecients(double k, double d, double i){
@@ -15,6 +18,7 @@ public class PID {
     public double getPower(double ce, double cv, double ci){
         return (Kp*abs(ce) - Kd*abs(cv) + Ki * abs(ci));
     }
+
     public double abs(double in){
         return Math.abs(in);
     }

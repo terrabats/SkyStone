@@ -27,6 +27,7 @@ public class TerraCV {
     public VuforiaLocalizer vuforia;
     public VuforiaLocalizer.CloseableFrame currentFrame;
     public Image img;
+
     public Bitmap bm;
     LinearOpMode op;
 
@@ -44,7 +45,9 @@ public class TerraCV {
         op = o;
         Accuracy = acc;
         int cameraMonitorViewId = op.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", op.hardwareMap.appContext.getPackageName());
+
         //VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = h.VUFORIA_KEY;
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
@@ -92,6 +95,7 @@ public class TerraCV {
     public void resetImg(){
         img = null;
     }
+
     public StonePos getStonePos(Rect area){
         debug.reset();
         StonePos pos;

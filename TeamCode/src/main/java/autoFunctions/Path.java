@@ -23,7 +23,6 @@ public class Path {
     public PID YControl = new PID();
     public PID HControl = new PID();
 
-    ElapsedTime t = new ElapsedTime();
 
     Helper h = new Helper();
 
@@ -47,7 +46,7 @@ public class Path {
     public double xp = 0.16;
     public double xd = 0.15;
 
-    public double yp = 0.08; // 0.08
+    public double yp = 0.08;
     public double yd = 0.1;
 
     public double hp = 0.03;
@@ -60,11 +59,9 @@ public class Path {
 
    // public boolean sketch = false;
 
-
-
-
-
     boolean isDone = false;
+
+
 
     public Path() {
         XPoses.add(0.0);
@@ -99,17 +96,28 @@ public class Path {
         setCoefficents(XControl.Kp, YControl.Kp, HControl.Kp, XControl.Kd, YControl.Kd, HControl.Kd, 0,0,0);
     }
 
+    public void resetSums(){
+        XErrorSum = 0;
+        YErrorSum = 0;
+        HErrorSum = 0;
+    }
+
     public void resetCoeffeicents(){
         XControl.setCoeffecients(xp,xd, 0.0);
         YControl.setCoeffecients(yp,yd, 0.0);
         HControl.setCoeffecients(hp,hd, 0.0);
     }
 
+
+
+
     public void continuePath(Path p){
         XPoses.set(0,p.XPoses.get(p.XPoses.size()-1));
         YPoses.set(0,p.YPoses.get(p.YPoses.size()-1));
         HPoses.set(0,p.HPoses.get(p.HPoses.size()-1));
     }
+
+
 
     public double[] update(Odometry odometry) {
         double[] currentPose = odometry.getGlobalPose();
@@ -119,7 +127,7 @@ public class Path {
                 XError = currentPose[0] - XPoses.get(count);
                 YError = currentPose[1] - YPoses.get(count);
                 HError = currentPose[2] - HPoses.get(count);
-                XVelocity = odometry.ticksToInches(odometry.strafe);
+                XVelocity = odometry.ticksToInches(odometry.strafe); //
                 YVelocity = odometry.ticksToInches(odometry.forward);
                 HVelocity = odometry.inchesToDegrees(odometry.ticksToInches(odometry.turn));
                 isEnd();
@@ -197,11 +205,7 @@ public class Path {
         }
     }
 
-    public void resetSums(){
-        XErrorSum = 0;
-        YErrorSum = 0;
-        HErrorSum = 0;
-    }
+
     public void addPose(double y, double x, double h, boolean isEnd) {
         XPoses.add(XPoses.get(XPoses.size() - 1) + x);
         YPoses.add(YPoses.get(YPoses.size() - 1) + y);

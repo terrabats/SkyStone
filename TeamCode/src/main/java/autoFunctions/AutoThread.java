@@ -4,18 +4,18 @@ import util.CodeSeg;
 
 
 public class AutoThread implements Runnable{
-    private boolean executing = false;
+    private boolean done = false;
     CodeSeg cs;
 
     public void init(CodeSeg cs){
         this.cs = cs;
     }
     public synchronized void stop() {
-        this.executing = true;
+        this.done = true;
     }
 
     private synchronized boolean isExecuting() {
-        return !this.executing;
+        return !this.done;
     }
     @Override
     public void run() {

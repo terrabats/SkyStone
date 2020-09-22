@@ -15,13 +15,9 @@ public class AutoModule {
     public void update(ArrayList<Double> d) {
         dynamics = d;
         if (executing) {
-            for (int i = 0; i < stages.size(); i++) {
-                if (i == stageNum) {
-                    Stage s = stages.get(i);
-                    if (s.run(dynamics.get(i))) {
-                        stageNum++;
-                    }
-                }
+            Stage s = stages.get(stageNum);
+            if (s.run(dynamics.get(stageNum))) {
+                stageNum++;
             }
             if (stageNum == stages.size()) {
                 executing = false;
