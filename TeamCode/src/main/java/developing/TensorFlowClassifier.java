@@ -21,11 +21,14 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class TensorFlowTest {
+public class TensorFlowClassifier {
 
     public Interpreter tflite;
 
-    public void init() {
+    public double MIN_CONFIDENCE;
+
+    public void init(double min_conf) {
+        MIN_CONFIDENCE = min_conf;
         try{
             tflite = new Interpreter(loadModelFile());
         }catch (IOException e){
@@ -33,16 +36,7 @@ public class TensorFlowTest {
         }
     }
 
-    public float predictNum(float in) {
-        float[][] inputVal = new float[1][1];
-        inputVal[0][0] = in;
-        float[][] outputval = new float[1][1];
-        tflite.run(inputVal, outputval);
-        float inferredValue = outputval[0][0];
-        return inferredValue;
-    }
-
-    public Recognition predictClass(Bitmap in) {
+    public float[] predictClass(Bitmap in) {
         ImageProcessor imageProcessor =
                 new ImageProcessor.Builder()
                         .add(new ResizeOp(128, 128, ResizeOp.ResizeMethod.BILINEAR))
@@ -53,16 +47,20 @@ public class TensorFlowTest {
         TensorBuffer probabilityBuffer = TensorBuffer.createFixedSize(new int[]{1,2}, DataType.FLOAT32);
         tflite.run(tImage.getBuffer(), probabilityBuffer.getBuffer());
         float[] nums = probabilityBuffer.getFloatArray();
-        if (nums[0] > nums[1]){
-           return Recognition.NoStone;
-        }else{
-            return Recognition.Stone;
-        }
+        return nums;
     }
 
-    public enum Recognition{
-        Stone,
-        NoStone;
+    public Recognition getRecognition(Bitmap in){
+        float[] prob = predictClass(in);
+        if (prob[0] < MIN_CONFIDENCE && prob[1] < MIN_CONFIDENCE){
+            return Recognition.ring0;
+        }else if(prob[0] > prob[1]){
+            return Recognition.ring1;
+        }else if(prob[1] > prob[0]){
+            return Recognition.ring3;
+        }else {
+            return Recognition.ring0;
+        }
     }
 
     public MappedByteBuffer loadModelFile() throws IOException {
@@ -72,6 +70,12 @@ public class TensorFlowTest {
         long startOffset = fileDescriptor.getStartOffset();
         long declaredLength = fileDescriptor.getDeclaredLength();
         return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
+    }
+
+    public enum Recognition{
+        ring0,
+        ring1,
+        ring3;
     }
 
 
